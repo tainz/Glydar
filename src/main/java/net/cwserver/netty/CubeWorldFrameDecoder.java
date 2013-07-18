@@ -8,6 +8,11 @@ import net.cwserver.netty.packet.CubeWorldPacket;
 
 public class CubeWorldFrameDecoder extends ReplayingDecoder {
 	@Override
+	public boolean isSingleDecode() {
+		return true;
+	}
+
+	@Override
 	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, MessageList<Object> objects) throws Exception {
 		int packetID = byteBuf.readInt();
 		CubeWorldPacket packet = CubeWorldPacket.getByID(packetID);

@@ -3,10 +3,10 @@ package net.cwserver.netty;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.MessageList;
-import io.netty.handler.codec.ByteToMessageDecoder;
+import io.netty.handler.codec.ReplayingDecoder;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
-public class CubeWorldFrameDecoder extends ByteToMessageDecoder {
+public class CubeWorldFrameDecoder extends ReplayingDecoder {
 	@Override
 	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, MessageList<Object> objects) throws Exception {
 		int packetID = byteBuf.readInt();

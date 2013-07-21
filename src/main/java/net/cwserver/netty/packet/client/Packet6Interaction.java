@@ -1,6 +1,7 @@
 package net.cwserver.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
+import net.cwserver.models.Player;
 import net.cwserver.netty.data.Item;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
@@ -28,4 +29,21 @@ public class Packet6Interaction extends CubeWorldPacket {
         something7 = buf.readUnsignedShort();
 
 	}
+
+    @Override
+    public void encode(ByteBuf buf) {
+        item.encode(buf);
+        buf.writeInt(chunkX);
+        buf.writeInt(chunkY);
+        buf.writeInt(itemIndex);
+        buf.writeInt((int)something4);
+        buf.writeByte(interactType);
+        buf.writeByte(something6);
+        buf.writeShort(something7);
+    }
+
+    @Override
+    public void receivedFrom(Player ply) {
+
+    }
 }

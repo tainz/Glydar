@@ -13,4 +13,10 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 		rawData = new byte[zlibLength];
 		buffer.readBytes(rawData);
 	}
+
+    @Override
+    public void encode(ByteBuf buf) {
+        buf.writeInt(rawData.length);
+        buf.writeBytes(rawData);
+    }
 }

@@ -1,6 +1,9 @@
 package net.cwserver.netty.data;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
+
+import java.nio.ByteBuffer;
 
 public class Item implements BaseData{
     byte type, subtype;
@@ -26,6 +29,23 @@ public class Item implements BaseData{
         buf.readBytes(2); //Skip
         upgrades = new ItemUpgrades();
         upgrades.decode(buf);
+
+    }
+
+    @Override
+    public void encode(ByteBuf buf) {
+        buf.writeByte(type);
+        buf.writeByte(subtype);
+        buf.writeBytes(new byte[2]);
+        buf.writeInt((int)modifier);
+        buf.writeInt((int)minusModifier);
+        buf.writeByte(rarity);
+        buf.writeByte(material);
+        buf.writeByte(flags);
+        buf.writeBytes(new byte[1]);
+        buf.writeShort(level);
+        buf.readBytes(new byte[2]);
+        upgrades.encode(buf);
 
     }
 }

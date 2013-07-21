@@ -18,4 +18,13 @@ public class ItemUpgrade implements BaseData {
 		level = buf.readUnsignedInt();
 	}
 
+    @Override
+    public void encode(ByteBuf buf) {
+        buf.writeByte(xOffset);
+        buf.writeByte(yOffset);
+        buf.writeByte(zOffset);
+        buf.writeByte(material);
+        buf.writeInt((int)level);
+    }
+
 }

@@ -14,4 +14,12 @@ public class ItemUpgrades implements BaseData {
 		}
 		usedUpgrades = buf.readUnsignedInt();
 	}
+
+    @Override
+    public void encode(ByteBuf buf) {
+        for(int i = 0; i < 32; i++) {
+            itemUpgrades[i].encode(buf);
+        }
+        buf.writeInt((int)usedUpgrades);
+    }
 }

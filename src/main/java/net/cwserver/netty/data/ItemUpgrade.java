@@ -7,8 +7,7 @@ public class ItemUpgrade implements BaseData {
 	byte yOffset;
 	byte zOffset;
 	byte material;
-	short level;
-	short _U1;
+	long level;
 
 	@Override
 	public void decode(ByteBuf buf) {
@@ -16,7 +15,6 @@ public class ItemUpgrade implements BaseData {
 		yOffset = buf.readByte();
 		zOffset = buf.readByte();
 		material = buf.readByte();
-		level = buf.readShort();
-		_U1 = buf.readShort();
+		level = buf.readUnsignedInt();
 	}
 }

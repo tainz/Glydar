@@ -6,6 +6,8 @@ import io.netty.channel.MessageList;
 import io.netty.handler.codec.ReplayingDecoder;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
+import java.nio.ByteOrder;
+
 public class CubeWorldFrameDecoder extends ReplayingDecoder {
 	@Override
 	public boolean isSingleDecode() {
@@ -14,6 +16,7 @@ public class CubeWorldFrameDecoder extends ReplayingDecoder {
 
 	@Override
 	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, MessageList<Object> objects) throws Exception {
+        byteBuf.order(ByteOrder.LITTLE_ENDIAN);
 		int packetID = byteBuf.readInt();
 		CubeWorldPacket packet = CubeWorldPacket.getByID(packetID);
 		//channelHandlerContext.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY).get()

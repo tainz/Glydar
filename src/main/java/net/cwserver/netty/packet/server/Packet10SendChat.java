@@ -1,24 +1,26 @@
 package net.cwserver.netty.packet.server;
 
+import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 10)
 public class Packet10SendChat extends CubeWorldPacket {
 
-    int sender;
+    long sender;
     String message;
 
-    public Packet10SendChat(String message, int sender) {
+    public Packet10SendChat(String message, long sender) {
         this.sender = sender;
         this.message = message;
     }
 
     @Override
     public void encode(ByteBuf buf) {
-        buf.writeInt(sender);
+        byte[] msgBuf = message.getBytes(Charsets.UTF_16LE);
+        buf.writeLong(sender);
         //TODO Force string encoding.
-        buf.writeInt(message.getBytes().length / 2);
-        buf.writeBytes(message.getBytes());
+        buf.writeInt(msgBuf.length / 2);
+        buf.writeBytes(msgBuf);
     }
 }

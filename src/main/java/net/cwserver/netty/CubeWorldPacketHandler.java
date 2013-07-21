@@ -16,6 +16,10 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
             player.setChannelContext(channelHandlerContext);
 			playerAttrib.set(player);
 		}
-		cubeWorldPacket.receivedFrom(player);
+        try {
+		    cubeWorldPacket.receivedFrom(player);
+        } catch (IllegalAccessError e) {
+            //System.out.println("No handler for packet ID "+((CubeWorldPacket.Packet)cubeWorldPacket.getClass().getAnnotation(CubeWorldPacket.Packet.class)).id());
+        }
 	}
 }

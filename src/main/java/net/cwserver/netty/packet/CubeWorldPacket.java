@@ -42,6 +42,8 @@ public abstract class CubeWorldPacket {
     }
 
     public static CubeWorldPacket getByID(int id) {
+        if(id == 0)
+            return new Packet0EntityUpdate();
         Reflections clientPackage = new Reflections("net.cwserver.netty.packet.client");
         Set<Class<? extends CubeWorldPacket>> clientPackets = clientPackage.getSubTypesOf(CubeWorldPacket.class);
         for (Class<? extends CubeWorldPacket> c : clientPackets) {

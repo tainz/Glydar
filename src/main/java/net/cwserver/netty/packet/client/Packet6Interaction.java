@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.cwserver.netty.data.ItemUpgrades;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
+@CubeWorldPacket.Packet(id = 6)
 public class Packet6Interaction extends CubeWorldPacket {
 	byte type;
 	byte subType;

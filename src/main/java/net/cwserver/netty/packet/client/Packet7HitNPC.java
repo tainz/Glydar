@@ -3,6 +3,7 @@ package net.cwserver.netty.packet.client;
 import io.netty.buffer.ByteBuf;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
+@CubeWorldPacket.Packet(id = 7)
 public class Packet7HitNPC extends CubeWorldPacket {
 	int _U1;
 	int _U2;

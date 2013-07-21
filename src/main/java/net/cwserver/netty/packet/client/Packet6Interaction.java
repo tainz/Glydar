@@ -1,34 +1,32 @@
 package net.cwserver.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
+import net.cwserver.netty.data.Item;
 import net.cwserver.netty.data.ItemUpgrades;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 6)
 public class Packet6Interaction extends CubeWorldPacket {
-	byte type;
-	byte subType;
-	short _U1;
-	int modifier;
-	int _U2;
-	short rarity; // UNSINGED BYTE
-	short material; // UNSINGED BYTE
-	int itemFlags; // UNSIGNED SHORT
-	short level;
-	ItemUpgrades itemUpgrades;
+
+    Item item;
+    int chunkX, chunkY;
+    int itemIndex; //Index of item in ChunkItems
+    long something4; //uint
+    byte interactType; //TODO ENUM
+    byte something6;
+    int something7; //ushort
 
 	@Override
 	public void decode(ByteBuf buf) {
-		type = buf.readByte();
-		subType = buf.readByte();
-		_U1 = buf.readShort();
-		modifier = buf.readInt();
-		_U2 = buf.readInt();
-		rarity = buf.readUnsignedByte();
-		material = buf.readUnsignedByte();
-		itemFlags = buf.readUnsignedShort();
-		level = buf.readShort();
-		itemUpgrades = new ItemUpgrades();
-		itemUpgrades.decode(buf);
+		item = new Item();
+        item.decode(buf);
+        chunkX = buf.readInt();
+        chunkY = buf.readInt();
+        itemIndex = buf.readInt();
+        something4 = buf.readUnsignedInt();
+        interactType = buf.readByte();
+        something6 = buf.readByte();
+        something7 = buf.readUnsignedShort();
+
 	}
 }

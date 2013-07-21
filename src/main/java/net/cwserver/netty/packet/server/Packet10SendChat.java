@@ -13,6 +13,8 @@ public class Packet10SendChat extends CubeWorldPacket {
     public Packet10SendChat(String message, long sender) {
         this.sender = sender;
         this.message = message;
+
+        System.out.println("(Chat) Entity ID "+sender+": "+message);
     }
 
     @Override

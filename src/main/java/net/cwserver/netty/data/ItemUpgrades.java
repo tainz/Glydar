@@ -9,6 +9,7 @@ public class ItemUpgrades implements BaseData {
 	@Override
 	public void decode(ByteBuf buf) {
 		for(int i = 0; i < 32; i++) {
+            itemUpgrades[i] = new ItemUpgrade();
 			itemUpgrades[i].decode(buf);
 		}
 		usedUpgrades = buf.readUnsignedInt();

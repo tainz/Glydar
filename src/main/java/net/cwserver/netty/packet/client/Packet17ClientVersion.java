@@ -23,5 +23,6 @@ public class Packet17ClientVersion extends CubeWorldPacket {
         ply.getChannelContext().write(new Packet16Join(ply.entityID));
         ply.getChannelContext().write(new Packet15Seed(69));
         ply.getChannelContext().write(new Packet10SendChat("Welcome to FoxCube v0!", 0));
+        //Player.getConnectedPlayers().add(ply);
     }
 }

@@ -7,6 +7,8 @@ import java.util.Set;
 
 public class Player implements BaseTarget {
 	public final long entityID = Entity.getEntityID();
+    private static Set<Player> connectedPlayers = new HashSet<Player>();
+
     private ChannelHandlerContext channelCtx;
 
     public void setChannelContext(ChannelHandlerContext ctx) {
@@ -23,4 +25,8 @@ public class Player implements BaseTarget {
 		ret.add(this);
 		return ret;
 	}
+
+    public static Set<Player> getConnectedPlayers() {
+        return connectedPlayers;
+    }
 }

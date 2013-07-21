@@ -17,4 +17,5 @@ public class ItemUpgrade implements BaseData {
 		material = buf.readByte();
 		level = buf.readUnsignedInt();
 	}
+
 }

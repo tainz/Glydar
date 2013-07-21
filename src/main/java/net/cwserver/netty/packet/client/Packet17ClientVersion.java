@@ -16,6 +16,7 @@ public class Packet17ClientVersion extends CubeWorldPacket {
 
     @Override
     public void receivedFrom(Player ply) {
-        ply.getChannelContext().write(new Packet17WrongVersion(9001));
+        System.out.print("Client from "+ply.getChannelContext().channel().remoteAddress()+" says hi! Version "+version);
+
     }
 }

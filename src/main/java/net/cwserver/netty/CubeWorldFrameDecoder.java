@@ -16,8 +16,9 @@ public class CubeWorldFrameDecoder extends ReplayingDecoder {
 
 	@Override
 	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, MessageList<Object> objects) throws Exception {
-        byteBuf.order(ByteOrder.LITTLE_ENDIAN);
+        byteBuf = byteBuf.order(ByteOrder.LITTLE_ENDIAN);
 		int packetID = byteBuf.readInt();
+        System.out.println("Caught packet: "+packetID);
 		CubeWorldPacket packet = CubeWorldPacket.getByID(packetID);
 		packet.decode(byteBuf);
 		objects.add(packet);

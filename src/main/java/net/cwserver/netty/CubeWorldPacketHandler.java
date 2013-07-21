@@ -13,6 +13,7 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 		Player player = playerAttrib.get();
 		if(player == null) {
 			player = new Player();
+            player.setChannelContext(channelHandlerContext);
 			playerAttrib.set(player);
 		}
 		cubeWorldPacket.receivedFrom(player);

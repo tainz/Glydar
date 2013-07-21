@@ -2,7 +2,6 @@ package net.cwserver.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
 import net.cwserver.netty.data.Item;
-import net.cwserver.netty.data.ItemUpgrades;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 6)

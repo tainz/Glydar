@@ -1,7 +1,9 @@
 package net.cwserver.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
+import net.cwserver.models.Player;
 import net.cwserver.netty.packet.CubeWorldPacket;
+import net.cwserver.netty.packet.server.Packet17WrongVersion;
 
 @CubeWorldPacket.Packet(id = 17)
 public class Packet17ClientVersion extends CubeWorldPacket {
@@ -10,5 +12,10 @@ public class Packet17ClientVersion extends CubeWorldPacket {
     @Override
     public void decode(ByteBuf buf) {
         version = buf.readInt();
+    }
+
+    @Override
+    public void receivedFrom(Player ply) {
+        ply.getChannelContext().write(new Packet17WrongVersion(9001));
     }
 }

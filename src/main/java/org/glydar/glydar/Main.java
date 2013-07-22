@@ -10,6 +10,9 @@ import org.glydar.glydar.netty.CubeWorldServerInitializer;
 import java.net.InetSocketAddress;
 
 public class Main {
+
+    private static Server s = new Server();
+
 	public static void main(String[] args) {
 		ServerBootstrap serverBootstrap = new ServerBootstrap();
 		serverBootstrap.childHandler(new CubeWorldServerInitializer());
@@ -28,5 +31,10 @@ public class Main {
 		serverBootstrap.bind(new InetSocketAddress(port));
 
 		System.out.println("Server ready on port " + port);
+        new Thread(s).start();
 	}
+
+    public static Server getServer() {
+        return s;
+    }
 }

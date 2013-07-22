@@ -71,11 +71,11 @@ public abstract class CubeWorldPacket {
     }
 
 	public void sendTo(Player ply) {
+		bufCache = null;
 		_sendTo(ply);
 	}
 
     private void _sendTo(Player ply) {
-		bufCache = null;
 		ply.getChannelContext().write(this);
     }
 

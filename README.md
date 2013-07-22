@@ -1,4 +1,4 @@
-Paraglydar
+Glydar
 ==========
 
 An open source Java implementation of Cube World's server.

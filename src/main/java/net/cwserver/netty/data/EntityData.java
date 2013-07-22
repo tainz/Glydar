@@ -235,11 +235,11 @@ public class EntityData implements BaseData {
             parentOwner = buf.readLong();
         }
         if(bitArray.get(36)) {
-            nu1 = buf.readUnsignedInt();
-            nu2 = buf.readUnsignedInt();
+            na1 = buf.readUnsignedInt();
+            na2 = buf.readUnsignedInt();
         }
         if(bitArray.get(37)) {
-            nu3 = buf.readByte();
+            na3 = buf.readByte();
         }
 
     }

@@ -1,8 +1,14 @@
 package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import org.glydar.glydar.models.Entity;
 import org.glydar.glydar.models.Player;
+import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.util.ZLibOperations;
+
+import java.nio.ByteOrder;
 
 @CubeWorldPacket.Packet(id = 0, variableLength = true)
 public class Packet0EntityUpdate extends CubeWorldPacket {
@@ -22,6 +28,16 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 
     @Override
     public void receivedFrom(Player ply) {
+        if(!ply.joined) {
+            try {
+                EntityData ed = new EntityData();
+                ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
+                dataBuf.order(ByteOrder.LITTLE_ENDIAN);
+                ed.decode(dataBuf);
+                System.out.println("Entity ID "+ply.entityID+" name "+ed.name);
+                ply.data = ed;
+            } catch (Exception e) { e.printStackTrace(); }
+        }
         ply.playerJoined();
 		this.sendToAll();
     }

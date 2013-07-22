@@ -3,9 +3,9 @@ package org.glydar.glydar.netty.data;
 import io.netty.buffer.ByteBuf;
 
 public class Vector3 implements BaseData {
-    float x;
-    float y;
-    float z;
+    public float x;
+    public float y;
+    public float z;
 
     @Override
     public void decode(ByteBuf buf) {

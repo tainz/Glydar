@@ -1,6 +1,7 @@
 package org.glydar.glydar.models;
 
 import io.netty.channel.ChannelHandlerContext;
+import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 import java.util.Collection;
@@ -10,6 +11,8 @@ import java.util.HashSet;
 public class Player extends Entity implements BaseTarget {
     private static HashMap<Long, Player> connectedPlayers = new HashMap<Long, Player>();
 
+    public boolean joined = false;
+    public EntityData data;
     private ChannelHandlerContext channelCtx;
 
 	public void setChannelContext(ChannelHandlerContext ctx) {
@@ -36,8 +39,10 @@ public class Player extends Entity implements BaseTarget {
     }
 
 	public void playerJoined() {
-		if(!connectedPlayers.containsKey(entityID))
+		if(!connectedPlayers.containsKey(entityID)) {
 			connectedPlayers.put(entityID, this);
+            this.joined = true;
+        }
 	}
 
 	public void playerLeft() {

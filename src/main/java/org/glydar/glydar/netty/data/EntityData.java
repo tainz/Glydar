@@ -4,6 +4,8 @@ import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import sun.security.util.BitArray;
 
+import java.util.BitSet;
+
 public class EntityData implements BaseData {
 
     long id;
@@ -17,7 +19,7 @@ public class EntityData implements BaseData {
     float pitch;
     float yaw;
 
-    Vector3 velocity;
+    public Vector3 velocity;
 
     Vector3 accel;
 
@@ -62,7 +64,7 @@ public class EntityData implements BaseData {
 
     long iceBlockFour; //Uint
     long[] skills;
-    String name;
+    public String name;
 
     long na1; //Uint
     long na2; // |
@@ -109,8 +111,9 @@ public class EntityData implements BaseData {
 
     @Override
     public void decode(ByteBuf buf) {
+        id = buf.readLong();
         bitmask = buf.readBytes(8).array();
-        BitArray bitArray = new BitArray(8*2, bitmask); //Size in bits, byte[]
+        BitArray bitArray = new BitArray(8*bitmask.length, bitmask); //Size in bits, byte[]
 
         if(bitArray.get(0)) {
             posX = buf.readLong();

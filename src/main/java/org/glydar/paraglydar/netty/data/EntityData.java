@@ -1,5 +1,6 @@
 package org.glydar.paraglydar.netty.data;
 
+import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import sun.security.util.BitArray;
 
@@ -77,8 +78,6 @@ public class EntityData implements BaseData {
     byte nu7;
     byte nu8;
     long parentOwner;
-    long nu9;
-    long nu10;
     long nu11;
     long nu12;
     long nu13;
@@ -240,6 +239,53 @@ public class EntityData implements BaseData {
         }
         if(bitArray.get(37)) {
             na3 = buf.readByte();
+        }
+        if(bitArray.get(38)) {
+            na4 = buf.readUnsignedInt();
+        }
+        if(bitArray.get(39)) {
+            na5 = buf.readUnsignedInt();
+            nu11 = buf.readUnsignedInt();
+            nu12 = buf.readUnsignedInt();
+        }
+        if(bitArray.get(40)) {
+            nu13 = buf.readUnsignedInt();
+            nu14 = buf.readUnsignedInt();
+            nu15 = buf.readUnsignedInt();
+            nu16 = buf.readUnsignedInt();
+            nu17 = buf.readUnsignedInt();
+            nu18 = buf.readUnsignedInt();
+        }
+        if(bitArray.get(41)) {
+            nu20 = buf.readUnsignedInt();
+            nu21 = buf.readUnsignedInt();
+            nu22 = buf.readUnsignedInt();
+        }
+        if(bitArray.get(42)) {
+            nu19 = buf.readByte();
+        }
+        if(bitArray.get(43)) {
+            itemData.decode(buf);
+        }
+        if(bitArray.get(44)) {
+            for (int i = 0; i < 13; i++)
+            {
+                Item item = new Item();
+                item.decode(buf);
+                equipment[i] = item;
+            }
+        }
+        if(bitArray.get(45)) {
+            name = new String(buf.readBytes(16).array(), Charsets.US_ASCII);
+            name.replaceAll("\\s+$", "\0");  //Should work?
+        }
+        if(bitArray.get(46)) {
+            for (int i = 0; i < 11; i++) {
+                skills[i] = buf.readUnsignedInt();
+            }
+        }
+        if(bitArray.get(47)) {
+            iceBlockFour = buf.readUnsignedInt();
         }
 
     }

@@ -97,7 +97,6 @@ public abstract class CubeWorldPacket {
 		Set<Class<? extends CubeWorldPacket>> clientPackets = refPackage.getSubTypesOf(CubeWorldPacket.class);
 		for (Class<? extends CubeWorldPacket> c : clientPackets) {
 			try {
-				//CubeWorldPacket p = c.newInstance();
 				Annotation a = c.getAnnotation(CubeWorldPacket.Packet.class);
 				if (a == null)
 					continue;

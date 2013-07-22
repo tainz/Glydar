@@ -32,4 +32,9 @@ public class Entity {
 	public int hashCode() {
 		return (int) (entityID ^ (entityID >>> 32));
 	}
+
+	@Override
+	public String toString() {
+		return "Entity {type="+getClass().getSimpleName()+", id="+entityID+'}';
+	}
 }

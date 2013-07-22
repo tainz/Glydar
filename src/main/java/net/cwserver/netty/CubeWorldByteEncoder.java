@@ -12,10 +12,7 @@ public class CubeWorldByteEncoder extends MessageToByteEncoder<CubeWorldPacket> 
     @Override
     protected void encode(ChannelHandlerContext ctx, CubeWorldPacket msg, ByteBuf out) throws Exception {
         out = out.order(ByteOrder.LITTLE_ENDIAN);
-        int id = msg.getID();
-        if(id != 0)
-            System.out.println("Sending ID "+id);
-        out.writeInt(id);
+        out.writeInt(msg.getID());
         msg.encode(out);
     }
 }

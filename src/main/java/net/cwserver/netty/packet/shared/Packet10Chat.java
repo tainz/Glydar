@@ -22,8 +22,6 @@ public class Packet10Chat extends CubeWorldPacket {
 	public Packet10Chat(String message, Entity sender) {
 		this.sender = sender;
 		this.message = message;
-
-		System.out.println("(Chat) Entity ID "+sender+": "+message);
 	}
 
     @Override

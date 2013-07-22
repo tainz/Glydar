@@ -9,6 +9,11 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 	 byte[] rawData;
 
 	@Override
+	protected boolean doCacheIncoming() {
+		return true;
+	}
+
+	@Override
 	protected void internalDecode(ByteBuf buffer) {
 		int zlibLength = buffer.readInt();
 		rawData = new byte[zlibLength];

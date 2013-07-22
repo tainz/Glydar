@@ -36,7 +36,7 @@ public class Packet9ShootArrow extends CubeWorldPacket {
     long something28; //uint
 
     @Override
-    public void decode(ByteBuf buf) {
+    protected void internalDecode(ByteBuf buf) {
         entID = buf.readUnsignedInt(); //Unsigned long actually!
 
         chunkX = buf.readInt();

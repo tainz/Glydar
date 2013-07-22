@@ -12,7 +12,7 @@ public class Packet17WrongVersion extends CubeWorldPacket {
     }
 
     @Override
-    public void encode(ByteBuf buf) {
+    protected void internalEncode(ByteBuf buf) {
         buf.writeInt(serverVersion);
     }
 }

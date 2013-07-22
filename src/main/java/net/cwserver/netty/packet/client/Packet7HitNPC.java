@@ -28,7 +28,7 @@ public class Packet7HitNPC extends CubeWorldPacket {
 	byte _U21;
 
 	@Override
-	public void decode(ByteBuf buf) {
+	protected void internalDecode(ByteBuf buf) {
 		_U1 = buf.readInt();
 		_U2 = buf.readInt();
 		_U3 = buf.readInt();

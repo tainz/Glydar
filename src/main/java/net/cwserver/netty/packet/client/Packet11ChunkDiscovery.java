@@ -10,7 +10,7 @@ public class Packet11ChunkDiscovery extends CubeWorldPacket {
     int chunkZ;
 
     @Override
-    public void decode(ByteBuf buf) {
+    protected void internalDecode(ByteBuf buf) {
         chunkX = buf.readInt();
         chunkZ = buf.readInt();
     }

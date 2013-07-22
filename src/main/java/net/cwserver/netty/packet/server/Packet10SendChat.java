@@ -18,7 +18,7 @@ public class Packet10SendChat extends CubeWorldPacket {
     }
 
     @Override
-    public void encode(ByteBuf buf) {
+    protected void internalEncode(ByteBuf buf) {
         byte[] msgBuf = message.getBytes(Charsets.UTF_16LE);
         buf.writeLong(sender);
         //TODO Force string encoding.

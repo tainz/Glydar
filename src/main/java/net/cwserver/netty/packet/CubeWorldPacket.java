@@ -1,25 +1,64 @@
 package net.cwserver.netty.packet;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.SlicedByteBuf;
 import net.cwserver.models.BaseTarget;
+import net.cwserver.models.EveryoneTarget;
 import net.cwserver.models.Player;
-import net.cwserver.netty.packet.shared.Packet0EntityUpdate;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Constructor;
+import java.util.HashMap;
 import java.util.Set;
 
 public abstract class CubeWorldPacket {
     @Retention(RetentionPolicy.RUNTIME)
     public @interface Packet {
         int id();
-
         boolean variableLength() default false;
     }
 
-    public void decode(ByteBuf buf) {
+	protected boolean doCacheIncoming() {
+		return false;
+	}
+
+	private int _idCache = -1;
+	public int getID() {
+		if(_idCache < 0) {
+			_idCache = getClass().getAnnotation(CubeWorldPacket.Packet.class).id();
+		}
+		return _idCache;
+	}
+
+	private ByteBuf bufCache = null;
+
+	public void decode(ByteBuf buf) {
+		if(doCacheIncoming()) {
+			int idx = buf.readerIndex();
+			internalDecode(buf);
+			int newIdx = buf.readerIndex();
+			bufCache = new SlicedByteBuf(buf, idx, newIdx - idx);
+		} else {
+			internalDecode(buf);
+		}
+	}
+
+	public void encode(ByteBuf buf) {
+		if(bufCache == null) {
+			int idx = buf.writerIndex();
+			internalEncode(buf);
+			int newIdx = buf.writerIndex();
+			bufCache = new SlicedByteBuf(buf, idx, newIdx - idx);
+		} else {
+			bufCache.readerIndex(0);
+			buf.writeBytes(bufCache);
+		}
+	}
+
+    protected void internalDecode(ByteBuf buf) {
         throw new IllegalAccessError("Packet cannot be decoded");
     }
 
@@ -27,43 +66,62 @@ public abstract class CubeWorldPacket {
         throw new IllegalAccessError("Packet cannot be received");
     }
 
-    public void encode(ByteBuf buf) {
+	protected void internalEncode(ByteBuf buf) {
         throw new IllegalAccessError("Packet cannot be encoded");
     }
 
-    public void sendTo(Player ply) {
-        throw new IllegalAccessError("Packet cannot be sent");
+	public void sendTo(Player ply) {
+		_sendTo(ply);
+	}
+
+    private void _sendTo(Player ply) {
+		bufCache = null;
+		ply.getChannelContext().write(this);
     }
 
     public void sendTo(BaseTarget target) {
+		bufCache = null;
         for (Player ply : target.getPlayers()) {
-            sendTo(ply);
+            _sendTo(ply);
         }
     }
 
-    public static CubeWorldPacket getByID(int id) {
-        if(id == 0)
-            return new Packet0EntityUpdate();
-        Reflections clientPackage = new Reflections("net.cwserver.netty.packet.client");
-        Set<Class<? extends CubeWorldPacket>> clientPackets = clientPackage.getSubTypesOf(CubeWorldPacket.class);
-        for (Class<? extends CubeWorldPacket> c : clientPackets) {
-            try {
-                CubeWorldPacket p = c.newInstance();
-                Annotation a = p.getClass().getAnnotation(CubeWorldPacket.Packet.class);
-                if (a == null)
-                    continue;
-                int classID = ((CubeWorldPacket.Packet) a).id();
-                if (classID == id) {
-                    return p;
-                }
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
+	public void sendToAll() {
+		sendTo(EveryoneTarget.INSTANCE);
+	}
 
-        System.out.println("Unable to find class for packet ID " + id);
-        return null;
+	private static final HashMap<Integer, Constructor<? extends CubeWorldPacket>> CUBE_WORLD_PACKET_HASH_MAP;
+
+	private static void __addPacketsFromPackage(String pkg) {
+		Reflections refPackage = new Reflections(pkg);
+		Set<Class<? extends CubeWorldPacket>> clientPackets = refPackage.getSubTypesOf(CubeWorldPacket.class);
+		for (Class<? extends CubeWorldPacket> c : clientPackets) {
+			try {
+				//CubeWorldPacket p = c.newInstance();
+				Annotation a = c.getAnnotation(CubeWorldPacket.Packet.class);
+				if (a == null)
+					continue;
+				int classID = ((CubeWorldPacket.Packet) a).id();
+
+				CUBE_WORLD_PACKET_HASH_MAP.put(classID, c.getConstructor());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	static {
+		CUBE_WORLD_PACKET_HASH_MAP = new HashMap<Integer, Constructor<? extends CubeWorldPacket>>();
+		__addPacketsFromPackage("net.cwserver.netty.packet.client");
+		__addPacketsFromPackage("net.cwserver.netty.packet.shared");
+	}
+
+    public static CubeWorldPacket getByID(int id) {
+		try {
+			return CUBE_WORLD_PACKET_HASH_MAP.get(id).newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 }

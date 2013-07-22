@@ -17,7 +17,7 @@ public class Packet6Interaction extends CubeWorldPacket {
     int something7; //ushort
 
 	@Override
-	public void decode(ByteBuf buf) {
+	protected void internalDecode(ByteBuf buf) {
 		item = new Item();
         item.decode(buf);
         chunkX = buf.readInt();
@@ -31,7 +31,7 @@ public class Packet6Interaction extends CubeWorldPacket {
 	}
 
     @Override
-    public void encode(ByteBuf buf) {
+    protected void internalEncode(ByteBuf buf) {
         item.encode(buf);
         buf.writeInt(chunkX);
         buf.writeInt(chunkY);

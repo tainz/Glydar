@@ -1,6 +1,7 @@
 package net.cwserver.models;
 
 import io.netty.channel.ChannelHandlerContext;
+import net.cwserver.netty.packet.CubeWorldPacket;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,10 @@ public class Player implements BaseTarget {
     public ChannelHandlerContext getChannelContext() {
         return this.channelCtx;
     }
+
+	public void sendPacket(CubeWorldPacket packet) {
+		packet.sendTo(this);
+	}
 
 	@Override
 	public Set<Player> getPlayers() {

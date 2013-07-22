@@ -9,7 +9,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 	 byte[] rawData;
 
 	@Override
-	public void decode(ByteBuf buffer) {
+	protected void internalDecode(ByteBuf buffer) {
 		int zlibLength = buffer.readInt();
 		rawData = new byte[zlibLength];
 		buffer.readBytes(rawData);
@@ -19,13 +19,11 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     public void receivedFrom(Player ply) {
         if(!Player.getConnectedPlayers().contains(ply))
             Player.getConnectedPlayers().add(ply);
-        for (Player p : Player.getConnectedPlayers()) {
-            p.getChannelContext().write(this);
-        }
+		this.sendToAll();
     }
 
     @Override
-    public void encode(ByteBuf buf) {
+    protected void internalEncode(ByteBuf buf) {
         buf.writeInt(rawData.length);
         buf.writeBytes(rawData);
     }

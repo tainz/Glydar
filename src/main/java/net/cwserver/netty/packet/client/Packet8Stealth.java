@@ -8,7 +8,7 @@ public class Packet8Stealth extends CubeWorldPacket {
 
     byte[] unknowndata;
     @Override
-    public void decode(ByteBuf buf) {
+    protected void internalDecode(ByteBuf buf) {
         buf.readBytes(unknowndata, 0, 40);
     }
 }

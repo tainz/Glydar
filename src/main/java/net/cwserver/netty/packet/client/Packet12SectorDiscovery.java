@@ -9,7 +9,7 @@ public class Packet12SectorDiscovery extends CubeWorldPacket {
     int sectorZ;
 
     @Override
-    public void decode(ByteBuf buf) {
+    protected void internalDecode(ByteBuf buf) {
         sectorX = buf.readInt();
         sectorZ = buf.readInt();
     }

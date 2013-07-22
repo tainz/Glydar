@@ -3,16 +3,16 @@ package net.cwserver.models;
 import io.netty.channel.ChannelHandlerContext;
 import net.cwserver.netty.packet.CubeWorldPacket;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
-public class Player implements BaseTarget {
-	public final long entityID = Entity.getEntityID();
-    private static Set<Player> connectedPlayers = new HashSet<Player>();
+public class Player extends Entity implements BaseTarget {
+    private static HashMap<Long, Player> connectedPlayers = new HashMap<Long, Player>();
 
     private ChannelHandlerContext channelCtx;
 
-    public void setChannelContext(ChannelHandlerContext ctx) {
+	public void setChannelContext(ChannelHandlerContext ctx) {
         this.channelCtx = ctx;
     }
 
@@ -25,13 +25,22 @@ public class Player implements BaseTarget {
 	}
 
 	@Override
-	public Set<Player> getPlayers() {
-		Set<Player> ret = new HashSet<Player>();
+	public Collection<Player> getPlayers() {
+		Collection<Player> ret = new HashSet<Player>();
 		ret.add(this);
 		return ret;
 	}
 
-    public static Set<Player> getConnectedPlayers() {
-        return connectedPlayers;
+    public static Collection<Player> getConnectedPlayers() {
+        return connectedPlayers.values();
     }
+
+	public void playerJoined() {
+		if(!connectedPlayers.containsKey(entityID))
+			connectedPlayers.put(entityID, this);
+	}
+
+	public void playerLeft() {
+		connectedPlayers.remove(entityID);
+	}
 }

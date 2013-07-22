@@ -1,6 +1,6 @@
 package net.cwserver.models;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class EveryoneTarget implements BaseTarget {
 	public static final EveryoneTarget INSTANCE = new EveryoneTarget();
@@ -8,7 +8,7 @@ public class EveryoneTarget implements BaseTarget {
 	private EveryoneTarget() { }
 
 	@Override
-	public Set<Player> getPlayers() {
+	public Collection<Player> getPlayers() {
 		return Player.getConnectedPlayers();
 	}
 }

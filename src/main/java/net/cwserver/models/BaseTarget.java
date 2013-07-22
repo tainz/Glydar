@@ -1,9 +1,7 @@
 package net.cwserver.models;
 
-import net.cwserver.models.Player;
-
-import java.util.Set;
+import java.util.Collection;
 
 public interface BaseTarget {
-	public Set<Player> getPlayers();
+	public Collection<Player> getPlayers();
 }

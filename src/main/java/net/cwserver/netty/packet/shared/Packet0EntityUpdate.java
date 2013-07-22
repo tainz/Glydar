@@ -22,8 +22,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 
     @Override
     public void receivedFrom(Player ply) {
-        if(!Player.getConnectedPlayers().contains(ply))
-            Player.getConnectedPlayers().add(ply);
+        ply.playerJoined();
 		this.sendToAll();
     }
 

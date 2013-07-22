@@ -23,6 +23,6 @@ public class Packet17ClientVersion extends CubeWorldPacket {
 
         ply.sendPacket(new Packet16Join(ply.entityID));
         ply.sendPacket(new Packet15Seed(69));
-        ply.sendPacket(new Packet10Chat("Welcome to FoxCube v0!", ServerEntity.INSTANCE));
+        ply.sendPacket(new Packet10Chat("Server powered by Glydar 0.0.1-SNAPSHOT", ServerEntity.INSTANCE));
     }
 }

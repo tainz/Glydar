@@ -1,6 +1,7 @@
 package net.cwserver.netty.data;
 
 import io.netty.buffer.ByteBuf;
+import sun.security.util.BitArray;
 
 public class EntityData implements BaseData {
 
@@ -11,21 +12,15 @@ public class EntityData implements BaseData {
     long posY;
     long posZ;
 
-    float rotX;
-    float rotY;
-    float rotZ;
+    float roll;
+    float pitch;
+    float yaw;
 
-    float velX;
-    float velY;
-    float velZ;
+    Vector3 velocity;
 
-    float accX;
-    float accY;
-    float accZ;
+    Vector3 accel;
 
-    float extraVelX;
-    float extraVelY;
-    float extraVelZ;
+    Vector3 extraVel;
 
     float lookPitch;
     long physicsFlags; //Uint
@@ -48,9 +43,7 @@ public class EntityData implements BaseData {
     byte specialization;
     float chargedMP;
 
-    float rayHitX;
-    float rayHitY;
-    float rayHitZ;
+    Vector3 rayHit;
 
     float HP;
     float MP;
@@ -100,11 +93,154 @@ public class EntityData implements BaseData {
     byte nu19;
 
     public EntityData() {
+        bitmask = new byte[8];
+        velocity = new Vector3();
+        accel = new Vector3();
+        extraVel = new Vector3();
+        rayHit = new Vector3();
         app = new Appearance();
+        itemData = new Item();
+        equipment = new Item[13];
+        for(int i = 0; i < 13; i++)
+            equipment[i] = new Item();
+
+        skills = new long[11];
+
     }
 
     @Override
     public void decode(ByteBuf buf) {
+        bitmask = buf.readBytes(8).array();
+        BitArray bitArray = new BitArray(8*2, bitmask); //Size in bits, byte[]
+
+        if(bitArray.get(0)) {
+            posX = buf.readLong();
+            posY = buf.readLong();
+            posZ = buf.readLong();
+        }
+        if(bitArray.get(1)) {
+            roll = buf.readFloat();
+            pitch = buf.readFloat();
+            yaw = buf.readFloat();
+        }
+        if(bitArray.get(2)) {
+            velocity.decode(buf);
+        }
+        if(bitArray.get(3)) {
+            accel.decode(buf);
+        }
+        if(bitArray.get(4)) {
+            extraVel.decode(buf);
+        }
+        if(bitArray.get(5)) {
+            lookPitch = buf.readFloat();
+        }
+        if(bitArray.get(6)) {
+            physicsFlags = buf.readUnsignedInt();
+        }
+        if(bitArray.get(7)) {
+            speedFlags = buf.readByte();
+        }
+        if(bitArray.get(8)) {
+            entityType = buf.readUnsignedInt();
+        }
+        if(bitArray.get(9)) {
+            currentMode = buf.readByte();
+        }
+        if (bitArray.get(10)) {
+            lastShootTime = buf.readUnsignedInt();
+        }
+        if(bitArray.get(11)) {
+            hitCounter = buf.readUnsignedInt();
+        }
+        if(bitArray.get(12)) {
+            lastHitTime = buf.readUnsignedInt();
+        }
+        if(bitArray.get(13)) {
+            app.decode(buf);
+        }
+        if(bitArray.get(14)) {
+            flags1 = buf.readByte();
+            flags2 = buf.readByte();
+        }
+        if(bitArray.get(15))  {
+            rollTime = buf.readUnsignedInt();
+        }
+        if(bitArray.get(16)) {
+            stunTime = buf.readInt();
+        }
+        if(bitArray.get(17)) {
+            slowedTime = buf.readUnsignedInt();
+        }
+        if(bitArray.get(18)) {
+            makeBlueTime = buf.readUnsignedInt();
+        }
+        if(bitArray.get(19)) {
+            speedUpTime = buf.readUnsignedInt();
+        }
+        if(bitArray.get(20)) {
+            slowPatchTime = buf.readFloat();
+        }
+        if(bitArray.get(21)) {
+            classType = buf.readByte();
+        }
+        if(bitArray.get(22)) {
+            specialization = buf.readByte();
+        }
+        if(bitArray.get(23)) {
+            chargedMP = buf.readFloat();
+        }
+        if(bitArray.get(24)) {
+            nu1 = buf.readUnsignedInt();
+            nu2 = buf.readUnsignedInt();
+            nu3 = buf.readUnsignedInt();
+        }
+        if(bitArray.get(25)) {
+            nu4 = buf.readUnsignedInt();
+            nu5 = buf.readUnsignedInt();
+            nu6 = buf.readUnsignedInt();
+        }
+        if(bitArray.get(26)) {
+            rayHit.decode(buf);
+        }
+        if(bitArray.get(27)) {
+            HP = buf.readFloat();
+        }
+        if(bitArray.get(28)) {
+            MP = buf.readFloat();
+        }
+        if(bitArray.get(29)) {
+            blockPower = buf.readFloat();
+        }
+        if(bitArray.get(30)) {
+            maxHPMultiplier = buf.readFloat();
+            shootSpeed = buf.readFloat();
+            damageMultiplier = buf.readFloat();
+            armorMultiplier = buf.readFloat();
+            resistanceMultiplier = buf.readFloat();
+        }
+        if(bitArray.get(31)) {
+            nu7 = buf.readByte();
+        }
+        if(bitArray.get(32)) {
+            nu8 = buf.readByte();
+        }
+        if(bitArray.get(33)) {
+            level = buf.readUnsignedInt();
+        }
+        if (bitArray.get(34)) {
+            currentXP = buf.readUnsignedInt();
+        }
+        if(bitArray.get(35)) {
+            parentOwner = buf.readLong();
+        }
+        if(bitArray.get(36)) {
+            nu1 = buf.readUnsignedInt();
+            nu2 = buf.readUnsignedInt();
+        }
+        if(bitArray.get(37)) {
+            nu3 = buf.readByte();
+        }
 
     }
 

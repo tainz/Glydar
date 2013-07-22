@@ -4,11 +4,9 @@ import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import sun.security.util.BitArray;
 
-import java.util.BitSet;
-
 public class EntityData implements BaseData {
 
-    long id;
+    public long id;
     byte[] bitmask;
 
     long posX;
@@ -279,8 +277,7 @@ public class EntityData implements BaseData {
             }
         }
         if(bitArray.get(45)) {
-            name = new String(buf.readBytes(16).array(), Charsets.US_ASCII);
-            name.replaceAll("\\s+$", "\0");  //Should work?
+            name = new String(buf.readBytes(16).array(), Charsets.US_ASCII).trim();
         }
         if(bitArray.get(46)) {
             for (int i = 0; i < 11; i++) {

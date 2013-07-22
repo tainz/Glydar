@@ -2,7 +2,6 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.glydar.glydar.models.Entity;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -34,7 +33,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
                 ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
                 dataBuf.order(ByteOrder.LITTLE_ENDIAN);
                 ed.decode(dataBuf);
-                System.out.println("Entity ID "+ply.entityID+" name "+ed.name);
+                System.out.println("Entity ID "+ply.entityID+" name "+ed.name+" identifies as ID "+ed.id); //ID is wrong?
                 ply.data = ed;
             } catch (Exception e) { e.printStackTrace(); }
         }

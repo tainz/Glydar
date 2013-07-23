@@ -292,6 +292,7 @@ public class EntityData implements BaseData {
 
     @Override
     public void encode(ByteBuf buf) {
+        buf.writeLong(id); //Ulong but whatever
     	//TODO: Not sure exactly how to approach writing unsigned ints!
     	BitArray bitArray = new BitArray(8*bitmask.length, bitmask); //Size in bits, byte[]
 
@@ -440,9 +441,9 @@ public class EntityData implements BaseData {
         	buf.writeInt((int) nu18);
         }
         if(bitArray.get(41)) {
-        	buf.writeInt((int) 20);
-        	buf.writeInt((int) 21);
-        	buf.writeInt((int) 22);
+        	buf.writeInt((int) nu20);
+        	buf.writeInt((int) nu21);
+        	buf.writeInt((int) nu22);
         }
         if(bitArray.get(42)) {
         	buf.writeByte(nu19);

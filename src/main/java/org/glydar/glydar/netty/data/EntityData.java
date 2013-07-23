@@ -293,7 +293,7 @@ public class EntityData implements BaseData {
 
     @Override
     public void encode(ByteBuf buf) {
-        buf.writeLong(id); //Ulong but whatever
+        buf.writeLong(ByteBufUtil.swapLong(id)); //Ulong but whatever
     	//TODO: Not sure exactly how to approach writing unsigned ints!
     	BitArray bitArray = new BitArray(8*bitmask.length, bitmask); //Size in bits, byte[]
 

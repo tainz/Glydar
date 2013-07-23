@@ -28,19 +28,17 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 		int zlibLength = buffer.readInt();
 		rawData = new byte[zlibLength];
 		buffer.readBytes(rawData);
-	}
+        try {
+            ByteBuf dataBuf = Unpooled.copiedBuffer(this.rawData);
+            dataBuf.order(ByteOrder.LITTLE_ENDIAN);
+            ed.decode(dataBuf);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
 
     @Override
     public void receivedFrom(Player ply) {
         if(!ply.joined) {
-            try {
-                EntityData ed = new EntityData();
-                ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
-                dataBuf.order(ByteOrder.LITTLE_ENDIAN);
-                ed.decode(dataBuf);
-                System.out.println("Entity ID "+ply.entityID+" name "+ed.name+" identifies as ID "+ed.id); //ID is wrong?
-                ply.data = ed;
-            } catch (Exception e) { e.printStackTrace(); }
+           ply.data = this.ed;
         }
         ply.playerJoined();
 		this.sendToAll();

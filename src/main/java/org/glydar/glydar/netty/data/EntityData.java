@@ -292,6 +292,182 @@ public class EntityData implements BaseData {
 
     @Override
     public void encode(ByteBuf buf) {
+    	//TODO: Not sure exactly how to approach writing unsigned ints!
+    	BitArray bitArray = new BitArray(8*bitmask.length, bitmask); //Size in bits, byte[]
 
+        if(bitArray.get(0)) {
+            buf.writeLong(posX);
+            buf.writeLong(posY);
+            buf.writeLong(posZ);
+        }
+        if(bitArray.get(1)) {
+        	buf.writeFloat(roll);
+        	buf.writeFloat(pitch);
+        	buf.writeFloat(yaw);
+        }
+        if(bitArray.get(2)) {
+            velocity.encode(buf);
+        }
+        if(bitArray.get(3)) {
+            accel.encode(buf);
+        }
+        if(bitArray.get(4)) {
+            extraVel.encode(buf);
+        }
+        if(bitArray.get(5)) {
+            buf.writeFloat(lookPitch);
+        }
+        if(bitArray.get(6)) {
+        	buf.writeInt((int)physicsFlags);
+        }
+        if(bitArray.get(7)) {
+        	buf.writeByte(speedFlags);
+        }
+        if(bitArray.get(8)) {
+        	buf.writeInt((int) entityType);
+        }
+        if(bitArray.get(9)) {
+        	buf.writeByte(currentMode);
+        }
+        if (bitArray.get(10)) {
+        	buf.writeInt((int) lastShootTime);
+        }
+        if(bitArray.get(11)) {
+        	buf.writeInt((int) hitCounter);
+        }
+        if(bitArray.get(12)) {
+        	buf.writeInt((int) lastHitTime);
+        }
+        if(bitArray.get(13)) {
+            app.encode(buf);
+        }
+        if(bitArray.get(14)) {
+        	buf.writeByte(flags1);
+        	buf.writeByte(flags2);
+        }
+        if(bitArray.get(15))  {
+        	buf.writeInt((int) rollTime);
+        }
+        if(bitArray.get(16)) {
+        	buf.writeInt(stunTime);
+        }
+        if(bitArray.get(17)) {
+        	buf.writeInt((int) slowedTime);
+        }
+        if(bitArray.get(18)) {
+        	buf.writeInt((int) makeBlueTime);
+        }
+        if(bitArray.get(19)) {
+        	buf.writeInt((int) speedUpTime);
+        }
+        if(bitArray.get(20)) {
+        	buf.writeFloat(slowPatchTime);
+        }
+        if(bitArray.get(21)) {
+        	buf.writeByte(classType);
+        }
+        if(bitArray.get(22)) {
+            buf.writeByte(specialization);
+        }
+        if(bitArray.get(23)) {
+        	buf.writeFloat(chargedMP);
+        }
+        if(bitArray.get(24)) {
+        	buf.writeInt((int) nu1);
+        	buf.writeInt((int) nu2);
+        	buf.writeInt((int) nu3);
+        }
+        if(bitArray.get(25)) {
+        	buf.writeInt((int) nu4);
+        	buf.writeInt((int) nu5);
+        	buf.writeInt((int) nu6);
+        }
+        if(bitArray.get(26)) {
+            rayHit.encode(buf);
+        }
+        if(bitArray.get(27)) {
+        	buf.writeFloat(HP);
+        }
+        if(bitArray.get(28)) {
+        	buf.writeFloat(MP);
+        }
+        if(bitArray.get(29)) {
+        	buf.writeFloat(blockPower);
+        }
+        if(bitArray.get(30)) {
+        	buf.writeFloat(maxHPMultiplier);
+        	buf.writeFloat(shootSpeed);
+        	buf.writeFloat(damageMultiplier);
+        	buf.writeFloat(armorMultiplier);
+        	buf.writeFloat(resistanceMultiplier);
+        }
+        if(bitArray.get(31)) {
+        	buf.writeByte(nu7);
+        }
+        if(bitArray.get(32)) {
+        	buf.writeByte(nu8);
+        }
+        if(bitArray.get(33)) {
+        	buf.writeInt((int) level);
+        }
+        if (bitArray.get(34)) {
+        	buf.writeInt((int) currentXP);
+        }
+        if(bitArray.get(35)) {
+        	buf.writeLong(parentOwner);
+        }
+        if(bitArray.get(36)) {
+        	buf.writeInt((int) na1);
+        	buf.writeInt((int) na2);
+        }
+        if(bitArray.get(37)) {
+        	buf.writeByte(na3);
+        }
+        if(bitArray.get(38)) {
+        	buf.writeInt((int) na4);
+        }
+        if(bitArray.get(39)) {
+        	buf.writeInt((int) na5);
+        	buf.writeInt((int) nu11);
+        	buf.writeInt((int) nu12);
+        }
+        if(bitArray.get(40)) {
+        	buf.writeInt((int) nu13);
+        	buf.writeInt((int) nu14);
+        	buf.writeInt((int) nu15);
+        	buf.writeInt((int) nu16);
+        	buf.writeInt((int) nu17);
+        	buf.writeInt((int) nu18);
+        }
+        if(bitArray.get(41)) {
+        	buf.writeInt((int) 20);
+        	buf.writeInt((int) 21);
+        	buf.writeInt((int) 22);
+        }
+        if(bitArray.get(42)) {
+        	buf.writeByte(nu19);
+        }
+        if(bitArray.get(43)) {
+            itemData.encode(buf);
+        }
+        if(bitArray.get(44)) {
+            for (int i = 0; i < 13; i++)
+            {
+                Item item = equipment[i];
+                item.encode(buf);
+            }
+        }
+        if(bitArray.get(45)) {
+            byte[] nameBytes = name.trim().getBytes(Charsets.US_ASCII);
+            buf.writeBytes(nameBytes);
+        }
+        if(bitArray.get(46)) {
+            for (int i = 0; i < 11; i++) {
+            	buf.writeInt((int) skills[i]);
+            }
+        }
+        if(bitArray.get(47)) {
+        	buf.writeInt((int) iceBlockFour);
+        }
     }
 }

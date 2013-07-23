@@ -5,6 +5,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import sun.security.util.BitArray;
 
+/* Structures and data discovered by mat^2 (http://github.com/matpow2) */
+
 public class EntityData implements BaseData {
 
     public long id;

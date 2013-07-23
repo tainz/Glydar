@@ -11,7 +11,7 @@ import java.net.InetSocketAddress;
 
 public class Main {
 
-    private static Server s = new Server();
+    private static Server s = new Server(true); //TODO command line arg for debug
 
 	public static void main(String[] args) {
 		ServerBootstrap serverBootstrap = new ServerBootstrap();

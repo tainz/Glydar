@@ -2,6 +2,7 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.glydar.glydar.Main;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -32,7 +33,11 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
             dataBuf.order(ByteOrder.LITTLE_ENDIAN);
             ed.decode(dataBuf);
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            if(e instanceof IndexOutOfBoundsException && !Main.getServer().DEBUG)
+                System.out.println("IndexOutOfBounds! Possible size issue?");
+            e.printStackTrace();
+        }
     }
 
     @Override

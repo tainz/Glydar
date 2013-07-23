@@ -9,6 +9,12 @@ public class Server implements Runnable {
 
     private boolean running = true;
 
+    public final boolean DEBUG;
+
+    public Server(boolean debug) {
+        this.DEBUG = debug;
+    }
+
     public Collection<Player> getConnectedPlayers() {
         return Player.getConnectedPlayers();
     }

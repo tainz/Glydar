@@ -9,7 +9,7 @@ An open source Java implementation of Cube World's server.
 
 Building and running
 -----
-If you are using *Maven* from the commandline, simply run `mvn clean build package`
+If you are using *Maven* from the commandline, simply run `mvn clean package`. The jar will be in the "target" folder.
 
 If you are using *Eclipse* first install the m2e (Maven to Eclipse) plugin then:
 

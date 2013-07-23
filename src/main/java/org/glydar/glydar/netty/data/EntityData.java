@@ -2,6 +2,7 @@ package org.glydar.glydar.netty.data;
 
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import sun.security.util.BitArray;
 
 public class EntityData implements BaseData {
@@ -109,7 +110,7 @@ public class EntityData implements BaseData {
 
     @Override
     public void decode(ByteBuf buf) {
-        id = buf.readLong();
+        id = ByteBufUtil.swapLong(buf.readLong());
         bitmask = buf.readBytes(8).array();
         BitArray bitArray = new BitArray(8*bitmask.length, bitmask); //Size in bits, byte[]
 

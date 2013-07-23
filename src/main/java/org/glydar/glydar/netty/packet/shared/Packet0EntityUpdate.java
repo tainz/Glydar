@@ -12,6 +12,11 @@ import java.nio.ByteOrder;
 @CubeWorldPacket.Packet(id = 0, variableLength = true)
 public class Packet0EntityUpdate extends CubeWorldPacket {
 	 byte[] rawData;
+     EntityData ed;
+
+    public Packet0EntityUpdate() {
+        ed = new EntityData();
+    }
 
 	@Override
 	protected boolean doCacheIncoming() {

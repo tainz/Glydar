@@ -29,7 +29,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 		rawData = new byte[zlibLength];
 		buffer.readBytes(rawData);
         try {
-            ByteBuf dataBuf = Unpooled.copiedBuffer(this.rawData);
+            ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
             dataBuf.order(ByteOrder.LITTLE_ENDIAN);
             ed.decode(dataBuf);
         } catch (Exception e) { e.printStackTrace(); }

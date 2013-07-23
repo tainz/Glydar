@@ -39,6 +39,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     public void receivedFrom(Player ply) {
         if(!ply.joined) {
            ply.data = this.ed;
+           System.out.println("Player "+ply.data.name+" joined with entity ID "+ply.data.id+ ". (Actual "+ply.entityID+")");
         }
         ply.playerJoined();
 		this.sendToAll();

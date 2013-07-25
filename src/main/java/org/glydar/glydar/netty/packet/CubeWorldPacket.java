@@ -119,6 +119,7 @@ public abstract class CubeWorldPacket {
 		try {
 			return CUBE_WORLD_PACKET_HASH_MAP.get(id).newInstance();
 		} catch (Exception e) {
+            System.out.println("ID "+id);
 			e.printStackTrace();
 			return null;
 		}

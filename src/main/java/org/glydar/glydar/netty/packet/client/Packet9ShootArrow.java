@@ -6,7 +6,6 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
 @CubeWorldPacket.Packet(id = 9)
 public class Packet9ShootArrow extends CubeWorldPacket {
     long entID; //Unsigned!
-	//long entID2;
 
     int chunkX;
     int chunkY;

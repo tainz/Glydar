@@ -5,7 +5,8 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 9)
 public class Packet9ShootArrow extends CubeWorldPacket {
-    long entID; //Unsigned!
+    long entID1; //Unsigned!
+	long entID2;
 
     int chunkX;
     int chunkY;
@@ -16,9 +17,9 @@ public class Packet9ShootArrow extends CubeWorldPacket {
     long posY;
     long posZ;
 
-    float something13; //uint
-    float something14; //uint
-    float something15; //uint
+    long something13; //uint
+    long something14; //uint
+    long something15; //uint
 
     float velX;
     float velY;
@@ -37,7 +38,8 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 
     @Override
     protected void internalDecode(ByteBuf buf) {
-        entID = buf.readUnsignedInt(); //Unsigned long actually!
+        entID1 = buf.readUnsignedInt(); //Unsigned long actually!
+	    entID2 = buf.readUnsignedInt();
 
         chunkX = buf.readInt();
         chunkY = buf.readInt();
@@ -69,9 +71,36 @@ public class Packet9ShootArrow extends CubeWorldPacket {
         buf.readBytes(3); //Padding
         something27 = buf.readUnsignedInt();
         something28 = buf.readUnsignedInt();
-
-
-
-
     }
+
+	@Override
+	public void encode(ByteBuf buf) {
+		buf.writeInt((int) entID1);
+		buf.writeInt((int) entID2);
+		buf.writeInt(chunkX);
+		buf.writeInt(chunkY);
+		buf.writeInt((int) something5);
+		buf.skipBytes(4);
+		buf.writeLong(posX);
+		buf.writeLong(posY);
+		buf.writeLong(posZ);
+		buf.writeInt((int) something13);
+		buf.writeInt((int) something14);
+		buf.writeInt((int) something15);
+		buf.writeFloat(velX);
+		buf.writeFloat(velY);
+		buf.writeFloat(velZ);
+		buf.writeFloat(something19);
+		buf.writeFloat(something20);
+		buf.writeFloat(something21);
+		buf.writeFloat(something22);
+		buf.writeInt((int) something23);
+		buf.writeByte(something24);
+		buf.skipBytes(3);
+		buf.writeInt((int) something25);
+		buf.writeByte(something26);
+		buf.skipBytes(3);
+		buf.writeInt((int) something27);
+		buf.writeInt((int) something28);
+	}
 }

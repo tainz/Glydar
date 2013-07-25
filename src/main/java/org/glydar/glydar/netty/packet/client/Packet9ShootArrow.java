@@ -5,8 +5,8 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 9)
 public class Packet9ShootArrow extends CubeWorldPacket {
-    long entID1; //Unsigned!
-	long entID2;
+    long entID; //Unsigned!
+	//long entID2;
 
     int chunkX;
     int chunkY;
@@ -38,8 +38,7 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 
     @Override
     protected void internalDecode(ByteBuf buf) {
-        entID1 = buf.readUnsignedInt(); //Unsigned long actually!
-	    entID2 = buf.readUnsignedInt();
+        entID = buf.readLong(); //Unsigned long actually!
 
         chunkX = buf.readInt();
         chunkY = buf.readInt();
@@ -75,8 +74,7 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 
 	@Override
 	public void encode(ByteBuf buf) {
-		buf.writeInt((int) entID1);
-		buf.writeInt((int) entID2);
+		buf.writeLong(entID);
 		buf.writeInt(chunkX);
 		buf.writeInt(chunkY);
 		buf.writeInt((int) something5);

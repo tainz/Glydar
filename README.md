@@ -20,6 +20,11 @@ If you are using *Eclipse* first install the m2e (Maven to Eclipse) plugin then:
 
 If you are using *IntelliJ* or any other Maven-enabled IDE, the project should work out of the box.
 
+Special Thanks
+-----
+Mat^2 - structures and data (https://github.com/matpow2/cuwo)
+
 ---
 
 Questions? Comments? Want to contribute to us? Contact us at <strong> #glydar-dev </strong> on <strong> irc.esper.net </strong>.
+

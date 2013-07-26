@@ -2,7 +2,6 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.glydar.glydar.Main;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;

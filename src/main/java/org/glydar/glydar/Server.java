@@ -4,8 +4,11 @@ import org.glydar.glydar.models.Player;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class Server implements Runnable {
+
+	private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
 
     private boolean running = true;
 
@@ -18,6 +21,14 @@ public class Server implements Runnable {
     public Collection<Player> getConnectedPlayers() {
         return Player.getConnectedPlayers();
     }
+
+	public Logger getLogger() {
+		return LOGGER;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
 
     @Override
     public void run() {

@@ -9,7 +9,7 @@ import org.glydar.glydar.netty.CubeWorldServerInitializer;
 
 import java.net.InetSocketAddress;
 
-public class Main {
+public class Glydar {
 
     private static Server s = new Server(false); //TODO command line arg for debug
 

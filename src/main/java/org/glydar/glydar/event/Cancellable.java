@@ -8,6 +8,6 @@ public interface Cancellable {
     
     public boolean isCancelled();
     
-    public boolean setCancelled(boolean cancelled);
+    public void setCancelled(boolean cancelled);
 
 }

@@ -2,6 +2,7 @@ package org.glydar.glydar.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -14,7 +15,7 @@ public class LogFormatter extends Formatter {
 	public String format(LogRecord record) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(new Date(record.getMillis()))
+		sb.append(new SimpleDateFormat("HH:mm:ss").format(new Date(record.getMillis())))
 				.append(" ")
 				.append(record.getLevel().getLocalizedName())
 				.append(": ")

@@ -6,12 +6,14 @@ import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
+import org.glydar.glydar.plugin.GlydarPluginLoader;
 
 import java.net.InetSocketAddress;
 
 public class Glydar {
 
     private static Server s = new Server(false); //TODO command line arg for debug
+	private static final GlydarPluginLoader loader = new GlydarPluginLoader();
 
 	public static void main(String[] args) {
 		ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -25,6 +27,12 @@ public class Glydar {
 				return new NioServerSocketChannel();
 			}
 		});
+
+		try {
+			loader.loadPlugins();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		final int port = 12345;
 

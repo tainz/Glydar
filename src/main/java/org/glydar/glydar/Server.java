@@ -1,9 +1,10 @@
 package org.glydar.glydar;
 
 import org.glydar.glydar.models.Player;
+import org.glydar.glydar.util.LogFormatter;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
 public class Server implements Runnable {
@@ -16,6 +17,10 @@ public class Server implements Runnable {
 
     public Server(boolean debug) {
         this.DEBUG = debug;
+	    LOGGER.setUseParentHandlers(false);
+	    LogFormatter format = new LogFormatter();
+	    ConsoleHandler console = new ConsoleHandler();
+	    console.setFormatter(format);
     }
 
     public Collection<Player> getConnectedPlayers() {

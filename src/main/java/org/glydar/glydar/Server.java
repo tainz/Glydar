@@ -21,6 +21,7 @@ public class Server implements Runnable {
 	    LogFormatter format = new LogFormatter();
 	    ConsoleHandler console = new ConsoleHandler();
 	    console.setFormatter(format);
+	    LOGGER.addHandler(console);
     }
 
     public Collection<Player> getConnectedPlayers() {

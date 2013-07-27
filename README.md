@@ -23,6 +23,7 @@ If you are using *IntelliJ* or any other Maven-enabled IDE, the project should w
 Special Thanks
 -----
 Mat^2 - structures and data (https://github.com/matpow2/cuwo)
+
 Uwee - packet 13 variables
 
 ---

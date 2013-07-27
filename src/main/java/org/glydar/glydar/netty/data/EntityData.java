@@ -122,8 +122,8 @@ public class EntityData implements BaseData {
             posZ = buf.readLong();
         }
         if(bitArray.get(1)) {
+	        pitch = buf.readFloat();
             roll = buf.readFloat();
-            pitch = buf.readFloat();
             yaw = buf.readFloat();
         }
         if(bitArray.get(2)) {
@@ -306,8 +306,8 @@ public class EntityData implements BaseData {
             buf.writeLong(posZ);
         }
         if(bitArray.get(1)) {
+	        buf.writeFloat(pitch);
         	buf.writeFloat(roll);
-        	buf.writeFloat(pitch);
         	buf.writeFloat(yaw);
         }
         if(bitArray.get(2)) {

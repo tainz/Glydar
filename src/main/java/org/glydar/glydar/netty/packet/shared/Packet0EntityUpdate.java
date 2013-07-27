@@ -65,7 +65,6 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     @Override
     protected void internalEncode(ByteBuf buf) {
         if(!sendEntityData) {
-	        buf.writeInt(0);
             buf.writeInt(rawData.length);
             buf.writeBytes(rawData);
         } else {
@@ -77,12 +76,10 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
                 compressedData = ZLibOperations.compress(buf2.array());
             } catch (Exception e) {}
             if(compressedData != null) {
-	            buf.writeInt(0);
                 buf.writeInt(compressedData.length);
                 buf.writeBytes(compressedData);
             } else {
                 System.out.println("Compressed data is null, I'm just writing the raw data back!");
-	            buf.writeInt(0);
                 buf.writeInt(rawData.length);
                 buf.writeBytes(rawData);
            }

@@ -465,6 +465,7 @@ public class EntityData implements BaseData {
         if(bitArray.get(45)) {
             byte[] nameBytes = name.trim().getBytes(Charsets.US_ASCII);
             buf.writeBytes(nameBytes);
+	        buf.writeBytes(new byte[16-name.length()]);
         }
         if(bitArray.get(46)) {
             for (int i = 0; i < 11; i++) {

@@ -38,8 +38,8 @@ public class Packet13MissionData extends CubeWorldPacket {
 	}
 
 	protected void internalEncode(ByteBuf buf) {
-		buf.writeInt(sectorX);
-		buf.writeInt(sectorY);
+		buf.writeInt(sectorX * 8);
+		buf.writeInt(sectorY * 8);
 		buf.writeLong(something3);
 		buf.writeLong(something4);
 		buf.writeLong(something5);

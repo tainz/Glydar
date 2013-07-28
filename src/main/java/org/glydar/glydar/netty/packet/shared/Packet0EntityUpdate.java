@@ -20,6 +20,10 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
         ed = new EntityData();
     }
 
+    public Packet0EntityUpdate(byte[] rawData) {
+        this.rawData = rawData;
+    }
+
     public Packet0EntityUpdate(EntityData e) {
         this.ed = e;
         sendEntityData = true;
@@ -47,15 +51,17 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     public void receivedFrom(Player ply) {
         if(!ply.joined) {
             ply.data = this.ed;
+            ply.debugCompressedRawData = this.rawData;
             System.out.println("Player "+ply.data.name+" joined with entity ID "+ply.data.id+ ". (Actual "+ply.entityID+")");
-            System.out.println("Sending player " + ply.data.name + " other existing entity data!)");
+            System.out.println("Sending player " + ply.data.name + " other existing entity data!");
             //TODO Send all current entity data and NOT just existing players
             for (Player p : Player.getConnectedPlayers()) {
                 if(p.entityID == ply.entityID) {
                     System.out.println("I found myself! o.o");
                     continue;
                 }
-                ply.sendPacket(new Packet0EntityUpdate(p.data));
+                //TODO: THIS IS A GIANT WORKAROUND. PLEASE PLEASE PLEASE FIND A WAY TO REMOVE ME :C
+                ply.sendPacket(new Packet0EntityUpdate(p.debugCompressedRawData));
             }
         }
         ply.playerJoined();

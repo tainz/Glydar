@@ -47,6 +47,8 @@ public abstract class CubeWorldPacket {
 	}
 
 	public void encode(ByteBuf buf) {
+        //THIS IS BROKEN :C
+        /*
 		if(bufCache == null) {
 			int idx = buf.writerIndex();
 			internalEncode(buf);
@@ -55,7 +57,8 @@ public abstract class CubeWorldPacket {
 		} else {
 			bufCache.readerIndex(0);
 			buf.writeBytes(bufCache);
-		}
+		} */
+        internalDecode(buf);
 	}
 
     protected void internalDecode(ByteBuf buf) {

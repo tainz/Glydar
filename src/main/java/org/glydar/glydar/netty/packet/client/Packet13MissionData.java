@@ -3,7 +3,7 @@ package org.glydar.glydar.netty.packet.client;
 import io.netty.buffer.ByteBuf;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
-@CubeWorldPacket.Packet(id=13)
+@CubeWorldPacket.Packet(id = 13)
 public class Packet13MissionData extends CubeWorldPacket {
 	int sectorX;
 	int sectorY;

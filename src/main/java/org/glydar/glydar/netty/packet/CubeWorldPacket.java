@@ -36,6 +36,8 @@ public abstract class CubeWorldPacket {
 	private ByteBuf bufCache = null;
 
 	public void decode(ByteBuf buf) {
+        //THIS IS BROKEN :C
+        /*
 		if(doCacheIncoming()) {
 			int idx = buf.readerIndex();
 			internalDecode(buf);
@@ -43,7 +45,8 @@ public abstract class CubeWorldPacket {
 			bufCache = new SlicedByteBuf(buf, idx, newIdx - idx);
 		} else {
 			internalDecode(buf);
-		}
+		} */
+        internalDecode(buf);
 	}
 
 	public void encode(ByteBuf buf) {

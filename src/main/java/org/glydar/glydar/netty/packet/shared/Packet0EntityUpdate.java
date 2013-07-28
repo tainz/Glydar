@@ -53,7 +53,12 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             ply.data = this.ed;
             ByteBuf testbuf = Unpooled.buffer();
             ply.data.encode(testbuf);
-            System.out.println("Running compression test... "+(testbuf.array() == this.rawData ? "success!" : "failure!"));
+            try {
+                System.out.println("Running compression test... "+(ZLibOperations.compress(testbuf.array()) == this.rawData ? "success!" : "failure!"));
+            } catch (Exception e) {
+                System.out.println("HUGE compression test failure!");
+                e.printStackTrace();
+            }
             ply.debugCompressedRawData = this.rawData;
             System.out.println("Player "+ply.data.name+" joined with entity ID "+ply.data.id+ ". (Actual "+ply.entityID+")");
             System.out.println("Sending player " + ply.data.name + " other existing entity data!");

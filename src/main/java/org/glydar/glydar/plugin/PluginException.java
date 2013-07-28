@@ -2,10 +2,7 @@ package org.glydar.glydar.plugin;
 
 public class PluginException extends Exception {
 
-	/**
-	 * TODO
-	 */
-	private static final long serialVersionID = 1L;
+	private static final long serialVersionUID = 869489032669721680L;
 
 	public PluginException(String message) {
 		super(message);

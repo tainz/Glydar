@@ -55,7 +55,7 @@ public abstract class Plugin {
 	}
 
 	public File getFolder() {
-		File file = new File("plugins/" + getName());
+		File file = new File("config/" + getName());
 		if (!file.exists()) {
 			file.mkdirs();
 		}

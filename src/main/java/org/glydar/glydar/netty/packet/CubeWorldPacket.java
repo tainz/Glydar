@@ -61,7 +61,7 @@ public abstract class CubeWorldPacket {
 			bufCache.readerIndex(0);
 			buf.writeBytes(bufCache);
 		} */
-        internalDecode(buf);
+        internalEncode(buf);
 	}
 
     protected void internalDecode(ByteBuf buf) {

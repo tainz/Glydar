@@ -463,7 +463,7 @@ public class EntityData implements BaseData {
             }
         }
         if(bitArray.get(45)) {
-            byte[] nameBytes = name.trim().getBytes(Charsets.US_ASCII);
+            byte[] nameBytes = name.trim().getBytes(Charsets.UTF_8);
             buf.writeBytes(nameBytes);
 	        buf.writeBytes(new byte[16-name.length()]);
         }

@@ -32,7 +32,8 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 
 			if (player != null) {
 				System.out.println("Player " + player.entityID + " has disconnected!");
-				// TODO Dispose of player data.
+				Player.getConnectedPlayers().remove(player);
+				ctx.deregister();
 			}
 		}
 	}

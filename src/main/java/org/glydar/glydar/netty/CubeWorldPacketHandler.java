@@ -28,12 +28,11 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		if (cause instanceof IOException) {
-			System.out.println("Player has disconnected");
+			Player player = ctx.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY).get();
 
-			for (Player p : Player.getConnectedPlayers()) {
-				if (ctx.channel() == p.getChannelContext().channel()) {
-					// TODO Dispose of player data.
-				}
+			if (player != null) {
+				System.out.println("Player " + player.entityID + " has disconnected!");
+				// TODO Dispose of player data.
 			}
 		}
 	}

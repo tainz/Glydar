@@ -13,7 +13,6 @@ public class Player extends Entity implements BaseTarget {
 
     public boolean joined = false;
     public EntityData data;
-    public byte[] debugCompressedRawData; //TODO: THIS IS A GIANT WORKAROUND. PLEASE PLEASE PLEASE FIND A WAY TO REMOVE ME :C
     private ChannelHandlerContext channelCtx;
 
 	public void setChannelContext(ChannelHandlerContext ctx) {

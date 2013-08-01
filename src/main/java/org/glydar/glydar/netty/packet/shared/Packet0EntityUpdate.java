@@ -65,7 +65,6 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
                 System.out.println("HUGE compression test failure!");
                 e.printStackTrace();
             }
-            ply.debugCompressedRawData = this.rawData;
             System.out.println("Player "+ply.data.name+" joined with entity ID "+ply.data.id+ ". (Actual "+ply.entityID+")");
             System.out.println("Sending player " + ply.data.name + " other existing entity data!");
             //TODO Send all current entity data and NOT just existing players
@@ -74,8 +73,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
                     System.out.println("I found myself! o.o");
                     continue;
                 }
-                //TODO: THIS IS A GIANT WORKAROUND. PLEASE PLEASE PLEASE FIND A WAY TO REMOVE ME :C
-                ply.sendPacket(new Packet0EntityUpdate(p.debugCompressedRawData));
+                ply.sendPacket(new Packet0EntityUpdate(p.data));
             }
         }
         ply.playerJoined();

@@ -8,8 +8,12 @@ public class Item implements BaseData{
     long minusModifier; //Uint
     byte rarity, material, flags;
     int level; //ushort
-    ItemUpgrades upgrades;
-    //int upgradeCount; //unsigned
+    ItemUpgrade[] upgrades;
+    long upgradeCount; //unsigned
+
+    public Item() {
+        upgrades = new ItemUpgrade[32];
+    }
 
     @Override
     public void decode(ByteBuf buf) {
@@ -24,9 +28,12 @@ public class Item implements BaseData{
         buf.readByte();
         level = buf.readUnsignedShort();
         buf.readBytes(2); //Skip
-        upgrades = new ItemUpgrades();
-        upgrades.decode(buf);
+        for (int i = 0; i < upgrades.length; ++i) {
+            upgrades[i] = new ItemUpgrade();
+            upgrades[i].decode(buf);
+        }
 
+        upgradeCount = buf.readUnsignedInt();
     }
 
     @Override
@@ -42,7 +49,10 @@ public class Item implements BaseData{
         buf.writeBytes(new byte[1]);
         buf.writeShort(level);
         buf.readBytes(new byte[2]);
-        upgrades.encode(buf);
+        for (int i = 0; i < upgrades.length; ++i) {
+            upgrades[i].encode(buf);
+        }
+        buf.writeInt((int) upgradeCount);
 
     }
 }

@@ -55,6 +55,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             ply.data.encode(testbuf);
             try {
                 System.out.println("Running compression test... "+(ZLibOperations.compress(testbuf.array()) == this.rawData ? "success!" : "failure!"));
+                System.out.println("Size of extracted rawData from client: "+ZLibOperations.decompress(this.rawData).length+"(ED Cap "+ply.data.debugCap+") Size of remade data from server: "+testbuf.array().length);
             } catch (Exception e) {
                 System.out.println("HUGE compression test failure!");
                 e.printStackTrace();

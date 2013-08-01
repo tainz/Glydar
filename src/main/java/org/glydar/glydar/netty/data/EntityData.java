@@ -94,6 +94,8 @@ public class EntityData implements BaseData {
     long nu22;
     byte nu19;
 
+    public int debugCap;
+
     public EntityData() {
         bitmask = new byte[8];
         velocity = new Vector3();
@@ -290,6 +292,8 @@ public class EntityData implements BaseData {
         if(bitArray.get(47)) {
             iceBlockFour = buf.readUnsignedInt();
         }
+
+        debugCap = buf.capacity();
 
     }
 

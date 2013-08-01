@@ -2,6 +2,7 @@ package org.glydar.glydar.netty.packet.shared;
 
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.Entity;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -45,5 +46,6 @@ public class Packet10Chat extends CubeWorldPacket {
     public void receivedFrom(Player ply) {
 		sender = ply;
 		new Packet10Chat(message, ply).sendToAll();
+        Glydar.getServer().getLogger().info("(Chat) <"+ply.data.name+"> "+message);
     }
 }

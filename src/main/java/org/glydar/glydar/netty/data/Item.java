@@ -48,7 +48,7 @@ public class Item implements BaseData{
         buf.writeByte(flags);
         buf.writeBytes(new byte[1]);
         buf.writeShort(level);
-        buf.readBytes(new byte[2]);
+        buf.writeBytes(new byte[2]);
         for (int i = 0; i < upgrades.length; ++i) {
             upgrades[i].encode(buf);
         }

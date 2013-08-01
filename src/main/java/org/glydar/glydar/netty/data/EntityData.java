@@ -479,5 +479,10 @@ public class EntityData implements BaseData {
         if(bitArray.get(47)) {
         	buf.writeInt((int) iceBlockFour);
         }
+
+        buf.capacity(buf.writerIndex()+1);
+        if(buf.readerIndex() > 0) {
+            System.out.println("I read something during an encode?!");
+        }
     }
 }

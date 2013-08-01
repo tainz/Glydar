@@ -7,6 +7,8 @@ import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.util.ZLibOperations;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.ByteOrder;
 
 @CubeWorldPacket.Packet(id = 0, variableLength = true)
@@ -56,6 +58,9 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             try {
                 System.out.println("Running compression test... "+(ZLibOperations.compress(testbuf.array()) == this.rawData ? "success!" : "failure!"));
                 System.out.println("Size of extracted rawData from client: "+ZLibOperations.decompress(this.rawData).length+"(ED Cap "+ply.data.debugCap+") Size of remade data from server: "+testbuf.array().length);
+                File debugFile = new File("pkt0.dat");
+                FileOutputStream fos = new FileOutputStream(debugFile);
+                fos.write(testbuf.array());
             } catch (Exception e) {
                 System.out.println("HUGE compression test failure!");
                 e.printStackTrace();

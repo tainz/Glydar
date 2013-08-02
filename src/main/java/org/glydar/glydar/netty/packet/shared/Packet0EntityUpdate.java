@@ -53,18 +53,6 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     public void receivedFrom(Player ply) {
         if(!ply.joined) {
             ply.data = this.ed;
-            ByteBuf testbuf = Unpooled.buffer();
-            ply.data.encode(testbuf);
-            try {
-                System.out.println("Running compression test... "+(ZLibOperations.compress(testbuf.array()) == this.rawData ? "success!" : "failure!"));
-                System.out.println("Size of extracted rawData from client: "+ZLibOperations.decompress(this.rawData).length+"(ED Cap "+ply.data.debugCap+") Size of remade data from server: "+testbuf.array().length);
-                File debugFile = new File("pkt0.dat");
-                FileOutputStream fos = new FileOutputStream(debugFile);
-                fos.write(testbuf.array());
-            } catch (Exception e) {
-                System.out.println("HUGE compression test failure!");
-                e.printStackTrace();
-            }
             System.out.println("Player "+ply.data.name+" joined with entity ID "+ply.data.id+ ". (Actual "+ply.entityID+")");
             System.out.println("Sending player " + ply.data.name + " other existing entity data!");
             //TODO Send all current entity data and NOT just existing players

@@ -63,8 +63,9 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
                 }
                 ply.sendPacket(new Packet0EntityUpdate(p.data));
             }
+            ply.playerJoined();
         }
-        ply.playerJoined();
+
 		this.sendToAll();
     }
 

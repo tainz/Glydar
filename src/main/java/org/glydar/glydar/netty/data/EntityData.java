@@ -3,6 +3,7 @@ package org.glydar.glydar.netty.data;
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+import org.omg.IOP.Encoding;
 import sun.security.util.BitArray;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
@@ -467,9 +468,11 @@ public class EntityData implements BaseData {
             }
         }
         if(bitArray.get(45)) {
-            byte[] nameBytes = name.trim().getBytes(Charsets.UTF_8);
-            buf.writeBytes(nameBytes);
-	        buf.writeBytes(new byte[16-name.length()]);
+            byte[] utf8 = name.getBytes(Charsets.UTF_8);
+            buf.writeBytes(new byte[4]); //TODO But why?
+            buf.writeBytes(utf8);
+            buf.writeBytes(new byte[16-name.length()]);
+
         }
         if(bitArray.get(46)) {
             for (int i = 0; i < 11; i++) {

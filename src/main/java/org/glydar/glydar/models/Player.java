@@ -1,6 +1,7 @@
 package org.glydar.glydar.models;
 
 import io.netty.channel.ChannelHandlerContext;
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
@@ -48,4 +49,14 @@ public class Player extends Entity implements BaseTarget {
 	public void playerLeft() {
 		connectedPlayers.remove(entityID);
 	}
+
+    public static Player getPlayerByEntityID(long id) {
+        if(connectedPlayers.containsKey(id))
+            return connectedPlayers.get(id);
+        else
+        {
+            Glydar.getServer().getLogger().warning("Unable to find player with entity ID "+id+"! Returning null!");
+            return null;
+        }
+    }
 }

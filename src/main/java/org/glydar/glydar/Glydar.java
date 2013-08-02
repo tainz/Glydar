@@ -14,13 +14,26 @@ import java.nio.channels.Channel;
 
 public class Glydar {
 
-    private static Server s = new Server(false); //TODO command line arg for debug
+    private static Server s; //TODO command line arg for debug
     private static Thread serverThread = new Thread(s);
 	private static final PluginLoader loader = new PluginLoader();
     private static ChannelFuture chan;
     private static ServerBootstrap serverBootstrap;
+    private static boolean serverDebug = false;
+
+    public static boolean ignorePacketErrors = false;
 
     public static void main(String[] args) {
+        if(args.length > 0) {
+            for(String s : args)
+            {
+               if(s.equalsIgnoreCase("-ignorepacketerrors"))
+                   ignorePacketErrors = true;
+                else if(s.equalsIgnoreCase("-debug"))
+                   serverDebug = true;
+            }
+        }
+        s = new Server(serverDebug);
 		serverBootstrap = new ServerBootstrap();
 		serverBootstrap.childHandler(new CubeWorldServerInitializer());
 		//serverBootstrap.option("child.tcpNoDelay", true);

@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,7 +49,16 @@ public class Player extends Entity implements BaseTarget {
 
 	public void playerLeft() {
 		connectedPlayers.remove(entityID);
+        //Generate packet 0 with data
 	}
+
+    /**
+     * Temporary fix to allow plugins to manipulate entityData while we fix other issues.
+     * Call this whenever you modify anything in Player.data and wish to update all of the clients.
+     */
+    public void forceUpdateData() {
+        new Packet0EntityUpdate(this.data).sendToAll();
+    }
 
     public static Player getPlayerByEntityID(long id) {
         if(connectedPlayers.containsKey(id))

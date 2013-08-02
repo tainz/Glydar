@@ -10,89 +10,89 @@ import sun.security.util.BitArray;
 public class EntityData implements BaseData {
 
     public long id;
-    byte[] bitmask;
+    public byte[] bitmask;
 
-    long posX;
-    long posY;
-    long posZ;
+    public long posX;
+    public long posY;
+    public long posZ;
 
-    float roll;
-    float pitch;
-    float yaw;
+    public float roll;
+    public float pitch;
+    public float yaw;
 
     public Vector3 velocity;
 
-    Vector3 accel;
+    public Vector3 accel;
 
-    Vector3 extraVel;
+    public Vector3 extraVel;
 
-    float lookPitch;
-    long physicsFlags; //Uint
-    byte speedFlags;
-    long entityType; //Uint
-    byte currentMode;
-    long lastShootTime; //Uint
-    long hitCounter; //Uint
-    long lastHitTime; //Uint
-    Appearance app;
-    byte flags1;
-    byte flags2;
-    long rollTime; //Uint
-    int stunTime;
-    long slowedTime; //Uint
-    long makeBlueTime; //Uint
-    long speedUpTime; //Uint
-    float slowPatchTime;
-    byte classType;
-    byte specialization;
-    float chargedMP;
+    public float lookPitch;
+    public long physicsFlags; //Uint
+    public byte speedFlags;
+    public long entityType; //Uint
+    public byte currentMode;
+    public long lastShootTime; //Uint
+    public long hitCounter; //Uint
+    public long lastHitTime; //Uint
+    public Appearance app;
+    public byte flags1;
+    public byte flags2;
+    public long rollTime; //Uint
+    public int stunTime;
+    public long slowedTime; //Uint
+    public long makeBlueTime; //Uint
+    public long speedUpTime; //Uint
+    public float slowPatchTime;
+    public byte classType;
+    public byte specialization;
+    public float chargedMP;
 
-    Vector3 rayHit;
+    public Vector3 rayHit;
 
-    float HP;
-    float MP;
+    public float HP;
+    public float MP;
 
-    float blockPower;
-    float maxHPMultiplier;
-    float shootSpeed;
-    float damageMultiplier;
-    float armorMultiplier;
-    float resistanceMultiplier;
-    long level;  //Uint
-    long currentXP; //Uint
-    Item itemData;
-    Item[] equipment;
+    public float blockPower;
+    public float maxHPMultiplier;
+    public float shootSpeed;
+    public float damageMultiplier;
+    public float armorMultiplier;
+    public float resistanceMultiplier;
+    public long level;  //Uint
+    public long currentXP; //Uint
+    public Item itemData;
+    public Item[] equipment;
 
-    long iceBlockFour; //Uint
-    long[] skills;
+    public long iceBlockFour; //Uint
+    public long[] skills;
     public String name;
 
-    long na1; //Uint
-    long na2; // |
-    byte na3;
-    long na4;
-    long na5;
-    long nu1;
-    long nu2;
-    long nu3;
-    long nu4;
-    long nu5;
-    long nu6;
-    byte nu7;
-    byte nu8;
-    long parentOwner;
-    long nu11;
-    long nu12;
-    long nu13;
-    long nu14;
-    long nu15;
-    long nu16;
-    long nu17;
-    long nu18;
-    long nu20;
-    long nu21;
-    long nu22;
-    byte nu19;
+    public long na1; //Uint
+    public long na2; // |
+    public byte na3;
+    public long na4;
+    public long na5;
+    public long nu1;
+    public long nu2;
+    public long nu3;
+    public long nu4;
+    public long nu5;
+    public long nu6;
+    public byte nu7;
+    public byte nu8;
+    public long parentOwner;
+    public long nu11;
+    public long nu12;
+    public long nu13;
+    public long nu14;
+    public long nu15;
+    public long nu16;
+    public long nu17;
+    public long nu18;
+    public long nu20;
+    public long nu21;
+    public long nu22;
+    public byte nu19;
 
     public int debugCap;
 

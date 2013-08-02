@@ -11,6 +11,7 @@ import org.glydar.glydar.util.ZLibOperations;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteOrder;
+import java.util.Random;
 
 @CubeWorldPacket.Packet(id = 0, variableLength = true)
 public class Packet0EntityUpdate extends CubeWorldPacket {
@@ -47,6 +48,29 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             dataBuf = dataBuf.order(ByteOrder.LITTLE_ENDIAN);
             ed.decode(dataBuf);
         } catch (Exception e) {
+            if(e instanceof IndexOutOfBoundsException) {
+                Glydar.getServer().getLogger().severe("*************************CRITICAL ERROR*************************");
+                e.printStackTrace();
+                Glydar.getServer().getLogger().severe("Glydar has encountered a critical error during an ID0 packet decode, and will now shutdown.");
+                Glydar.getServer().getLogger().severe("Please report this error to the developers. Attach the above stack trace and the id0err.dmp file in your Glydar root directory.");
+                Random lotto = new Random();
+                lotto.setSeed(System.currentTimeMillis());
+                Glydar.getServer().getLogger().severe("Here is your magical error lotto number of the moment: <"+lotto.nextInt()+"> Please attach this to your bug report.");
+                Glydar.getServer().getLogger().severe("****************************************************************");
+                File dumpfile = new File("id0err.dmp");
+                if(dumpfile.exists())
+                    dumpfile.delete();
+
+                try {
+                    dumpfile.createNewFile();
+                    FileOutputStream fos = new FileOutputStream(dumpfile);
+                    fos.write(ZLibOperations.decompress(rawData));
+                    fos.close();
+                } catch (Exception ex) { Glydar.getServer().getLogger().severe("Critical error encountered writing logfile dump. Boy, do you have bad luck."); }
+
+                Glydar.shutdown();
+            }
+
         }
     }
 
@@ -65,7 +89,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             }
             ply.playerJoined();
         }
-
+        ply.data.updateFrom(this.ed);
 		this.sendToAll();
     }
 
@@ -81,7 +105,8 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             byte[] compressedData = null;
             try {
                 compressedData = ZLibOperations.compress(buf2.array());
-            } catch (Exception e) {}
+                System.out.println("Sending custom ED. Length: "+buf2.array().length+" compressed: "+compressedData.length);
+            } catch (Exception e) { e.printStackTrace(); }
             if(compressedData != null) {
                 buf.writeInt(compressedData.length);
                 buf.writeBytes(compressedData);

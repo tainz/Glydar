@@ -2,6 +2,7 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -53,12 +54,11 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     public void receivedFrom(Player ply) {
         if(!ply.joined) {
             ply.data = this.ed;
-            System.out.println("Player "+ply.data.name+" joined with entity ID "+ply.data.id+ ". (Actual "+ply.entityID+")");
-            System.out.println("Sending player " + ply.data.name + " other existing entity data!");
+            Glydar.getServer().getLogger().info("Player " + ply.data.name + " joined with entity ID " + ply.data.id + "! (Internal ID " + ply.entityID + ")");
             //TODO Send all current entity data and NOT just existing players
             for (Player p : Player.getConnectedPlayers()) {
                 if(p.entityID == ply.entityID) {
-                    System.out.println("I found myself! o.o");
+                    Glydar.getServer().getLogger().warning("I found myself! o.o");
                     continue;
                 }
                 ply.sendPacket(new Packet0EntityUpdate(p.data));
@@ -85,7 +85,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
                 buf.writeInt(compressedData.length);
                 buf.writeBytes(compressedData);
             } else {
-                System.out.println("Compressed data is null, I'm just writing the raw data back!");
+                Glydar.getServer().getLogger().warning("Compressed data is null, I'm just writing the raw data back!");
                 buf.writeInt(rawData.length);
                 buf.writeBytes(rawData);
            }

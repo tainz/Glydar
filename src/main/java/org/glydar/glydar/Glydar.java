@@ -38,7 +38,7 @@ public class Glydar {
 
 		serverBootstrap.bind(new InetSocketAddress(port));
 
-		System.out.println("Server ready on port " + port);
+		s.getLogger().info("Server ready on port " + port);
         new Thread(s).start();
 	}
 

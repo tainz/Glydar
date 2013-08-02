@@ -2,8 +2,7 @@ package org.glydar.glydar.netty.data;
 
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
-import org.omg.IOP.Encoding;
+import org.glydar.glydar.Glydar;
 import sun.security.util.BitArray;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
@@ -486,6 +485,187 @@ public class EntityData implements BaseData {
         buf.capacity(buf.writerIndex()+1);
         if(buf.readerIndex() > 0) {
             System.out.println("I read something during an encode?!");
+        }
+    }
+
+    /**
+     * Updates this EntityData with another EntityData via bitmask
+     * @param changes Bitmasked EntityData with changes.
+     */
+    public void updateFrom(EntityData changes) {
+        if(changes.id != this.id)
+        {
+            Glydar.getServer().getLogger().warning("Tried to update entity ID "+this.id+" with changes from ID "+changes.id+"!");
+            return;
+        }
+        BitArray bitArray = new BitArray(8*changes.bitmask.length, changes.bitmask); //Size in bits, byte[]
+
+        if(bitArray.get(0)) {
+            this.posX = changes.posX;
+            this.posY = changes.posY;
+            this.posZ = changes.posZ;
+        }
+        if(bitArray.get(1)) {
+            this.pitch = changes.pitch;
+            this.roll = changes.roll;
+            this.yaw = changes.yaw;
+        }
+        if(bitArray.get(2)) {
+            this.velocity = changes.velocity;
+        }
+        if(bitArray.get(3)) {
+            this.accel = changes.accel;
+        }
+        if(bitArray.get(4)) {
+            this.extraVel = changes.extraVel;
+        }
+        if(bitArray.get(5)) {
+            this.lookPitch = changes.lookPitch;
+        }
+        if(bitArray.get(6)) {
+            this.physicsFlags = changes.physicsFlags;
+        }
+        if(bitArray.get(7)) {
+            this.speedFlags = changes.speedFlags;
+        }
+        if(bitArray.get(8)) {
+            this.entityType = changes.entityType;
+        }
+        if(bitArray.get(9)) {
+            this.currentMode = changes.currentMode;
+        }
+        if (bitArray.get(10)) {
+            this.lastShootTime = changes.lastShootTime;
+        }
+        if(bitArray.get(11)) {
+            this.hitCounter = changes.hitCounter;
+        }
+        if(bitArray.get(12)) {
+            this.lastHitTime = changes.lastHitTime;
+        }
+        if(bitArray.get(13)) {
+            this.app = changes.app;
+        }
+        if(bitArray.get(14)) {
+            this.flags1 = changes.flags1;
+            this.flags2 = changes.flags2;
+        }
+        if(bitArray.get(15))  {
+            this.rollTime = changes.rollTime;
+        }
+        if(bitArray.get(16)) {
+            this.stunTime = changes.stunTime;
+        }
+        if(bitArray.get(17)) {
+            this.slowedTime = changes.slowedTime;
+        }
+        if(bitArray.get(18)) {
+            this.makeBlueTime = changes.makeBlueTime;
+        }
+        if(bitArray.get(19)) {
+            this.speedUpTime = changes.speedUpTime;
+        }
+        if(bitArray.get(20)) {
+            this.slowPatchTime = changes.slowPatchTime;
+        }
+        if(bitArray.get(21)) {
+            this.classType = changes.classType;
+        }
+        if(bitArray.get(22)) {
+            this.specialization = changes.specialization;
+        }
+        if(bitArray.get(23)) {
+            this.chargedMP = changes.chargedMP;
+        }
+        if(bitArray.get(24)) {
+            this.nu1 = changes.nu1;
+            this.nu2 = changes.nu2;
+            this.nu3 = changes.nu3;
+        }
+        if(bitArray.get(25)) {
+            this.nu4 = changes.nu4;
+            this.nu5 = changes.nu5;
+            this.nu6 = changes.nu6;
+        }
+        if(bitArray.get(26)) {
+            this.rayHit = changes.rayHit;
+        }
+        if(bitArray.get(27)) {
+            this.HP = changes.HP;
+        }
+        if(bitArray.get(28)) {
+            this.MP = changes.MP;
+        }
+        if(bitArray.get(29)) {
+            this.blockPower = changes.blockPower;
+        }
+        if(bitArray.get(30)) {
+            this.maxHPMultiplier = changes.maxHPMultiplier;
+            this.shootSpeed = changes.shootSpeed;
+            this.damageMultiplier = changes.damageMultiplier;
+            this.armorMultiplier = changes.armorMultiplier;
+            this.resistanceMultiplier = changes.resistanceMultiplier;
+        }
+        if(bitArray.get(31)) {
+            this.nu7 = changes.nu7;
+        }
+        if(bitArray.get(32)) {
+            this.nu8 = changes.nu8;
+        }
+        if(bitArray.get(33)) {
+            this.level = changes.level;
+        }
+        if (bitArray.get(34)) {
+            this.currentXP = changes.currentXP;
+        }
+        if(bitArray.get(35)) {
+            this.parentOwner = changes.parentOwner;
+        }
+        if(bitArray.get(36)) {
+            this.na1 = changes.na1;
+            this.na2 = changes.na2;
+        }
+        if(bitArray.get(37)) {
+            this.na3 = changes.na3;
+        }
+        if(bitArray.get(38)) {
+            this.na4 = changes.na4;
+        }
+        if(bitArray.get(39)) {
+            this.na5 = changes.na5;
+            this.nu11 = changes.nu11;
+            this.nu12 = changes.nu12;
+        }
+        if(bitArray.get(40)) {
+            this.nu13 = changes.nu13;
+            this.nu14 = changes.nu14;
+            this.nu15 = changes.nu15;
+            this.nu16 = changes.nu16;
+            this.nu17 = changes.nu17;
+            this.nu18 = changes.nu18;
+        }
+        if(bitArray.get(41)) {
+            this.nu20 = changes.nu20;
+            this.nu21 = changes.nu21;
+            this.nu22 = changes.nu22;
+        }
+        if(bitArray.get(42)) {
+            this.nu19 = changes.nu19;
+        }
+        if(bitArray.get(43)) {
+            this.itemData = changes.itemData;
+        }
+        if(bitArray.get(44)) {
+            this.equipment = changes.equipment;
+        }
+        if(bitArray.get(45)) {
+            this.name = changes.name;
+        }
+        if(bitArray.get(46)) {
+            this.skills = changes.skills;
+        }
+        if(bitArray.get(47)) {
+            this.iceBlockFour = changes.iceBlockFour;
         }
     }
 }

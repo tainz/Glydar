@@ -38,10 +38,19 @@ public class Server implements Runnable {
 
     @Override
     public void run() {
-        while (running) {
+        while (this.isRunning()) {
+            try {
             /* TODO Server loop / tick code.
                Eventually; All periodic events will be processed here, such as AI logic, etc for entities.
              */
+                Thread.sleep(1); //To check shutdown
+            } catch (InterruptedException ex) { break; }
         }
+        getLogger().info("Goodbye!");
     }
+
+    public void shutdown() {
+        this.running = false;
+    }
+
 }

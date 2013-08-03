@@ -24,7 +24,7 @@ public class Bitops {
     public static BitSet fromByte(byte b)
     {
         BitSet bits = new BitSet(8);
-        for (int i = 8; i >= 0; i--)
+        for (int i = 7; i >= 0; i--)
         {
             bits.set(i, (b & 1) == 1);
             b >>= 1;

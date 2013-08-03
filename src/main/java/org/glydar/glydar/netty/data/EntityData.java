@@ -2,15 +2,19 @@ package org.glydar.glydar.netty.data;
 
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.util.Bitops;
 import sun.security.util.BitArray;
+
+import java.nio.ByteOrder;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
 
 public class EntityData implements BaseData {
 
     public long id;
-    public byte[] bitmask;
+    public byte[] bitmask = new byte[8];
 
     public long posX;
     public long posY;
@@ -115,8 +119,9 @@ public class EntityData implements BaseData {
     @Override
     public void decode(ByteBuf buf) {
         id = buf.readLong();
-        bitmask = buf.readBytes(8).array();
-        BitArray bitArray = new BitArray(8*bitmask.length, bitmask); //Size in bits, byte[]
+        buf.readBytes(bitmask);
+        BitArray bitArray = new BitArray(8*bitmask.length, Bitops.flipBits(bitmask)); //Size in bits, byte[]
+        //BitArray bitArray = new BitArray(bitmask);
 
         if(bitArray.get(0)) {
             posX = buf.readLong();
@@ -294,6 +299,8 @@ public class EntityData implements BaseData {
         }
 
         debugCap = buf.capacity();
+        buf.resetReaderIndex();
+        buf.resetWriterIndex();
 
     }
 

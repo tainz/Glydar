@@ -108,11 +108,4 @@
 	<repositories>
 
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>zt-repo</id>
-			<name>Zero turnaround repo</name>
-			<url>dav:http://repos.zeroturnaround.com/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
 </project>

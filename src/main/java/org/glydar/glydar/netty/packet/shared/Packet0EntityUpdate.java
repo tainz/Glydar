@@ -95,7 +95,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             }
             ply.playerJoined();
         }
-        //ply.data.updateFrom(this.ed);
+        ply.data.updateFrom(this.ed);
 		this.sendToAll();
     }
 

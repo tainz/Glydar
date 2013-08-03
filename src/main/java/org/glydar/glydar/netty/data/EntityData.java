@@ -505,7 +505,7 @@ public class EntityData implements BaseData {
             Glydar.getServer().getLogger().warning("Tried to update entity ID "+this.id+" with changes from ID "+changes.id+"!");
             return;
         }
-        BitArray bitArray = new BitArray(8*changes.bitmask.length, changes.bitmask); //Size in bits, byte[]
+        BitArray bitArray = new BitArray(8*changes.bitmask.length, Bitops.flipBits(changes.bitmask)); //Size in bits, byte[]
 
         if(bitArray.get(0)) {
             this.posX = changes.posX;

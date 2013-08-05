@@ -17,6 +17,10 @@ public class Packet10Chat extends CubeWorldPacket {
 
 	//DO NOT EVER TURN ON RECEIVING CACHING. THE SIGNATURES DIFFER!!!
 
+    public Packet10Chat() { //Needed for the package finder
+
+    }
+
 	public Packet10Chat(String message, Entity sender) {
 		this.sender = sender;
         this.senderID = sender.entityID;

@@ -14,7 +14,7 @@ public class Player extends Entity implements BaseTarget {
     private static HashMap<Long, Player> connectedPlayers = new HashMap<Long, Player>();
 
     public boolean joined = false;
-    public EntityData data;
+    private EntityData data;
     private ChannelHandlerContext channelCtx;
 
 	public void setChannelContext(ChannelHandlerContext ctx) {
@@ -69,4 +69,15 @@ public class Player extends Entity implements BaseTarget {
             return null;
         }
     }
+    
+    public EntityData getEntityData(){
+    	if (data == null){
+    		data = new EntityData();
+    	}
+    	return data;
+    }
+
+	public void setEntityData(EntityData ed) {
+		this.data = ed;
+	}
 }

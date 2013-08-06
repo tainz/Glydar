@@ -57,6 +57,6 @@ public class Packet10Chat extends CubeWorldPacket {
     public void receivedFrom(Player ply) {
 		sender = ply;
 		new Packet10Chat(message, ply).sendToAll();
-        Glydar.getServer().getLogger().info("(Chat) <"+ply.data.name+"> "+message);
+        Glydar.getServer().getLogger().info("(Chat) <"+ply.getEntityData().getName()+"> "+message);
     }
 }

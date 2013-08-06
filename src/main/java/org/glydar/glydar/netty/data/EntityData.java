@@ -1,10 +1,13 @@
 package org.glydar.glydar.netty.data;
 
 import com.google.common.base.Charsets;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.util.Bitops;
+
 import sun.security.util.BitArray;
 
 import java.nio.ByteOrder;
@@ -13,92 +16,92 @@ import java.nio.ByteOrder;
 
 public class EntityData implements BaseData {
 
-    public long id;
-    public byte[] bitmask = new byte[8];
+	private long id;
+	private byte[] bitmask = new byte[8];
 
-    public long posX;
-    public long posY;
-    public long posZ;
+	private long posX;
+	private long posY;
+	private long posZ;
 
-    public float roll;
-    public float pitch;
-    public float yaw;
+	private float roll;
+	private float pitch;
+	private float yaw;
 
-    public Vector3 velocity;
+	private Vector3 velocity;
 
-    public Vector3 accel;
+	private Vector3 accel;
 
-    public Vector3 extraVel;
+	private Vector3 extraVel;
 
-    public float lookPitch;
-    public long physicsFlags; //Uint
-    public byte speedFlags;
-    public long entityType; //Uint
-    public byte currentMode;
-    public long lastShootTime; //Uint
-    public long hitCounter; //Uint
-    public long lastHitTime; //Uint
-    public Appearance app;
-    public byte flags1;
-    public byte flags2;
-    public long rollTime; //Uint
-    public int stunTime;
-    public long slowedTime; //Uint
-    public long makeBlueTime; //Uint
-    public long speedUpTime; //Uint
-    public float slowPatchTime;
-    public byte classType;
-    public byte specialization;
-    public float chargedMP;
+	private float lookPitch;
+	private long physicsFlags; //Uint
+	private byte speedFlags;
+	private long entityType; //Uint
+	private byte currentMode;
+	private long lastShootTime; //Uint
+	private long hitCounter; //Uint
+	private long lastHitTime; //Uint
+	private Appearance app;
+	private byte flags1;
+	private byte flags2;
+	private long rollTime; //Uint
+	private int stunTime;
+	private long slowedTime; //Uint
+	private long makeBlueTime; //Uint
+	private long speedUpTime; //Uint
+	private float slowPatchTime;
+	private byte classType;
+	private byte specialization;
+	private float chargedMP;
 
-    public Vector3 rayHit;
+	private Vector3 rayHit;
 
-    public float HP;
-    public float MP;
+	private float HP;
+	private float MP;
 
-    public float blockPower;
-    public float maxHPMultiplier;
-    public float shootSpeed;
-    public float damageMultiplier;
-    public float armorMultiplier;
-    public float resistanceMultiplier;
-    public long level;  //Uint
-    public long currentXP; //Uint
-    public Item itemData;
-    public Item[] equipment;
+	private float blockPower;
+	private float maxHPMultiplier;
+	private float shootSpeed;
+	private float damageMultiplier;
+	private float armorMultiplier;
+	private float resistanceMultiplier;
+	private long level;  //Uint
+	private long currentXP; //Uint
+	private Item itemData;
+	private Item[] equipment;
 
-    public long iceBlockFour; //Uint
-    public long[] skills;
-    public String name;
+	private long iceBlockFour; //Uint
+	private long[] skills;
+	private String name;
 
-    public long na1; //Uint
-    public long na2; // |
-    public byte na3;
-    public long na4;
-    public long na5;
-    public long nu1;
-    public long nu2;
-    public long nu3;
-    public long nu4;
-    public long nu5;
-    public long nu6;
-    public byte nu7;
-    public byte nu8;
-    public long parentOwner;
-    public long nu11;
-    public long nu12;
-    public long nu13;
-    public long nu14;
-    public long nu15;
-    public long nu16;
-    public long nu17;
-    public long nu18;
-    public long nu20;
-    public long nu21;
-    public long nu22;
-    public byte nu19;
+	private long na1; //Uint
+	private long na2; // |
+	private byte na3;
+	private long na4;
+	private long na5;
+	private long nu1;
+	private long nu2;
+	private long nu3;
+	private long nu4;
+	private long nu5;
+	private long nu6;
+	private byte nu7;
+	private byte nu8;
+	private long parentOwner;
+	private long nu11;
+	private long nu12;
+	private long nu13;
+	private long nu14;
+	private long nu15;
+	private long nu16;
+	private long nu17;
+	private long nu18;
+	private long nu20;
+	private long nu21;
+	private long nu22;
+	private byte nu19;
 
-    public int debugCap;
+	private int debugCap;
 
     public EntityData() {
         bitmask = new byte[8];
@@ -117,6 +120,7 @@ public class EntityData implements BaseData {
     }
 
     @Override
+    @SuppressWarnings("restriction")
     public void decode(ByteBuf buf) {
         id = buf.readLong();
         buf.readBytes(bitmask);
@@ -304,7 +308,9 @@ public class EntityData implements BaseData {
 
     }
 
-    @Override
+    
+    @SuppressWarnings("restriction")
+	@Override
     public void encode(ByteBuf buf) {
         buf.writeLong(id); //Ulong but whatever
     	//TODO: Not sure exactly how to approach writing unsigned ints!
@@ -499,13 +505,15 @@ public class EntityData implements BaseData {
      * Updates this EntityData with another EntityData via bitmask
      * @param changes Bitmasked EntityData with changes.
      */
+    @SuppressWarnings("restriction")
     public void updateFrom(EntityData changes) {
         if(changes.id != this.id)
         {
             Glydar.getServer().getLogger().warning("Tried to update entity ID "+this.id+" with changes from ID "+changes.id+"!");
             return;
         }
-        BitArray bitArray = new BitArray(8*changes.bitmask.length, Bitops.flipBits(changes.bitmask)); //Size in bits, byte[]
+        
+		BitArray bitArray = new BitArray(8*changes.bitmask.length, Bitops.flipBits(changes.bitmask)); //Size in bits, byte[]
 
         if(bitArray.get(0)) {
             this.posX = changes.posX;
@@ -675,4 +683,588 @@ public class EntityData implements BaseData {
             this.iceBlockFour = changes.iceBlockFour;
         }
     }
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getPosX() {
+		return posX;
+	}
+
+	public void setPosX(long posX) {
+		this.posX = posX;
+	}
+
+	public long getPosY() {
+		return posY;
+	}
+
+	public void setPosY(long posY) {
+		this.posY = posY;
+	}
+
+	public long getPosZ() {
+		return posZ;
+	}
+
+	public void setPosZ(long posZ) {
+		this.posZ = posZ;
+	}
+
+	public float getRoll() {
+		return roll;
+	}
+
+	public void setRoll(float roll) {
+		this.roll = roll;
+	}
+
+	public float getPitch() {
+		return pitch;
+	}
+
+	public void setPitch(float pitch) {
+		this.pitch = pitch;
+	}
+
+	public float getYaw() {
+		return yaw;
+	}
+
+	public void setYaw(float yaw) {
+		this.yaw = yaw;
+	}
+
+	public Vector3 getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector3 velocity) {
+		this.velocity = velocity;
+	}
+
+	public Vector3 getAccel() {
+		return accel;
+	}
+
+	public void setAccel(Vector3 accel) {
+		this.accel = accel;
+	}
+
+	public Vector3 getExtraVel() {
+		return extraVel;
+	}
+
+	public void setExtraVel(Vector3 extraVel) {
+		this.extraVel = extraVel;
+	}
+
+	public float getLookPitch() {
+		return lookPitch;
+	}
+
+	public void setLookPitch(float lookPitch) {
+		this.lookPitch = lookPitch;
+	}
+
+	public long getPhysicsFlags() {
+		return physicsFlags;
+	}
+
+	public void setPhysicsFlags(long physicsFlags) {
+		this.physicsFlags = physicsFlags;
+	}
+
+	public byte getSpeedFlags() {
+		return speedFlags;
+	}
+
+	public void setSpeedFlags(byte speedFlags) {
+		this.speedFlags = speedFlags;
+	}
+
+	public long getEntityType() {
+		return entityType;
+	}
+
+	public void setEntityType(long entityType) {
+		this.entityType = entityType;
+	}
+
+	public byte getCurrentMode() {
+		return currentMode;
+	}
+
+	public void setCurrentMode(byte currentMode) {
+		this.currentMode = currentMode;
+	}
+
+	public long getLastShootTime() {
+		return lastShootTime;
+	}
+
+	public void setLastShootTime(long lastShootTime) {
+		this.lastShootTime = lastShootTime;
+	}
+
+	public long getHitCounter() {
+		return hitCounter;
+	}
+
+	public void setHitCounter(long hitCounter) {
+		this.hitCounter = hitCounter;
+	}
+
+	public long getLastHitTime() {
+		return lastHitTime;
+	}
+
+	public void setLastHitTime(long lastHitTime) {
+		this.lastHitTime = lastHitTime;
+	}
+
+	public Appearance getApp() {
+		return app;
+	}
+
+	public void setApp(Appearance app) {
+		this.app = app;
+	}
+
+	public byte getFlags1() {
+		return flags1;
+	}
+
+	public void setFlags1(byte flags1) {
+		this.flags1 = flags1;
+	}
+
+	public byte getFlags2() {
+		return flags2;
+	}
+
+	public void setFlags2(byte flags2) {
+		this.flags2 = flags2;
+	}
+
+	public long getRollTime() {
+		return rollTime;
+	}
+
+	public void setRollTime(long rollTime) {
+		this.rollTime = rollTime;
+	}
+
+	public int getStunTime() {
+		return stunTime;
+	}
+
+	public void setStunTime(int stunTime) {
+		this.stunTime = stunTime;
+	}
+
+	public long getSlowedTime() {
+		return slowedTime;
+	}
+
+	public void setSlowedTime(long slowedTime) {
+		this.slowedTime = slowedTime;
+	}
+
+	public long getMakeBlueTime() {
+		return makeBlueTime;
+	}
+
+	public void setMakeBlueTime(long makeBlueTime) {
+		this.makeBlueTime = makeBlueTime;
+	}
+
+	public long getSpeedUpTime() {
+		return speedUpTime;
+	}
+
+	public void setSpeedUpTime(long speedUpTime) {
+		this.speedUpTime = speedUpTime;
+	}
+
+	public float getSlowPatchTime() {
+		return slowPatchTime;
+	}
+
+	public void setSlowPatchTime(float slowPatchTime) {
+		this.slowPatchTime = slowPatchTime;
+	}
+
+	public byte getClassType() {
+		return classType;
+	}
+
+	public void setClassType(byte classType) {
+		this.classType = classType;
+	}
+
+	public byte getSpecialization() {
+		return specialization;
+	}
+
+	public void setSpecialization(byte specialization) {
+		this.specialization = specialization;
+	}
+
+	public float getChargedMP() {
+		return chargedMP;
+	}
+
+	public void setChargedMP(float chargedMP) {
+		this.chargedMP = chargedMP;
+	}
+
+	public Vector3 getRayHit() {
+		return rayHit;
+	}
+
+	public void setRayHit(Vector3 rayHit) {
+		this.rayHit = rayHit;
+	}
+
+	public float getHP() {
+		return HP;
+	}
+
+	public void setHP(float hP) {
+		HP = hP;
+	}
+
+	public float getMP() {
+		return MP;
+	}
+
+	public void setMP(float mP) {
+		MP = mP;
+	}
+
+	public float getBlockPower() {
+		return blockPower;
+	}
+
+	public void setBlockPower(float blockPower) {
+		this.blockPower = blockPower;
+	}
+
+	public float getMaxHPMultiplier() {
+		return maxHPMultiplier;
+	}
+
+	public void setMaxHPMultiplier(float maxHPMultiplier) {
+		this.maxHPMultiplier = maxHPMultiplier;
+	}
+
+	public float getShootSpeed() {
+		return shootSpeed;
+	}
+
+	public void setShootSpeed(float shootSpeed) {
+		this.shootSpeed = shootSpeed;
+	}
+
+	public float getDamageMultiplier() {
+		return damageMultiplier;
+	}
+
+	public void setDamageMultiplier(float damageMultiplier) {
+		this.damageMultiplier = damageMultiplier;
+	}
+
+	public float getArmorMultiplier() {
+		return armorMultiplier;
+	}
+
+	public void setArmorMultiplier(float armorMultiplier) {
+		this.armorMultiplier = armorMultiplier;
+	}
+
+	public float getResistanceMultiplier() {
+		return resistanceMultiplier;
+	}
+
+	public void setResistanceMultiplier(float resistanceMultiplier) {
+		this.resistanceMultiplier = resistanceMultiplier;
+	}
+
+	public long getLevel() {
+		return level;
+	}
+
+	public void setLevel(long level) {
+		this.level = level;
+	}
+
+	public long getCurrentXP() {
+		return currentXP;
+	}
+
+	public void setCurrentXP(long currentXP) {
+		this.currentXP = currentXP;
+	}
+
+	public Item getItemData() {
+		return itemData;
+	}
+
+	public void setItemData(Item itemData) {
+		this.itemData = itemData;
+	}
+
+	public Item[] getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(Item[] equipment) {
+		this.equipment = equipment;
+	}
+
+	public long getIceBlockFour() {
+		return iceBlockFour;
+	}
+
+	public void setIceBlockFour(long iceBlockFour) {
+		this.iceBlockFour = iceBlockFour;
+	}
+
+	public long[] getSkills() {
+		return skills;
+	}
+
+	public void setSkills(long[] skills) {
+		this.skills = skills;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getNa1() {
+		return na1;
+	}
+
+	public void setNa1(long na1) {
+		this.na1 = na1;
+	}
+
+	public long getNa2() {
+		return na2;
+	}
+
+	public void setNa2(long na2) {
+		this.na2 = na2;
+	}
+
+	public byte getNa3() {
+		return na3;
+	}
+
+	public void setNa3(byte na3) {
+		this.na3 = na3;
+	}
+
+	public long getNa4() {
+		return na4;
+	}
+
+	public void setNa4(long na4) {
+		this.na4 = na4;
+	}
+
+	public long getNa5() {
+		return na5;
+	}
+
+	public void setNa5(long na5) {
+		this.na5 = na5;
+	}
+
+	public long getNu1() {
+		return nu1;
+	}
+
+	public void setNu1(long nu1) {
+		this.nu1 = nu1;
+	}
+
+	public long getNu2() {
+		return nu2;
+	}
+
+	public void setNu2(long nu2) {
+		this.nu2 = nu2;
+	}
+
+	public long getNu3() {
+		return nu3;
+	}
+
+	public void setNu3(long nu3) {
+		this.nu3 = nu3;
+	}
+
+	public long getNu4() {
+		return nu4;
+	}
+
+	public void setNu4(long nu4) {
+		this.nu4 = nu4;
+	}
+
+	public long getNu5() {
+		return nu5;
+	}
+
+	public void setNu5(long nu5) {
+		this.nu5 = nu5;
+	}
+
+	public long getNu6() {
+		return nu6;
+	}
+
+	public void setNu6(long nu6) {
+		this.nu6 = nu6;
+	}
+
+	public byte getNu7() {
+		return nu7;
+	}
+
+	public void setNu7(byte nu7) {
+		this.nu7 = nu7;
+	}
+
+	public byte getNu8() {
+		return nu8;
+	}
+
+	public void setNu8(byte nu8) {
+		this.nu8 = nu8;
+	}
+
+	public long getParentOwner() {
+		return parentOwner;
+	}
+
+	public void setParentOwner(long parentOwner) {
+		this.parentOwner = parentOwner;
+	}
+
+	public long getNu11() {
+		return nu11;
+	}
+
+	public void setNu11(long nu11) {
+		this.nu11 = nu11;
+	}
+
+	public long getNu12() {
+		return nu12;
+	}
+
+	public void setNu12(long nu12) {
+		this.nu12 = nu12;
+	}
+
+	public long getNu13() {
+		return nu13;
+	}
+
+	public void setNu13(long nu13) {
+		this.nu13 = nu13;
+	}
+
+	public long getNu14() {
+		return nu14;
+	}
+
+	public void setNu14(long nu14) {
+		this.nu14 = nu14;
+	}
+
+	public long getNu15() {
+		return nu15;
+	}
+
+	public void setNu15(long nu15) {
+		this.nu15 = nu15;
+	}
+
+	public long getNu16() {
+		return nu16;
+	}
+
+	public void setNu16(long nu16) {
+		this.nu16 = nu16;
+	}
+
+	public long getNu17() {
+		return nu17;
+	}
+
+	public void setNu17(long nu17) {
+		this.nu17 = nu17;
+	}
+
+	public long getNu18() {
+		return nu18;
+	}
+
+	public void setNu18(long nu18) {
+		this.nu18 = nu18;
+	}
+
+	public long getNu20() {
+		return nu20;
+	}
+
+	public void setNu20(long nu20) {
+		this.nu20 = nu20;
+	}
+
+	public long getNu21() {
+		return nu21;
+	}
+
+	public void setNu21(long nu21) {
+		this.nu21 = nu21;
+	}
+
+	public long getNu22() {
+		return nu22;
+	}
+
+	public void setNu22(long nu22) {
+		this.nu22 = nu22;
+	}
+
+	public byte getNu19() {
+		return nu19;
+	}
+
+	public void setNu19(byte nu19) {
+		this.nu19 = nu19;
+	}
+
+	public int getDebugCap() {
+		return debugCap;
+	}
+
+	public void setDebugCap(int debugCap) {
+		this.debugCap = debugCap;
+	}
 }

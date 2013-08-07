@@ -31,7 +31,7 @@ public class Packet17VersionExchange extends CubeWorldPacket {
 
 		ply.sendPacket(new Packet16Join(ply.entityID));
 		ply.sendPacket(new Packet15Seed(69));
-		ply.sendPacket(new Packet10Chat("Server powered by Glydar 0.0.1-SNAPSHOT", ServerEntity.INSTANCE));
+		ply.sendMessageToPlayer("Server powered by Glydar 0.0.1-SNAPSHOT");
 	}
 
     @Override

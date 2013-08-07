@@ -1,11 +1,14 @@
 package org.glydar.glydar.models;
 
 import io.netty.channel.ChannelHandlerContext;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
+import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 
+import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,7 +52,7 @@ public class Player extends Entity implements BaseTarget {
 
 	public void playerLeft() {
 		connectedPlayers.remove(entityID);
-        //Generate packet 0 with data
+        forceUpdateData();
 	}
 
     /**
@@ -58,6 +61,11 @@ public class Player extends Entity implements BaseTarget {
      */
     public void forceUpdateData() {
         new Packet0EntityUpdate(this.data).sendToAll();
+    }
+    
+    public void forceUpdateData(EntityData ed){
+    	this.data = ed;
+    	new Packet0EntityUpdate(this.data).sendToAll();
     }
 
     public static Player getPlayerByEntityID(long id) {
@@ -79,5 +87,23 @@ public class Player extends Entity implements BaseTarget {
 
 	public void setEntityData(EntityData ed) {
 		this.data = ed;
+	}
+	
+	public String getIp(){
+		return ((InetSocketAddress)channelCtx.channel().remoteAddress()).getAddress().getHostAddress();
+	}
+	
+	public void sendMessageToPlayer(String message){
+		this.sendPacket(new Packet10Chat(message, 0));
+	}
+	
+	public void kickPlayer(String message){
+		sendMessageToPlayer(message);
+		channelCtx.disconnect();
+	}
+	
+	public void kickPlayer(){
+		sendMessageToPlayer("You have been kicked!");
+		channelCtx.disconnect();
 	}
 }

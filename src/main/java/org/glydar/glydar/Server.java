@@ -1,6 +1,7 @@
 package org.glydar.glydar;
 
 import org.glydar.glydar.models.Player;
+import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
 
 import java.util.Collection;
@@ -51,6 +52,10 @@ public class Server implements Runnable {
 
     public void shutdown() {
         this.running = false;
+    }
+    
+    public void broadcastMessage(String message) {
+    	new Packet10Chat(message, 0).sendToAll();
     }
 
 }

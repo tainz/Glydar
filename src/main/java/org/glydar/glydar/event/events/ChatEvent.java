@@ -11,7 +11,7 @@ public class ChatEvent extends Event implements Cancellable {
 	private String message;
 
 	public ChatEvent(final Player player, final String message) {
-		this.player = player;
+		this.setPlayer(player);
 		this.message = message;
 	}
 
@@ -31,4 +31,11 @@ public class ChatEvent extends Event implements Cancellable {
 		this.message = message;
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 }

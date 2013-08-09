@@ -10,30 +10,28 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.plugin.Plugin;
 
 /**
- * @author YoshiGenius
+ * @author The Glydar Team, YoshiGenius (For the base)
  */
 
-//TODO: Redo completely!
 public class EventManager {
     
     private EventManager(){}
     // TODO: Replace String references to plugins with a Plugin object
     private static HashMap<Listener, String> pluginListeners = new HashMap<Listener, String>();
-    private static HashMap<Class<? extends Event>, List<Listener>> eventListeners = new HashMap<Class<? extends Event>, List<Listener>>();
-    private static HashMap<Listener, List<Method>> methodListeners = new HashMap<Listener, List<Method>>();
+    private static HashMap<Class<? extends Event>, HashMap<Method, Listener>> eventMethods = new HashMap<Class<? extends Event>, HashMap<Method, Listener>>();
     private static HashMap<Method, Boolean> ignoreCancelled = new HashMap<Method, Boolean>();
     
-    public static List<Listener> getListeners(Class<? extends Event> evt) {
+    public static HashMap<Method, Listener> getMethods(Class<? extends Event> evt) {
         if (evt == null) {
-            return new ArrayList<Listener>();
+            return new HashMap<Method, Listener>();
         }
-        if (eventListeners.get(evt) == null) {
+        if (eventMethods.get(evt) == null) {
         	//Glydar.getServer().getLogger().info("Not found!");
-        	eventListeners.put(evt, new ArrayList<Listener>());
-            return eventListeners.get(evt);
+        	eventMethods.put(evt, new HashMap<Method, Listener>());
+            return eventMethods.get(evt);
         }
         //Glydar.getServer().getLogger().info("Found!");
-        return eventListeners.get(evt);
+        return eventMethods.get(evt);
     }
     
     public static String getPlugin(Listener listener) {
@@ -50,7 +48,6 @@ public class EventManager {
         if (plugin == null || listener == null || pluginListeners.containsKey(listener)) {
             return false;
         }
-        List<Method> methods = new ArrayList<Method>();
         for (Method m : listener.getClass().getMethods()) {
             if (m.getParameterTypes().length == 0) {
                 continue;
@@ -60,19 +57,16 @@ public class EventManager {
                     Class par1 = m.getParameterTypes()[0];
                     if (Event.class.isAssignableFrom(par1)) {
                         Class<? extends Event> ec = (Class<? extends Event>) par1;
-                        List<Listener> listeners = getListeners(ec);
-                        listeners.add(listener);
+                        HashMap<Method, Listener> methods = getMethods(ec);
+                        methods.put(m, listener);
                         EventHandler eh = (EventHandler) an;
-                        methods.add(m);
                         ignoreCancelled.put(m, eh.ignoreCancelled());
-                        eventListeners.put(ec, listeners);
+                        eventMethods.put(ec, methods);
                         //Glydar.getServer().getLogger().info("Method: " + m.getName());
-                        
                     }
                 }
             }
         }
-        methodListeners.put(listener, methods);
         pluginListeners.put(listener, plugin.getName());
         return true;
     }
@@ -82,41 +76,37 @@ public class EventManager {
         if (evt == null) {
             return null;
         }
-        Glydar.getServer().getLogger().info("eventlisteners size: " + eventListeners.size());
-        for (Class<? extends Event> ec : eventListeners.keySet()) {
+        for (Class<? extends Event> ec : eventMethods.keySet()) {
         	if (!evt.getClass().getName().equals(ec.getName())){
         		continue;
         	}
-            List<Listener> listeners = getListeners(ec);
-            for (Listener listener : listeners) {
-                for (Method m : methodListeners.get(listener)) {
-                    if (m == null) {
-                        continue;
+            for (Method m : eventMethods.get(ec).keySet()) {
+                if (m == null) {
+                    continue;
+                }
+                if (evt instanceof Cancellable) {
+                    Cancellable cancellable = (Cancellable) evt;
+                    try {
+                        if (!(cancellable.isCancelled() && ignoreCancelled.get(m))) {
+                            m.invoke(eventMethods.get(ec).get(m), evt);
+                            //Glydar.getServer().getLogger().info("Method:" + m.getName());
+                        }
+                    } catch (Exception ex) {
+                    	//Glydar.getServer().getLogger().info("ERROR: Method:" + m.getName());
+                        ex.printStackTrace();
                     }
-                    if (evt instanceof Cancellable) {
-                        Cancellable cancellable = (Cancellable) evt;
-                        try {
-                            if (!(cancellable.isCancelled() && ignoreCancelled.get(m))) {
-                                m.invoke(listener, evt);
-                                Glydar.getServer().getLogger().info("Method:" + m.getName());
-                                //Glydar.getServer().getLogger().info("Executed #0");
-                            }
-                        } catch (Exception ex) {
-                        	Glydar.getServer().getLogger().info("ERROR: Method:" + m.getName());
-                            ex.printStackTrace();
-                        }
-                    } else {
-                        try {
-                           m.invoke(listener, evt);
-                           Glydar.getServer().getLogger().info("Method:" + m.getName());
-                        } catch (Exception ex) {
-                        	Glydar.getServer().getLogger().info("ERROR: Method:" + m.getName());
-                            ex.printStackTrace();
-                        }
+                } else {
+                    try {
+                       m.invoke(eventMethods.get(ec).get(m), evt);
+                       //Glydar.getServer().getLogger().info("Method:" + m.getName());
+                    } catch (Exception ex) {
+                    	//Glydar.getServer().getLogger().info("ERROR: Method:" + m.getName());
+                        ex.printStackTrace();
                     }
                 }
             }
         }
+
         return evt;
     }
 

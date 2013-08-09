@@ -1,8 +1,14 @@
 package org.glydar.glydar.netty.packet.shared;
 
 import com.google.common.base.Charsets;
+
 import io.netty.buffer.ByteBuf;
+
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.event.Cancellable;
+import org.glydar.glydar.event.Event;
+import org.glydar.glydar.event.EventManager;
+import org.glydar.glydar.event.events.ChatEvent;
 import org.glydar.glydar.models.Entity;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -14,6 +20,7 @@ public class Packet10Chat extends CubeWorldPacket {
     String message;
 	Entity sender;
     long senderID;
+    boolean cancelled;
 
 	//DO NOT EVER TURN ON RECEIVING CACHING. THE SIGNATURES DIFFER!!!
 
@@ -56,7 +63,20 @@ public class Packet10Chat extends CubeWorldPacket {
     @Override
     public void receivedFrom(Player ply) {
 		sender = ply;
-		new Packet10Chat(message, ply).sendToAll();
-        Glydar.getServer().getLogger().info("(Chat) <"+ply.getEntityData().getName()+"> "+message);
+		manageEvent(ply);
+		if (!cancelled){
+			new Packet10Chat(message, ply).sendToAll();
+	        Glydar.getServer().getLogger().info("(Chat) <"+ply.getEntityData().getName()+"> "+message);
+		}
+    }
+    
+    public void manageEvent(Player ply){
+    	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
+    	message = event.getMessage();
+    	if (event instanceof Cancellable){
+    		if (event.isCancelled()){
+    			cancelled = true;
+    		}
+    	}
     }
 }

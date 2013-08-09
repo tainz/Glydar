@@ -2,11 +2,19 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.event.EventManager;
+import org.glydar.glydar.event.events.EntityHealthEvent;
+import org.glydar.glydar.event.events.EntityMoveEvent;
+import org.glydar.glydar.event.events.EntityUpdateEvent;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.data.EntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.util.Bitops;
 import org.glydar.glydar.util.ZLibOperations;
+
+import sun.security.util.BitArray;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,6 +104,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             ply.playerJoined();
         }
         ply.getEntityData().updateFrom(this.ed);
+        manageEvents(ply);
 		this.sendToAll();
     }
 
@@ -122,5 +131,23 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
                 buf.writeBytes(rawData);
            }
         }
+    }
+    
+    @SuppressWarnings("restriction")
+	public void manageEvents(Player ply){
+    	EntityUpdateEvent eue = (EntityUpdateEvent) EventManager.callEvent(new EntityUpdateEvent(ply, ed));
+    	ed = eue.getEntityData();
+    	
+    	BitArray bitArray = new BitArray(8*ed.getBitmask().length, Bitops.flipBits(ed.getBitmask()));
+    	if (bitArray.get(0)){
+    		//Move
+    		EntityUpdateEvent eme = (EntityUpdateEvent) EventManager.callEvent(new EntityMoveEvent(ply, ed));
+        	ed = eme.getEntityData();
+    	}
+    	if (bitArray.get(27)){
+    		//Health
+    		EntityUpdateEvent ehe = (EntityUpdateEvent) EventManager.callEvent(new EntityHealthEvent(ply, ed));
+        	ed = ehe.getEntityData();
+    	}
     }
 }

@@ -691,6 +691,15 @@ public class EntityData implements BaseData {
 	public void setId(long id) {
 		this.id = id;
 	}
+	
+	public byte[] getBitmask() {
+		return bitmask;
+	}
+
+	//Not sure if this is needed?
+	/*public void setBitmask(byte[] mask) {
+		this.bitmask = mask;
+	}*/
 
 	public long getPosX() {
 		return posX;

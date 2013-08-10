@@ -33,7 +33,7 @@ public class Configuration {
                         continue;
                     }
                     String[] values = line.split("=", 2);
-                    keys.put(values[0], values[1]);
+                    keys.put(values[0].trim(), values[1].trim());
                 }
                 scanner.close();
             } catch (Exception e) {
@@ -44,18 +44,18 @@ public class Configuration {
     }
     
     public String getString(String key) {
-        return keys.get(key);
+        return keys.get(key.trim()).trim();
     }
     
     public boolean contains(String key) {
-        return keys.containsKey(key);
+        return keys.containsKey(key.trim());
     }
     
     public Configuration set(String key, String value) {
-        if (key == null || value == null) {
+        if (key == null || value == null || key.equals("") || value.equals("")) {
             return this;
         } else {
-            keys.put(key, value);
+            keys.put(key.trim(), value.trim());
             return this;
         }
     }

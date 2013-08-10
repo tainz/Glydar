@@ -4,8 +4,11 @@ import org.glydar.glydar.Server;
 
 import java.io.*;
 import java.net.URLClassLoader;
+import org.glydar.glydar.command.Command;
+import org.glydar.glydar.command.CommandExecutor;
+import org.glydar.glydar.command.CommandSender;
 
-public abstract class Plugin {
+public abstract class Plugin implements CommandExecutor {
 
 	private PluginLoader loader;
 	private PluginLogger logger;
@@ -104,10 +107,15 @@ public abstract class Plugin {
 		}
 	}
 
-	protected final void initialize(Server server, PluginLoader loader, PluginLogger logger) {
-		this.server = server;
-		this.logger = logger;
-		this.loader = loader;
-	}
+        protected final void initialize(Server server, PluginLoader loader, PluginLogger logger) {
+            this.server = server;
+            this.logger = logger;
+            this.loader = loader;
+        }
+        
+        @Override
+        public CommandOutcome execute(CommandSender cs, Command cmd, String lbl, String[] args) {
+            return CommandOutcome.NOT_HANDLED;
+        }
 
 }

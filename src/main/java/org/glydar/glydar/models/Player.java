@@ -1,23 +1,21 @@
 package org.glydar.glydar.models;
 
 import io.netty.channel.ChannelHandlerContext;
-
-import org.glydar.glydar.Glydar;
-import org.glydar.glydar.netty.data.EntityData;
-import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
-import org.glydar.glydar.netty.packet.shared.Packet10Chat;
-
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import org.glydar.glydar.permissions.Permissible;
+import org.glydar.glydar.Glydar;
+import org.glydar.glydar.command.CommandSender;
+import org.glydar.glydar.netty.data.EntityData;
+import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
+import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.permissions.Permission;
 import org.glydar.glydar.permissions.PermissionAttachment;
 
-public class Player extends Entity implements BaseTarget, Permissible {
+public class Player extends Entity implements BaseTarget, CommandSender {
     private static HashMap<Long, Player> connectedPlayers = new HashMap<Long, Player>();
 
     public boolean joined = false;
@@ -150,5 +148,10 @@ public class Player extends Entity implements BaseTarget, Permissible {
     
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    @Override
+    public String getName() {
+        return this.data.getName();
     }
 }

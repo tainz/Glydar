@@ -147,4 +147,8 @@ public class Player extends Entity implements BaseTarget, Permissible {
     public boolean isAdmin() {
         return this.admin;
     }
+    
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 }

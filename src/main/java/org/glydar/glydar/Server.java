@@ -7,6 +7,8 @@ import org.glydar.glydar.util.LogFormatter;
 import java.util.Collection;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
+import org.glydar.glydar.permissions.Permission;
+import org.glydar.glydar.permissions.Permission.PermissionDefault;
 
 public class Server implements Runnable {
 
@@ -56,6 +58,18 @@ public class Server implements Runnable {
     
     public void broadcastMessage(String message) {
     	new Packet10Chat(message, 0).sendToAll();
+    }
+    
+    public void broadcast(String message, String permission) {
+        broadcast(message, new Permission(permission, PermissionDefault.TRUE));
+    }
+
+    public void broadcast(String message, Permission permission) {
+        for (Player player : this.getConnectedPlayers()) {
+            if (player.hasPermission(permission)) {
+                player.sendMessageToPlayer(message);
+            }
+        }
     }
 
 }

@@ -73,10 +73,8 @@ public class Packet10Chat extends CubeWorldPacket {
     public void manageEvent(Player ply){
     	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
     	message = event.getMessage();
-    	if (event instanceof Cancellable){
-    		if (event.isCancelled()){
+    	if (event.isCancelled()){
     			cancelled = true;
-    		}
     	}
     }
 }

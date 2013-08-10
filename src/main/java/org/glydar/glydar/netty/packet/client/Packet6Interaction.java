@@ -1,6 +1,8 @@
 package org.glydar.glydar.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
+
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.Player;
 import org.glydar.glydar.netty.data.Item;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -44,6 +46,6 @@ public class Packet6Interaction extends CubeWorldPacket {
 
     @Override
     public void receivedFrom(Player ply) {
-
+    	Glydar.getServer().getLogger().info("Packet 6 recieved!");
     }
 }

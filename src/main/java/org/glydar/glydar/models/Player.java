@@ -12,15 +12,20 @@ import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import org.glydar.glydar.permissions.Permissible;
+import org.glydar.glydar.permissions.Permission;
+import org.glydar.glydar.permissions.PermissionAttachment;
 
-public class Player extends Entity implements BaseTarget {
+public class Player extends Entity implements BaseTarget, Permissible {
     private static HashMap<Long, Player> connectedPlayers = new HashMap<Long, Player>();
 
     public boolean joined = false;
     private EntityData data;
     private ChannelHandlerContext channelCtx;
+    private boolean admin;
 
-	public void setChannelContext(ChannelHandlerContext ctx) {
+    public void setChannelContext(ChannelHandlerContext ctx) {
         this.channelCtx = ctx;
     }
 
@@ -28,32 +33,32 @@ public class Player extends Entity implements BaseTarget {
         return this.channelCtx;
     }
 
-	public void sendPacket(CubeWorldPacket packet) {
-		packet.sendTo(this);
-	}
+    public void sendPacket(CubeWorldPacket packet) {
+	packet.sendTo(this);
+    }
 
-	@Override
-	public Collection<Player> getPlayers() {
-		Collection<Player> ret = new HashSet<Player>();
-		ret.add(this);
-		return ret;
-	}
+    @Override
+    public Collection<Player> getPlayers() {
+        Collection<Player> ret = new HashSet<Player>();
+	ret.add(this);
+	return ret;
+    }
 
     public static Collection<Player> getConnectedPlayers() {
         return connectedPlayers.values();
     }
 
-	public void playerJoined() {
-		if(!connectedPlayers.containsKey(entityID)) {
-			connectedPlayers.put(entityID, this);
-            this.joined = true;
+    public void playerJoined() {
+	if(!connectedPlayers.containsKey(entityID)) {
+		connectedPlayers.put(entityID, this);
+                this.joined = true;
         }
-	}
+    }
 
-	public void playerLeft() {
-		connectedPlayers.remove(entityID);
+    public void playerLeft() {
+	connectedPlayers.remove(entityID);
         forceUpdateData();
-	}
+    }
 
     /**
      * Temporary fix to allow plugins to manipulate entityData while we fix other issues.
@@ -106,4 +111,44 @@ public class Player extends Entity implements BaseTarget {
 		sendMessageToPlayer("You have been kicked!");
 		channelCtx.disconnect();
 	}
+
+    @Override
+    public boolean hasPermission(String permission) {
+        return hasPermission(new Permission(permission, Permission.PermissionDefault.FALSE));
+    }
+
+    @Override
+    public boolean hasPermission(Permission permission) {
+        if (getAttachments() == null || getAttachments().isEmpty()) {
+            switch (permission.getPermissionDefault()) {
+                case TRUE: return true;
+                case FALSE: return false;
+                case ADMIN: return isAdmin();
+                case NON_ADMIN: return (!isAdmin());
+            }
+        }
+        for (PermissionAttachment attachment : getAttachments()) {
+            if (attachment.hasPermission(permission)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<PermissionAttachment> getAttachments() {
+        return PermissionAttachment.getAttachments(this);
+    }
+    
+    public void addAttachment(PermissionAttachment attachment) {
+        PermissionAttachment.addAttachment(attachment);
+    }
+
+    // TODO
+    public boolean isAdmin() {
+        return this.admin;
+    }
+    
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 }

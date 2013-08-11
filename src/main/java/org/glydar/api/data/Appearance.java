@@ -1,6 +1,4 @@
-package org.glydar.glydar.api.data;
-
-import org.glydar.glydar.netty.data.GVector3;
+package org.glydar.api.data;
 
 public interface Appearance {
 

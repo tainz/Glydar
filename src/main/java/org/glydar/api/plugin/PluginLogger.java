@@ -1,7 +1,6 @@
-package org.glydar.glydar.plugin;
+package org.glydar.api.plugin;
 
 import org.glydar.glydar.Glydar;
-
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;

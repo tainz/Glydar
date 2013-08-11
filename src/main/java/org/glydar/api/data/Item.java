@@ -1,6 +1,4 @@
-package org.glydar.glydar.api.data;
-
-import org.glydar.glydar.netty.data.GItemUpgrade;
+package org.glydar.api.data;
 
 public interface Item {
 

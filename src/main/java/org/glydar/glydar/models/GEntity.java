@@ -1,6 +1,6 @@
 package org.glydar.glydar.models;
 
-import org.glydar.glydar.api.models.Entity;
+import org.glydar.api.models.Entity;
 
 public class GEntity implements Entity{
 	public final long entityID;

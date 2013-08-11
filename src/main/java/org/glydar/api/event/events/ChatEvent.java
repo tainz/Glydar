@@ -1,8 +1,8 @@
-package org.glydar.glydar.event.events;
+package org.glydar.api.event.events;
 
-import org.glydar.glydar.api.models.Player;
-import org.glydar.glydar.event.Cancellable;
-import org.glydar.glydar.event.Event;
+import org.glydar.api.event.Cancellable;
+import org.glydar.api.event.Event;
+import org.glydar.api.models.Player;
 import org.glydar.glydar.models.GPlayer;
 
 public class ChatEvent extends Event implements Cancellable {

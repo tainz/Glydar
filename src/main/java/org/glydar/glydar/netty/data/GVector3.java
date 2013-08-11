@@ -1,6 +1,6 @@
 package org.glydar.glydar.netty.data;
 
-import org.glydar.glydar.api.data.Vector3;
+import org.glydar.api.data.Vector3;
 
 import io.netty.buffer.ByteBuf;
 

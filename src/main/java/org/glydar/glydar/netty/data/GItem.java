@@ -1,7 +1,7 @@
 package org.glydar.glydar.netty.data;
 
-import org.glydar.glydar.api.data.Item;
-import org.glydar.glydar.api.data.ItemUpgrade;
+import org.glydar.api.data.Item;
+import org.glydar.api.data.ItemUpgrade;
 
 import io.netty.buffer.ByteBuf;
 

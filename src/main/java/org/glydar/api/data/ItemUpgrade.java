@@ -1,4 +1,4 @@
-package org.glydar.glydar.api.data;
+package org.glydar.api.data;
 
 public interface ItemUpgrade {
 

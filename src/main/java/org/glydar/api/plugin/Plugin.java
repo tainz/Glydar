@@ -1,12 +1,12 @@
-package org.glydar.glydar.plugin;
+package org.glydar.api.plugin;
 
+import org.glydar.api.Server;
+import org.glydar.api.command.Command;
+import org.glydar.api.command.CommandExecutor;
+import org.glydar.api.command.CommandSender;
 import org.glydar.glydar.GServer;
-
 import java.io.*;
 import java.net.URLClassLoader;
-import org.glydar.glydar.command.Command;
-import org.glydar.glydar.command.CommandExecutor;
-import org.glydar.glydar.command.CommandSender;
 
 public abstract class Plugin implements CommandExecutor {
 
@@ -35,7 +35,7 @@ public abstract class Plugin implements CommandExecutor {
 		return loader;
 	}
 
-	public GServer getServer() {
+	public Server getServer() {
 		return server;
 	}
 

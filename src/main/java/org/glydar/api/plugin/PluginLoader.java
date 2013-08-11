@@ -1,4 +1,4 @@
-package org.glydar.glydar.plugin;
+package org.glydar.api.plugin;
 
 import java.io.File;
 import java.io.IOException;

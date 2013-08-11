@@ -1,4 +1,4 @@
-package org.glydar.glydar.permissions;
+package org.glydar.api.permissions;
 
 /**
  * @author YoshiGenius

@@ -1,10 +1,10 @@
-package org.glydar.glydar.api;
+package org.glydar.api;
 
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import org.glydar.api.permissions.Permission;
 import org.glydar.glydar.models.GPlayer;
-import org.glydar.glydar.permissions.Permission;
 
 public interface Server {
 

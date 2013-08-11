@@ -1,4 +1,4 @@
-package org.glydar.glydar.command;
+package org.glydar.api.command;
 
 /**
  * @author YoshiGenius

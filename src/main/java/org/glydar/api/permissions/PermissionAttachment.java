@@ -1,9 +1,10 @@
-package org.glydar.glydar.permissions;
+package org.glydar.api.permissions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.glydar.glydar.plugin.Plugin;
+
+import org.glydar.api.plugin.Plugin;
 
 /**
  * @author YoshiGenius

@@ -1,6 +1,8 @@
 package org.glydar.glydar;
 
-import org.glydar.glydar.api.Server;
+import org.glydar.api.Server;
+import org.glydar.api.permissions.Permission;
+import org.glydar.api.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
@@ -8,9 +10,6 @@ import org.glydar.glydar.util.LogFormatter;
 import java.util.Collection;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
-
-import org.glydar.glydar.permissions.Permission;
-import org.glydar.glydar.permissions.Permission.PermissionDefault;
 
 public class GServer implements Runnable, Server {
 

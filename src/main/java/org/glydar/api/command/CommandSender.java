@@ -1,6 +1,6 @@
-package org.glydar.glydar.command;
+package org.glydar.api.command;
 
-import org.glydar.glydar.permissions.Permissible;
+import org.glydar.api.permissions.Permissible;
 
 /**
  * @author YoshiGenius

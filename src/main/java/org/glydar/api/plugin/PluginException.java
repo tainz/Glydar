@@ -1,4 +1,4 @@
-package org.glydar.glydar.plugin;
+package org.glydar.api.plugin;
 
 public class PluginException extends Exception {
 

@@ -1,11 +1,11 @@
-package org.glydar.glydar.event;
+package org.glydar.api.event;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.glydar.glydar.plugin.Plugin;
+import org.glydar.api.plugin.Plugin;
 
 public class StoredListener{
     	private Plugin plugin;

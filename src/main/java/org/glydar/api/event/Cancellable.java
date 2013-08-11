@@ -1,4 +1,4 @@
-package org.glydar.glydar.event;
+package org.glydar.api.event;
 
 /**
  *

@@ -1,4 +1,4 @@
-package org.glydar.glydar.config;
+package org.glydar.api.config;
 
 import java.io.BufferedWriter;
 import java.io.File;

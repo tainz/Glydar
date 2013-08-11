@@ -3,12 +3,12 @@ package org.glydar.glydar.netty.packet.shared;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
+import org.glydar.api.data.EntityData;
+import org.glydar.api.event.EventManager;
+import org.glydar.api.event.events.EntityHealthEvent;
+import org.glydar.api.event.events.EntityMoveEvent;
+import org.glydar.api.event.events.EntityUpdateEvent;
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.api.data.EntityData;
-import org.glydar.glydar.event.EventManager;
-import org.glydar.glydar.event.events.EntityHealthEvent;
-import org.glydar.glydar.event.events.EntityMoveEvent;
-import org.glydar.glydar.event.events.EntityUpdateEvent;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -104,7 +104,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             }
             ply.playerJoined();
         }
-        ply.getEntityData().updateFrom(this.ed);
+        ((GEntityData) ply.getEntityData()).updateFrom(this.ed);
         manageEvents(ply);
 		this.sendToAll();
     }

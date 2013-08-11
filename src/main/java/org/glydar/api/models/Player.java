@@ -1,4 +1,4 @@
-package org.glydar.glydar.api.models;
+package org.glydar.api.models;
 
 import io.netty.channel.ChannelHandlerContext;
 
@@ -7,15 +7,15 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import org.glydar.api.data.EntityData;
+import org.glydar.api.permissions.Permission;
+import org.glydar.api.permissions.PermissionAttachment;
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.api.data.EntityData;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
-import org.glydar.glydar.permissions.Permission;
-import org.glydar.glydar.permissions.PermissionAttachment;
 
 public interface Player extends Entity {
 

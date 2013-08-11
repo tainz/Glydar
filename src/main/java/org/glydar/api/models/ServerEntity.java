@@ -1,4 +1,4 @@
-package org.glydar.glydar.api.models;
+package org.glydar.api.models;
 
 public interface ServerEntity extends Entity {
 

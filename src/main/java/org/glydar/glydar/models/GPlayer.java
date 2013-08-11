@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+import org.glydar.api.command.CommandSender;
+import org.glydar.api.data.EntityData;
+import org.glydar.api.models.Player;
+import org.glydar.api.permissions.Permission;
+import org.glydar.api.permissions.PermissionAttachment;
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.api.data.EntityData;
-import org.glydar.glydar.api.models.Player;
-import org.glydar.glydar.command.CommandSender;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
-import org.glydar.glydar.permissions.Permission;
-import org.glydar.glydar.permissions.PermissionAttachment;
 
 public class GPlayer extends GEntity implements BaseTarget, CommandSender, Player {
     private static HashMap<Long, GPlayer> connectedPlayers = new HashMap<Long, GPlayer>();

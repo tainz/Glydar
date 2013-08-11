@@ -8,8 +8,8 @@ import org.glydar.glydar.event.EventManager;
 import org.glydar.glydar.event.events.EntityHealthEvent;
 import org.glydar.glydar.event.events.EntityMoveEvent;
 import org.glydar.glydar.event.events.EntityUpdateEvent;
-import org.glydar.glydar.models.Player;
-import org.glydar.glydar.netty.data.EntityData;
+import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.util.Bitops;
 import org.glydar.glydar.util.ZLibOperations;
@@ -24,19 +24,19 @@ import java.util.Random;
 @CubeWorldPacket.Packet(id = 0, variableLength = true)
 public class Packet0EntityUpdate extends CubeWorldPacket {
 	 byte[] rawData;
-     EntityData ed;
+     GEntityData ed;
      boolean sendEntityData = false;
 
 
     public Packet0EntityUpdate() {
-        ed = new EntityData();
+        ed = new GEntityData();
     }
 
     public Packet0EntityUpdate(byte[] rawData) {
         this.rawData = rawData;
     }
 
-    public Packet0EntityUpdate(EntityData e) {
+    public Packet0EntityUpdate(GEntityData e) {
         this.ed = e;
         sendEntityData = true;
     }
@@ -89,12 +89,12 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     }
 
     @Override
-    public void receivedFrom(Player ply) {
+    public void receivedFrom(GPlayer ply) {
         if(!ply.joined) {
             ply.setEntityData(this.ed);
             Glydar.getServer().getLogger().info("Player " + ply.getEntityData().getName() + " joined with entity ID " + ply.getEntityData().getId() + "! (Internal ID " + ply.entityID + ")");
             //TODO Send all current entity data and NOT just existing players
-            for (Player p : Player.getConnectedPlayers()) {
+            for (GPlayer p : GPlayer.getConnectedPlayers()) {
                 if(p.entityID == ply.entityID) {
                     Glydar.getServer().getLogger().warning("I found myself! o.o");
                     continue;
@@ -134,20 +134,20 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     }
     
     @SuppressWarnings("restriction")
-	public void manageEvents(Player ply){
+	public void manageEvents(GPlayer ply){
     	EntityUpdateEvent eue = (EntityUpdateEvent) EventManager.callEvent(new EntityUpdateEvent(ply, ed));
-    	ed = eue.getEntityData();
+    	ed = (GEntityData) eue.getEntityData();
     	
     	BitArray bitArray = new BitArray(8*ed.getBitmask().length, Bitops.flipBits(ed.getBitmask()));
     	if (bitArray.get(0)){
     		//Move
     		EntityUpdateEvent eme = (EntityUpdateEvent) EventManager.callEvent(new EntityMoveEvent(ply, ed));
-        	ed = eme.getEntityData();
+        	ed = (GEntityData) eme.getEntityData();
     	}
     	if (bitArray.get(27)){
     		//Health
     		EntityUpdateEvent ehe = (EntityUpdateEvent) EventManager.callEvent(new EntityHealthEvent(ply, ed));
-        	ed = ehe.getEntityData();
+        	ed = (GEntityData) ehe.getEntityData();
     	}
     }
 }

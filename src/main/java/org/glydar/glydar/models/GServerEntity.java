@@ -1,9 +1,9 @@
 package org.glydar.glydar.models;
 
-public class ServerEntity extends Entity {
-	public static final ServerEntity INSTANCE = new ServerEntity();
+public class GServerEntity extends GEntity {
+	public static final GServerEntity INSTANCE = new GServerEntity();
 
-	private ServerEntity() {
+	private GServerEntity() {
 		super(0);
 	}
 }

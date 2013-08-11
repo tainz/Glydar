@@ -3,7 +3,7 @@ package org.glydar.glydar.netty;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.Attribute;
-import org.glydar.glydar.models.Player;
+import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 import java.io.IOException;
@@ -11,10 +11,10 @@ import java.io.IOException;
 public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorldPacket> {
 	@Override
 	protected void messageReceived(ChannelHandlerContext channelHandlerContext, CubeWorldPacket cubeWorldPacket) throws Exception {
-		Attribute<Player> playerAttrib = channelHandlerContext.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY);
-		Player player = playerAttrib.get();
+		Attribute<GPlayer> playerAttrib = channelHandlerContext.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY);
+		GPlayer player = playerAttrib.get();
 		if(player == null) {
-			player = new Player();
+			player = new GPlayer();
             player.setChannelContext(channelHandlerContext);
 			playerAttrib.set(player);
 		}
@@ -28,7 +28,7 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		if (cause instanceof IOException) {
-			Player player = ctx.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY).get();
+			GPlayer player = ctx.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY).get();
 
 			if (player != null) {
 				System.out.println("Player " + player.entityID + " has disconnected!");

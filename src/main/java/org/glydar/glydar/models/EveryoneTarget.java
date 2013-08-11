@@ -8,7 +8,7 @@ public class EveryoneTarget implements BaseTarget {
 	private EveryoneTarget() { }
 
 	@Override
-	public Collection<Player> getPlayers() {
-		return Player.getConnectedPlayers();
+	public Collection<GPlayer> getPlayers() {
+		return GPlayer.getConnectedPlayers();
 	}
 }

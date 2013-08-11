@@ -1,8 +1,10 @@
 package org.glydar.glydar.netty.data;
 
+import org.glydar.glydar.api.data.Vector3;
+
 import io.netty.buffer.ByteBuf;
 
-public class Vector3 implements BaseData {
+public class GVector3 implements Vector3, BaseData {
     public float x;
     public float y;
     public float z;
@@ -20,4 +22,30 @@ public class Vector3 implements BaseData {
         buf.writeFloat(y);
         buf.writeFloat(z);
     }
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public float getZ() {
+		return z;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	@Override
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	@Override
+	public void setZ(float z) {
+		this.z = z;
+	}
 }

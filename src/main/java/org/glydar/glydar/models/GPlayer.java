@@ -1,25 +1,28 @@
 package org.glydar.glydar.models;
 
 import io.netty.channel.ChannelHandlerContext;
+
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.api.models.Player;
 import org.glydar.glydar.command.CommandSender;
-import org.glydar.glydar.netty.data.EntityData;
+import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.permissions.Permission;
 import org.glydar.glydar.permissions.PermissionAttachment;
 
-public class Player extends Entity implements BaseTarget, CommandSender {
-    private static HashMap<Long, Player> connectedPlayers = new HashMap<Long, Player>();
+public class GPlayer extends GEntity implements BaseTarget, CommandSender, Player {
+    private static HashMap<Long, GPlayer> connectedPlayers = new HashMap<Long, GPlayer>();
 
     public boolean joined = false;
-    private EntityData data;
+    private GEntityData data;
     private ChannelHandlerContext channelCtx;
     private boolean admin;
 
@@ -36,13 +39,13 @@ public class Player extends Entity implements BaseTarget, CommandSender {
     }
 
     @Override
-    public Collection<Player> getPlayers() {
-        Collection<Player> ret = new HashSet<Player>();
+    public Collection<GPlayer> getPlayers() {
+        Collection<GPlayer> ret = new HashSet<GPlayer>();
 	ret.add(this);
 	return ret;
     }
 
-    public static Collection<Player> getConnectedPlayers() {
+    public static Collection<GPlayer> getConnectedPlayers() {
         return connectedPlayers.values();
     }
 
@@ -66,12 +69,12 @@ public class Player extends Entity implements BaseTarget, CommandSender {
         new Packet0EntityUpdate(this.data).sendToAll();
     }
     
-    public void forceUpdateData(EntityData ed){
+    public void forceUpdateData(GEntityData ed){
     	this.data = ed;
     	new Packet0EntityUpdate(this.data).sendToAll();
     }
 
-    public static Player getPlayerByEntityID(long id) {
+    public static GPlayer getPlayerByEntityID(long id) {
         if(connectedPlayers.containsKey(id))
             return connectedPlayers.get(id);
         else
@@ -81,14 +84,14 @@ public class Player extends Entity implements BaseTarget, CommandSender {
         }
     }
     
-    public EntityData getEntityData(){
+    public GEntityData getEntityData(){
     	if (data == null){
-    		data = new EntityData();
+    		data = new GEntityData();
     	}
     	return data;
     }
 
-	public void setEntityData(EntityData ed) {
+	public void setEntityData(GEntityData ed) {
 		this.data = ed;
 	}
 	

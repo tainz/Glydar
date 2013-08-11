@@ -6,6 +6,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.api.data.Appearance;
+import org.glydar.glydar.api.data.EntityData;
+import org.glydar.glydar.api.data.Item;
+import org.glydar.glydar.api.data.Vector3;
 import org.glydar.glydar.util.Bitops;
 
 import sun.security.util.BitArray;
@@ -14,7 +18,7 @@ import java.nio.ByteOrder;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
 
-public class EntityData implements BaseData {
+public class GEntityData implements BaseData, EntityData {
 
 	private long id;
 	private byte[] bitmask = new byte[8];
@@ -27,11 +31,11 @@ public class EntityData implements BaseData {
 	private float pitch;
 	private float yaw;
 
-	private Vector3 velocity;
+	private GVector3 velocity;
 
-	private Vector3 accel;
+	private GVector3 accel;
 
-	private Vector3 extraVel;
+	private GVector3 extraVel;
 
 	private float lookPitch;
 	private long physicsFlags; //Uint
@@ -41,7 +45,7 @@ public class EntityData implements BaseData {
 	private long lastShootTime; //Uint
 	private long hitCounter; //Uint
 	private long lastHitTime; //Uint
-	private Appearance app;
+	private GAppearance app;
 	private byte flags1;
 	private byte flags2;
 	private long rollTime; //Uint
@@ -54,7 +58,7 @@ public class EntityData implements BaseData {
 	private byte specialization;
 	private float chargedMP;
 
-	private Vector3 rayHit;
+	private GVector3 rayHit;
 
 	private float HP;
 	private float MP;
@@ -67,8 +71,8 @@ public class EntityData implements BaseData {
 	private float resistanceMultiplier;
 	private long level;  //Uint
 	private long currentXP; //Uint
-	private Item itemData;
-	private Item[] equipment;
+	private GItem itemData;
+	private GItem[] equipment;
 
 	private long iceBlockFour; //Uint
 	private long[] skills;
@@ -103,17 +107,17 @@ public class EntityData implements BaseData {
 
 	private int debugCap;
 
-    public EntityData() {
+    public GEntityData() {
         bitmask = new byte[8];
-        velocity = new Vector3();
-        accel = new Vector3();
-        extraVel = new Vector3();
-        rayHit = new Vector3();
-        app = new Appearance();
-        itemData = new Item();
-        equipment = new Item[13];
+        velocity = new GVector3();
+        accel = new GVector3();
+        extraVel = new GVector3();
+        rayHit = new GVector3();
+        app = new GAppearance();
+        itemData = new GItem();
+        equipment = new GItem[13];
         for(int i = 0; i < 13; i++)
-            equipment[i] = new Item();
+            equipment[i] = new GItem();
 
         skills = new long[11];
 
@@ -285,7 +289,7 @@ public class EntityData implements BaseData {
         if(bitArray.get(44)) {
             for (int i = 0; i < 13; i++)
             {
-                Item item = new Item();
+                GItem item = new GItem();
                 item.decode(buf);
                 equipment[i] = item;
             }
@@ -475,7 +479,7 @@ public class EntityData implements BaseData {
         if(bitArray.get(44)) {
             for (int i = 0; i < 13; i++)
             {
-                Item item = equipment[i];
+                GItem item = equipment[i];
                 item.encode(buf);
             }
         }
@@ -506,7 +510,7 @@ public class EntityData implements BaseData {
      * @param changes Bitmasked EntityData with changes.
      */
     @SuppressWarnings("restriction")
-    public void updateFrom(EntityData changes) {
+    public void updateFrom(GEntityData changes) {
         if(changes.id != this.id)
         {
             Glydar.getServer().getLogger().warning("Tried to update entity ID "+this.id+" with changes from ID "+changes.id+"!");
@@ -696,10 +700,9 @@ public class EntityData implements BaseData {
 		return bitmask;
 	}
 
-	//Not sure if this is needed?
-	/*public void setBitmask(byte[] mask) {
+	public void setBitmask(byte[] mask) {
 		this.bitmask = mask;
-	}*/
+	}
 
 	public long getPosX() {
 		return posX;
@@ -749,28 +752,28 @@ public class EntityData implements BaseData {
 		this.yaw = yaw;
 	}
 
-	public Vector3 getVelocity() {
+	public GVector3 getVelocity() {
 		return velocity;
 	}
 
 	public void setVelocity(Vector3 velocity) {
-		this.velocity = velocity;
+		this.velocity = (GVector3) velocity;
 	}
 
-	public Vector3 getAccel() {
+	public GVector3 getAccel() {
 		return accel;
 	}
 
 	public void setAccel(Vector3 accel) {
-		this.accel = accel;
+		this.accel = (GVector3) accel;
 	}
 
-	public Vector3 getExtraVel() {
+	public GVector3 getExtraVel() {
 		return extraVel;
 	}
 
 	public void setExtraVel(Vector3 extraVel) {
-		this.extraVel = extraVel;
+		this.extraVel = (GVector3) extraVel;
 	}
 
 	public float getLookPitch() {
@@ -837,12 +840,12 @@ public class EntityData implements BaseData {
 		this.lastHitTime = lastHitTime;
 	}
 
-	public Appearance getApp() {
+	public GAppearance getApp() {
 		return app;
 	}
 
 	public void setApp(Appearance app) {
-		this.app = app;
+		this.app = (GAppearance) app;
 	}
 
 	public byte getFlags1() {
@@ -933,12 +936,12 @@ public class EntityData implements BaseData {
 		this.chargedMP = chargedMP;
 	}
 
-	public Vector3 getRayHit() {
+	public GVector3 getRayHit() {
 		return rayHit;
 	}
 
 	public void setRayHit(Vector3 rayHit) {
-		this.rayHit = rayHit;
+		this.rayHit = (GVector3) rayHit;
 	}
 
 	public float getHP() {
@@ -1021,20 +1024,20 @@ public class EntityData implements BaseData {
 		this.currentXP = currentXP;
 	}
 
-	public Item getItemData() {
+	public GItem getItemData() {
 		return itemData;
 	}
 
 	public void setItemData(Item itemData) {
-		this.itemData = itemData;
+		this.itemData = (GItem) itemData;
 	}
 
-	public Item[] getEquipment() {
+	public GItem[] getEquipment() {
 		return equipment;
 	}
 
 	public void setEquipment(Item[] equipment) {
-		this.equipment = equipment;
+		this.equipment = (GItem[]) equipment;
 	}
 
 	public long getIceBlockFour() {

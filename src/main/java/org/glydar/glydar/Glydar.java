@@ -16,7 +16,7 @@ import java.nio.channels.Channel;
 
 public class Glydar {
 
-    private static Server s; //TODO command line arg for debug
+    private static GServer s; //TODO command line arg for debug
     private static Thread serverThread = new Thread(s);
 	private static final PluginLoader loader = new PluginLoader();
     private static ChannelFuture chan;
@@ -35,7 +35,7 @@ public class Glydar {
                    serverDebug = true;
             }
         }
-        s = new Server(serverDebug);
+        s = new GServer(serverDebug);
 		serverBootstrap = new ServerBootstrap();
 		serverBootstrap.childHandler(new CubeWorldServerInitializer());
 		serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
@@ -63,7 +63,7 @@ public class Glydar {
         serverThread.start();
 	}
 
-    public static Server getServer() {
+    public static GServer getServer() {
         return s;
     }
 

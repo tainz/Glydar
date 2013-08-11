@@ -1,16 +1,18 @@
 package org.glydar.glydar;
 
-import org.glydar.glydar.models.Player;
+import org.glydar.glydar.api.Server;
+import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
 
 import java.util.Collection;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
+
 import org.glydar.glydar.permissions.Permission;
 import org.glydar.glydar.permissions.Permission.PermissionDefault;
 
-public class Server implements Runnable {
+public class GServer implements Runnable, Server {
 
 	private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
 
@@ -18,7 +20,7 @@ public class Server implements Runnable {
 
     public final boolean DEBUG;
 
-    public Server(boolean debug) {
+    public GServer(boolean debug) {
         this.DEBUG = debug;
 	    LOGGER.setUseParentHandlers(false);
 	    LogFormatter format = new LogFormatter();
@@ -27,8 +29,8 @@ public class Server implements Runnable {
 	    LOGGER.addHandler(console);
     }
 
-    public Collection<Player> getConnectedPlayers() {
-        return Player.getConnectedPlayers();
+    public Collection<GPlayer> getConnectedPlayers() {
+        return GPlayer.getConnectedPlayers();
     }
 
 	public Logger getLogger() {
@@ -65,7 +67,7 @@ public class Server implements Runnable {
     }
 
     public void broadcast(String message, Permission permission) {
-        for (Player player : this.getConnectedPlayers()) {
+        for (GPlayer player : this.getConnectedPlayers()) {
             if (player.hasPermission(permission)) {
                 player.sendMessageToPlayer(message);
             }

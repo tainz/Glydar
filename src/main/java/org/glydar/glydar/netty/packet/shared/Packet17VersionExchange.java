@@ -2,8 +2,8 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.models.Player;
-import org.glydar.glydar.models.ServerEntity;
+import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.models.GServerEntity;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.server.Packet15Seed;
 import org.glydar.glydar.netty.packet.server.Packet16Join;
@@ -26,7 +26,7 @@ public class Packet17VersionExchange extends CubeWorldPacket {
 	}
 
 	@Override
-	public void receivedFrom(Player ply) {
+	public void receivedFrom(GPlayer ply) {
 		Glydar.getServer().getLogger().info("Client from " + ply.getChannelContext().channel().remoteAddress() + " says hi! Version " + version + " ent id " + ply.entityID);
 
 		ply.sendPacket(new Packet16Join(ply.entityID));

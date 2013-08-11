@@ -1,6 +1,6 @@
 package org.glydar.glydar.plugin;
 
-import org.glydar.glydar.Server;
+import org.glydar.glydar.GServer;
 
 import java.io.*;
 import java.net.URLClassLoader;
@@ -12,7 +12,7 @@ public abstract class Plugin implements CommandExecutor {
 
 	private PluginLoader loader;
 	private PluginLogger logger;
-	private Server server;
+	private GServer server;
 	private boolean enabled = false;
 
 	public void onEnable() {}
@@ -35,7 +35,7 @@ public abstract class Plugin implements CommandExecutor {
 		return loader;
 	}
 
-	public Server getServer() {
+	public GServer getServer() {
 		return server;
 	}
 
@@ -107,7 +107,7 @@ public abstract class Plugin implements CommandExecutor {
 		}
 	}
 
-        protected final void initialize(Server server, PluginLoader loader, PluginLogger logger) {
+        protected final void initialize(GServer server, PluginLoader loader, PluginLogger logger) {
             this.server = server;
             this.logger = logger;
             this.loader = loader;

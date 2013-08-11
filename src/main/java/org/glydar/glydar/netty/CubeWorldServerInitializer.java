@@ -4,10 +4,10 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.util.AttributeKey;
-import org.glydar.glydar.models.Player;
+import org.glydar.glydar.models.GPlayer;
 
 public class CubeWorldServerInitializer extends ChannelInitializer<SocketChannel> {
-	public static final AttributeKey<Player> PLAYER_ATTRIBUTE_KEY = new AttributeKey<Player>("player");
+	public static final AttributeKey<GPlayer> PLAYER_ATTRIBUTE_KEY = new AttributeKey<GPlayer>("player");
 
 	@Override
 	protected void initChannel(SocketChannel socketChannel) throws Exception {

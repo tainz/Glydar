@@ -1,13 +1,15 @@
 package org.glydar.glydar.models;
 
-public class Entity {
+import org.glydar.glydar.api.models.Entity;
+
+public class GEntity implements Entity{
 	public final long entityID;
 
-	public Entity() {
-		entityID = Entity.getNewEntityID();
+	public GEntity() {
+		entityID = GEntity.getNewEntityID();
 	}
 
-	protected Entity(int forceID) {
+	protected GEntity(int forceID) {
 		entityID = forceID;
 	}
 
@@ -21,7 +23,7 @@ public class Entity {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		Entity entity = (Entity) o;
+		GEntity entity = (GEntity) o;
 
 		if (entityID != entity.entityID) return false;
 

@@ -9,8 +9,8 @@ import org.glydar.glydar.event.Cancellable;
 import org.glydar.glydar.event.Event;
 import org.glydar.glydar.event.EventManager;
 import org.glydar.glydar.event.events.ChatEvent;
-import org.glydar.glydar.models.Entity;
-import org.glydar.glydar.models.Player;
+import org.glydar.glydar.models.GEntity;
+import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 10, variableLength = true)
@@ -18,7 +18,7 @@ public class Packet10Chat extends CubeWorldPacket {
     int length;
     byte[] messageBytes;
     String message;
-	Entity sender;
+	GEntity sender;
     long senderID;
     boolean cancelled;
 
@@ -28,7 +28,7 @@ public class Packet10Chat extends CubeWorldPacket {
 
     }
 
-	public Packet10Chat(String message, Entity sender) {
+	public Packet10Chat(String message, GEntity sender) {
 		this.sender = sender;
         this.senderID = sender.entityID;
 		this.message = message;
@@ -61,7 +61,7 @@ public class Packet10Chat extends CubeWorldPacket {
 	}
 
     @Override
-    public void receivedFrom(Player ply) {
+    public void receivedFrom(GPlayer ply) {
 		sender = ply;
 		manageEvent(ply);
 		if (!cancelled){
@@ -70,7 +70,7 @@ public class Packet10Chat extends CubeWorldPacket {
 		}
     }
     
-    public void manageEvent(Player ply){
+    public void manageEvent(GPlayer ply){
     	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
     	message = event.getMessage();
     	if (event.isCancelled()){

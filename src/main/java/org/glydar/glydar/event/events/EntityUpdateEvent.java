@@ -1,8 +1,10 @@
 package org.glydar.glydar.event.events;
 
+import org.glydar.glydar.api.data.EntityData;
+import org.glydar.glydar.api.models.Player;
 import org.glydar.glydar.event.Event;
-import org.glydar.glydar.models.Player;
-import org.glydar.glydar.netty.data.EntityData;
+import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.netty.data.GEntityData;
 
 public class EntityUpdateEvent extends Event {
 

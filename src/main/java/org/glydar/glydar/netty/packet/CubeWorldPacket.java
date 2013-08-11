@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.SlicedByteBuf;
 import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
-import org.glydar.glydar.models.Player;
+import org.glydar.glydar.models.GPlayer;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
@@ -68,7 +68,7 @@ public abstract class CubeWorldPacket {
         throw new IllegalAccessError("Packet cannot be decoded");
     }
 
-    public void receivedFrom(Player ply) {
+    public void receivedFrom(GPlayer ply) {
         throw new IllegalAccessError("Packet cannot be received");
     }
 
@@ -76,18 +76,18 @@ public abstract class CubeWorldPacket {
         throw new IllegalAccessError("Packet cannot be encoded");
     }
 
-	public void sendTo(Player ply) {
+	public void sendTo(GPlayer ply) {
 		bufCache = null;
 		_sendTo(ply);
 	}
 
-    private void _sendTo(Player ply) {
+    private void _sendTo(GPlayer ply) {
 		ply.getChannelContext().write(this);
     }
 
     public void sendTo(BaseTarget target) {
 		bufCache = null;
-        for (Player ply : target.getPlayers()) {
+        for (GPlayer ply : target.getPlayers()) {
             _sendTo(ply);
         }
     }

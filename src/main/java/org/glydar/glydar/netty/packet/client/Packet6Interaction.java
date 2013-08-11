@@ -3,14 +3,14 @@ package org.glydar.glydar.netty.packet.client;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.models.Player;
-import org.glydar.glydar.netty.data.Item;
+import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.netty.data.GItem;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 6)
 public class Packet6Interaction extends CubeWorldPacket {
 
-    Item item;
+    GItem item;
     int chunkX, chunkY;
     int itemIndex; //Index of item in ChunkItems
     long something4; //uint
@@ -20,7 +20,7 @@ public class Packet6Interaction extends CubeWorldPacket {
 
 	@Override
 	protected void internalDecode(ByteBuf buf) {
-		item = new Item();
+		item = new GItem();
         item.decode(buf);
         chunkX = buf.readInt();
         chunkY = buf.readInt();
@@ -45,7 +45,7 @@ public class Packet6Interaction extends CubeWorldPacket {
     }
 
     @Override
-    public void receivedFrom(Player ply) {
+    public void receivedFrom(GPlayer ply) {
     	Glydar.getServer().getLogger().info("Packet 6 recieved!");
     }
 }

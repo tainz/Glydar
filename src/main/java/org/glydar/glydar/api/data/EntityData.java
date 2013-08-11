@@ -1,6 +1,7 @@
 package org.glydar.glydar.api.data;
 
 import org.glydar.glydar.netty.data.GAppearance;
+import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.data.GItem;
 import org.glydar.glydar.netty.data.GVector3;
 
@@ -299,4 +300,6 @@ public interface EntityData {
 	public int getDebugCap();
 
 	public void setDebugCap(int debugCap);
+
+	public void updateFrom(EntityData ed);
 }

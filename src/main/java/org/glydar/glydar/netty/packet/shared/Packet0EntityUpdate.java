@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.api.data.EntityData;
 import org.glydar.glydar.event.EventManager;
 import org.glydar.glydar.event.events.EntityHealthEvent;
 import org.glydar.glydar.event.events.EntityMoveEvent;
@@ -36,8 +37,8 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
         this.rawData = rawData;
     }
 
-    public Packet0EntityUpdate(GEntityData e) {
-        this.ed = e;
+    public Packet0EntityUpdate(EntityData e) {
+        this.ed = (GEntityData) e;
         sendEntityData = true;
     }
 

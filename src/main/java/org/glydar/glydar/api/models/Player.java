@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.api.data.EntityData;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -26,9 +27,9 @@ public interface Player extends Entity {
     
     public void forceUpdateData(GEntityData ed);
     
-    public GEntityData getEntityData();
+    public EntityData getEntityData();
 
-	public void setEntityData(GEntityData ed);
+	public void setEntityData(EntityData ed);
 	
 	public String getIp();
 	

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.api.data.EntityData;
 import org.glydar.glydar.api.models.Player;
 import org.glydar.glydar.command.CommandSender;
 import org.glydar.glydar.netty.data.GEntityData;
@@ -84,15 +85,15 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
         }
     }
     
-    public GEntityData getEntityData(){
+    public EntityData getEntityData(){
     	if (data == null){
     		data = new GEntityData();
     	}
     	return data;
     }
 
-	public void setEntityData(GEntityData ed) {
-		this.data = ed;
+	public void setEntityData(EntityData ed) {
+		this.data = (GEntityData) ed;
 	}
 	
 	public String getIp(){

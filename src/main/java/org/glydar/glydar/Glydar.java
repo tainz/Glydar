@@ -3,9 +3,11 @@ package org.glydar.glydar;
 import io.netty.bootstrap.ChannelFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
 import org.glydar.glydar.plugin.PluginLoader;
 
@@ -36,7 +38,8 @@ public class Glydar {
         s = new Server(serverDebug);
 		serverBootstrap = new ServerBootstrap();
 		serverBootstrap.childHandler(new CubeWorldServerInitializer());
-		//serverBootstrap.option("child.tcpNoDelay", true);
+		serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
+		serverBootstrap.childOption(ChannelOption.TCP_NODELAY, true);
 		//serverBootstrap.setOption("child.keepAlive", true);
 		serverBootstrap.group(new NioEventLoopGroup());
 		serverBootstrap.channelFactory(new ChannelFactory<ServerChannel>() {

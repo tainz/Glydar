@@ -19,6 +19,7 @@ public abstract class CubeWorldPacket {
     public @interface Packet {
         int id();
         boolean variableLength() default false;
+        boolean noData() default false;
     }
 
 	protected boolean doCacheIncoming() {
@@ -31,6 +32,10 @@ public abstract class CubeWorldPacket {
 			_idCache = getClass().getAnnotation(CubeWorldPacket.Packet.class).id();
 		}
 		return _idCache;
+	}
+	
+	public boolean getNoData() {
+		return getClass().getAnnotation(CubeWorldPacket.Packet.class).noData();
 	}
 
 	private ByteBuf bufCache = null;

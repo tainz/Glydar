@@ -106,11 +106,13 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
 	
 	public void kickPlayer(String message){
 		sendMessageToPlayer(message);
+		playerLeft();
 		channelCtx.disconnect();
 	}
 	
 	public void kickPlayer(){
 		sendMessageToPlayer("You have been kicked!");
+		playerLeft();
 		channelCtx.disconnect();
 	}
 

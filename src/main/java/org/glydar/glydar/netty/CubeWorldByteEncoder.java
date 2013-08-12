@@ -13,6 +13,8 @@ public class CubeWorldByteEncoder extends MessageToByteEncoder<CubeWorldPacket> 
     protected void encode(ChannelHandlerContext ctx, CubeWorldPacket msg, ByteBuf out) throws Exception {
         out = out.order(ByteOrder.LITTLE_ENDIAN);
         out.writeInt(msg.getID());
-        msg.encode(out);
+        if (!msg.getNoData()){
+        	msg.encode(out);
+        }
     }
 }

@@ -47,7 +47,7 @@ public class Packet13MissionData extends CubeWorldPacket {
 		buf.writeLong(questLevel);
 		buf.writeShort(something8);
 		buf.writeShort(something9);
-		buf.skipBytes(2);
+		buf.writeBytes(new byte[2]);
 		buf.writeFloat(something10);
 		buf.writeFloat(something11);
 		buf.writeLong(chunkX);

@@ -12,6 +12,7 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.netty.packet.server.Packet2UpdateFinished;
 import org.glydar.glydar.util.Bitops;
 import org.glydar.glydar.util.ZLibOperations;
 
@@ -104,9 +105,10 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             }
             ply.playerJoined();
         }
-        ((GEntityData) ply.getEntityData()).updateFrom(this.ed);
         manageEvents(ply);
+        ((GEntityData) ply.getEntityData()).updateFrom(this.ed);
 		this.sendToAll();
+		new Packet2UpdateFinished().sendToAll();
     }
 
     @Override

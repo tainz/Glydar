@@ -77,7 +77,7 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 		buf.writeInt(chunkX);
 		buf.writeInt(chunkY);
 		buf.writeInt((int) something5);
-		buf.skipBytes(4);
+		buf.writeBytes(new byte[4]);
 		buf.writeLong(posX);
 		buf.writeLong(posY);
 		buf.writeLong(posZ);
@@ -93,10 +93,10 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 		buf.writeFloat(something22);
 		buf.writeInt((int) something23);
 		buf.writeByte(something24);
-		buf.skipBytes(3);
+		buf.writeBytes(new byte[3]);
 		buf.writeInt((int) something25);
 		buf.writeByte(something26);
-		buf.skipBytes(3);
+		buf.writeBytes(new byte[3]);
 		buf.writeInt((int) something27);
 		buf.writeInt((int) something28);
 	}

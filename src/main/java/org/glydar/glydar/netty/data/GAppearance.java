@@ -18,15 +18,15 @@ public class GAppearance implements BaseData, Appearance {
     float headScale, hairScale, handScale, footScale, bodyScale, backScale, unknown, wingScale;
     float bodyPitch, armPitch, armRoll, armYaw;
     float feetPitch, wingPitch, backPitch;
-    GVector3 bodyOffset, headOffset, handOffset, footOffset, backOffset, wingOffset;
+    GVector3<Float> bodyOffset, headOffset, handOffset, footOffset, backOffset, wingOffset;
 
     public GAppearance() {
-        bodyOffset = new GVector3();
-        headOffset = new GVector3();
-        handOffset = new GVector3();
-        footOffset = new GVector3();
-        backOffset = new GVector3();
-        wingOffset = new GVector3();
+        bodyOffset = new GVector3<Float>(new Float(null));
+        headOffset = new GVector3<Float>(new Float(null));
+        handOffset = new GVector3<Float>(new Float(null));
+        footOffset = new GVector3<Float>(new Float(null));
+        backOffset = new GVector3<Float>(new Float(null));
+        wingOffset = new GVector3<Float>(new Float(null));
     }
 
     @Override
@@ -65,11 +65,17 @@ public class GAppearance implements BaseData, Appearance {
         feetPitch = buf.readFloat();
         wingPitch = buf.readFloat();
         backPitch = buf.readFloat();
+        bodyOffset = new GVector3<Float>(new Float(null));
         bodyOffset.decode(buf);
+        headOffset = new GVector3<Float>(new Float(null));
         headOffset.decode(buf);
+        handOffset = new GVector3<Float>(new Float(null));
         handOffset.decode(buf);
+        footOffset = new GVector3<Float>(new Float(null));
         footOffset.decode(buf);
+        backOffset = new GVector3<Float>(new Float(null));
         backOffset.decode(buf);
+        wingOffset = new GVector3<Float>(new Float(null));
         wingOffset.decode(buf);
 
     }
@@ -382,7 +388,7 @@ public class GAppearance implements BaseData, Appearance {
 		this.backPitch = backPitch;
 	}
 
-	public GVector3 getBodyOffset() {
+	public GVector3<Float> getBodyOffset() {
 		return bodyOffset;
 	}
 

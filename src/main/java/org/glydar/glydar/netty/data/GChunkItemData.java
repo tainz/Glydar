@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 public class GChunkItemData implements BaseData {
 
 	GItem item;
-	GVector3 position;
+	GVector3<Long> position;
 	float rotation;
 	float scale;
 	byte unknown1;
@@ -17,7 +17,7 @@ public class GChunkItemData implements BaseData {
 	public void decode(ByteBuf buf) {
 		item = new GItem();
 		item.decode(buf);
-		position = new GVector3();
+		position = new GVector3<Long>(new Long(null));
 		position.decode(buf);
 		rotation = buf.readFloat();
 		scale = buf.readFloat();

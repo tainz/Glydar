@@ -1,16 +1,16 @@
 package org.glydar.api.data;
 
-public interface Vector3 {
+public interface Vector3<Type> {
 
-	public float getX();
+	public Type getX();
 	
-	public float getY();
+	public Type getY();
 	
-	public float getZ();
+	public Type getZ();
 	
-	public void setX(float x);
+	public void setX(Type x);
 	
-	public void setY(float y);
+	public void setY(Type y);
 	
-	public void setZ(float z);
+	public void setZ(Type z);
 }

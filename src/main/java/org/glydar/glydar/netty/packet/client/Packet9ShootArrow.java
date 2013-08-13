@@ -1,6 +1,8 @@
 package org.glydar.glydar.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
+
+import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 9)
@@ -12,17 +14,13 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 
     long something5; //Unsigned Int!
 
-    long posX;
-    long posY;
-    long posZ;
+    GVector3<Long> position;
 
     long something13; //uint
     long something14; //uint
     long something15; //uint
 
-    float velX;
-    float velY;
-    float velZ;
+    GVector3<Float> velocity;
 
     float something19; // rand() ??
     float something20;
@@ -45,17 +43,15 @@ public class Packet9ShootArrow extends CubeWorldPacket {
         something5 = buf.readUnsignedInt();
         buf.readBytes(4); //Padding
 
-        posX = buf.readLong();
-        posY = buf.readLong();
-        posZ = buf.readLong();
+        position = new GVector3<Long>(new Long(null));
+        position.decode(buf);
 
         something13 = buf.readUnsignedInt();
         something14 = buf.readUnsignedInt();
         something15 = buf.readUnsignedInt();
 
-        velX = buf.readFloat();
-        velY = buf.readFloat();
-        velZ = buf.readFloat();
+        velocity = new GVector3<Float>(new Float(null));
+        velocity.decode(buf);
 
         something19 = buf.readFloat();
         something20 = buf.readFloat();
@@ -78,15 +74,11 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 		buf.writeInt(chunkY);
 		buf.writeInt((int) something5);
 		buf.writeBytes(new byte[4]);
-		buf.writeLong(posX);
-		buf.writeLong(posY);
-		buf.writeLong(posZ);
+		position.encode(buf);
 		buf.writeInt((int) something13);
 		buf.writeInt((int) something14);
 		buf.writeInt((int) something15);
-		buf.writeFloat(velX);
-		buf.writeFloat(velY);
-		buf.writeFloat(velZ);
+		velocity.encode(buf);
 		buf.writeFloat(something19);
 		buf.writeFloat(something20);
 		buf.writeFloat(something21);

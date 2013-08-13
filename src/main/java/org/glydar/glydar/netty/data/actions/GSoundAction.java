@@ -7,14 +7,14 @@ import io.netty.buffer.ByteBuf;
 
 public class GSoundAction implements BaseData{
 
-	GVector3 position;
+	GVector3<Float> position;
 	int soundType;
 	float pitch;
 	float volume;
 	
 	@Override
 	public void decode(ByteBuf buf) {
-		position = new GVector3();
+		position = new GVector3<Float>(new Float(null));
 		position.decode(buf);
 		soundType = buf.readInt();
 		pitch = buf.readFloat();

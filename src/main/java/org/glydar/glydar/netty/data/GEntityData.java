@@ -31,11 +31,11 @@ public class GEntityData implements BaseData, EntityData {
 	private float pitch;
 	private float yaw;
 
-	private GVector3 velocity;
+	private GVector3<Float> velocity;
 
-	private GVector3 accel;
+	private GVector3<Float> accel;
 
-	private GVector3 extraVel;
+	private GVector3<Float> extraVel;
 
 	private float lookPitch;
 	private long physicsFlags; //Uint
@@ -58,7 +58,7 @@ public class GEntityData implements BaseData, EntityData {
 	private byte specialization;
 	private float chargedMP;
 
-	private GVector3 rayHit;
+	private GVector3<Float> rayHit;
 
 	private float HP;
 	private float MP;
@@ -109,10 +109,10 @@ public class GEntityData implements BaseData, EntityData {
 
     public GEntityData() {
         bitmask = new byte[8];
-        velocity = new GVector3();
-        accel = new GVector3();
-        extraVel = new GVector3();
-        rayHit = new GVector3();
+        velocity = new GVector3<Float>(new Float(null));
+        accel = new GVector3<Float>(new Float(null));
+        extraVel = new GVector3<Float>(new Float(null));
+        rayHit = new GVector3<Float>(new Float(null));
         app = new GAppearance();
         itemData = new GItem();
         equipment = new GItem[13];
@@ -142,12 +142,15 @@ public class GEntityData implements BaseData, EntityData {
             yaw = buf.readFloat();
         }
         if(bitArray.get(2)) {
+        	velocity = new GVector3<Float>(new Float(null));
             velocity.decode(buf);
         }
         if(bitArray.get(3)) {
+        	accel = new GVector3<Float>(new Float(null));
             accel.decode(buf);
         }
         if(bitArray.get(4)) {
+        	extraVel = new GVector3<Float>(new Float(null));
             extraVel.decode(buf);
         }
         if(bitArray.get(5)) {
@@ -219,6 +222,7 @@ public class GEntityData implements BaseData, EntityData {
             nu6 = buf.readUnsignedInt();
         }
         if(bitArray.get(26)) {
+        	rayHit = new GVector3<Float>(new Float(null));
             rayHit.decode(buf);
         }
         if(bitArray.get(27)) {

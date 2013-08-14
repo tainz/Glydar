@@ -21,12 +21,12 @@ public class GAppearance implements BaseData, Appearance {
     GVector3<Float> bodyOffset, headOffset, handOffset, footOffset, backOffset, wingOffset;
 
     public GAppearance() {
-        bodyOffset = new GVector3<Float>(new Float(null));
-        headOffset = new GVector3<Float>(new Float(null));
-        handOffset = new GVector3<Float>(new Float(null));
-        footOffset = new GVector3<Float>(new Float(null));
-        backOffset = new GVector3<Float>(new Float(null));
-        wingOffset = new GVector3<Float>(new Float(null));
+        bodyOffset = new GVector3<Float>();
+        headOffset = new GVector3<Float>();
+        handOffset = new GVector3<Float>();
+        footOffset = new GVector3<Float>();
+        backOffset = new GVector3<Float>();
+        wingOffset = new GVector3<Float>();
     }
 
     @Override
@@ -65,18 +65,12 @@ public class GAppearance implements BaseData, Appearance {
         feetPitch = buf.readFloat();
         wingPitch = buf.readFloat();
         backPitch = buf.readFloat();
-        bodyOffset = new GVector3<Float>(new Float(null));
-        bodyOffset.decode(buf);
-        headOffset = new GVector3<Float>(new Float(null));
-        headOffset.decode(buf);
-        handOffset = new GVector3<Float>(new Float(null));
-        handOffset.decode(buf);
-        footOffset = new GVector3<Float>(new Float(null));
-        footOffset.decode(buf);
-        backOffset = new GVector3<Float>(new Float(null));
-        backOffset.decode(buf);
-        wingOffset = new GVector3<Float>(new Float(null));
-        wingOffset.decode(buf);
+        bodyOffset.decode(buf, Float.class);
+        headOffset.decode(buf, Float.class);
+        handOffset.decode(buf, Float.class);
+        footOffset.decode(buf, Float.class);
+        backOffset.decode(buf, Float.class);
+        wingOffset.decode(buf, Float.class);
 
     }
 
@@ -116,12 +110,12 @@ public class GAppearance implements BaseData, Appearance {
         buf.writeFloat(feetPitch);
         buf.writeFloat(wingPitch);
         buf.writeFloat(backPitch);
-        bodyOffset.encode(buf);
-        headOffset.encode(buf);
-        handOffset.encode(buf);
-        footOffset.encode(buf);
-        backOffset.encode(buf);
-        wingOffset.encode(buf);
+        bodyOffset.encode(buf, Float.class);
+        headOffset.encode(buf, Float.class);
+        handOffset.encode(buf, Float.class);
+        footOffset.encode(buf, Float.class);
+        backOffset.encode(buf, Float.class);
+        wingOffset.encode(buf, Float.class);
     }
 
 	public byte getNotUsed1() {

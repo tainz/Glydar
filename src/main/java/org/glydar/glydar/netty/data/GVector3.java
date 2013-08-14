@@ -4,28 +4,22 @@ import org.glydar.api.data.Vector3;
 
 import io.netty.buffer.ByteBuf;
 
-public class GVector3<T> implements Vector3<T>, BaseData {
-	public Object type;
-    public T x;
-    public T y;
-    public T z;
-
-    public GVector3 (Object type){
-    	this.type = type;
-    }
+public class GVector3<T> implements Vector3<T> {
+    private T x;
+    private T y;
+    private T z;
     
     @SuppressWarnings("unchecked")
-	@Override
-    public void decode(ByteBuf buf) {
-    	if (type instanceof Float){
+	public void decode(ByteBuf buf, Class<T> type) {
+    	if (Float.class.isAssignableFrom(type)){
     		x = (T) (Float) buf.readFloat();
             y = (T) (Float) buf.readFloat();
             z = (T) (Float) buf.readFloat();
-    	} else if (type instanceof Integer){
+    	} else if (Integer.class.isAssignableFrom(type)){
     		x = (T) (Integer) buf.readInt();
             y = (T) (Integer) buf.readInt();
             z = (T) (Integer) buf.readInt();
-    	} else if (type instanceof Long){
+    	} else if (Long.class.isAssignableFrom(type)){
     		x = (T) (Long) buf.readLong();
             y = (T) (Long) buf.readLong();
             z = (T) (Long) buf.readLong();
@@ -37,17 +31,16 @@ public class GVector3<T> implements Vector3<T>, BaseData {
         
     }
 
-    @Override
-    public void encode(ByteBuf buf) {
-    	if (type instanceof Float){
+    public void encode(ByteBuf buf, Class<T> type) {
+    	if (Float.class.isAssignableFrom(type)){
 	        buf.writeFloat((float) (Float) x);
 	        buf.writeFloat((float) (Float) y);
 	        buf.writeFloat((float) (Float) z);
-    	} else if (type instanceof Integer){
+    	} else if (Integer.class.isAssignableFrom(type)){
 	        buf.writeInt((int) (Integer) x);
 	        buf.writeInt((int) (Integer) y);
 	        buf.writeInt((int) (Integer) z);
-    	} else if (type instanceof Long){
+    	} else if (Long.class.isAssignableFrom(type)){
 	        buf.writeLong((long) (Long) x);
 	        buf.writeLong((long) (Long) y);
 	        buf.writeLong((long) (Long) z);
@@ -82,4 +75,5 @@ public class GVector3<T> implements Vector3<T>, BaseData {
 	public void setZ(T z) {
 		this.z = z;
 	}
+
 }

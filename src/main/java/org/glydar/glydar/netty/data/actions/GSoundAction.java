@@ -14,8 +14,7 @@ public class GSoundAction implements BaseData{
 	
 	@Override
 	public void decode(ByteBuf buf) {
-		position = new GVector3<Float>(new Float(null));
-		position.decode(buf);
+		position.decode(buf, Float.class);
 		soundType = buf.readInt();
 		pitch = buf.readFloat();
 		volume = buf.readFloat();
@@ -23,7 +22,7 @@ public class GSoundAction implements BaseData{
 
 	@Override
 	public void encode(ByteBuf buf) {
-		position.encode(buf);
+		position.encode(buf, Float.class);
 		buf.writeInt(soundType);
 		buf.writeFloat(pitch);
 		buf.writeFloat(volume);

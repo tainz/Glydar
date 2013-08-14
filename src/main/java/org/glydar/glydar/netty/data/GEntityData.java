@@ -109,10 +109,10 @@ public class GEntityData implements BaseData, EntityData {
 
     public GEntityData() {
         bitmask = new byte[8];
-        velocity = new GVector3<Float>(new Float(null));
-        accel = new GVector3<Float>(new Float(null));
-        extraVel = new GVector3<Float>(new Float(null));
-        rayHit = new GVector3<Float>(new Float(null));
+        velocity = new GVector3<Float>();
+        accel = new GVector3<Float>();
+        extraVel = new GVector3<Float>();
+        rayHit = new GVector3<Float>();
         app = new GAppearance();
         itemData = new GItem();
         equipment = new GItem[13];
@@ -142,16 +142,13 @@ public class GEntityData implements BaseData, EntityData {
             yaw = buf.readFloat();
         }
         if(bitArray.get(2)) {
-        	velocity = new GVector3<Float>(new Float(null));
-            velocity.decode(buf);
+            velocity.decode(buf, Float.class);
         }
         if(bitArray.get(3)) {
-        	accel = new GVector3<Float>(new Float(null));
-            accel.decode(buf);
+            accel.decode(buf, Float.class);
         }
         if(bitArray.get(4)) {
-        	extraVel = new GVector3<Float>(new Float(null));
-            extraVel.decode(buf);
+            extraVel.decode(buf, Float.class);
         }
         if(bitArray.get(5)) {
             lookPitch = buf.readFloat();
@@ -222,8 +219,7 @@ public class GEntityData implements BaseData, EntityData {
             nu6 = buf.readUnsignedInt();
         }
         if(bitArray.get(26)) {
-        	rayHit = new GVector3<Float>(new Float(null));
-            rayHit.decode(buf);
+            rayHit.decode(buf, Float.class);
         }
         if(bitArray.get(27)) {
             HP = buf.readFloat();
@@ -336,13 +332,13 @@ public class GEntityData implements BaseData, EntityData {
         	buf.writeFloat(yaw);
         }
         if(bitArray.get(2)) {
-            velocity.encode(buf);
+            velocity.encode(buf, Float.class);
         }
         if(bitArray.get(3)) {
-            accel.encode(buf);
+            accel.encode(buf, Float.class);
         }
         if(bitArray.get(4)) {
-            extraVel.encode(buf);
+            extraVel.encode(buf, Float.class);
         }
         if(bitArray.get(5)) {
             buf.writeFloat(lookPitch);
@@ -413,7 +409,7 @@ public class GEntityData implements BaseData, EntityData {
         	buf.writeInt((int) nu6);
         }
         if(bitArray.get(26)) {
-            rayHit.encode(buf);
+            rayHit.encode(buf, Float.class);
         }
         if(bitArray.get(27)) {
         	buf.writeFloat(HP);

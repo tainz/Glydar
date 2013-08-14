@@ -29,10 +29,8 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		buf.readBytes(3);
 		stunDuration = buf.readUnsignedInt();
 		unknown = buf.readUnsignedInt();
-		position = new GVector3<Long>(new Long(null));
-		position.decode(buf);
-		hitDirection = new GVector3<Float>(new Float(null));
-		hitDirection.decode(buf);
+		position.decode(buf, Long.class);
+		hitDirection.decode(buf, Float.class);
 		skillHit = buf.readByte();
 		type = buf.readByte();
 		showLight = buf.readByte();
@@ -48,8 +46,8 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		buf.writeBytes(new byte[3]);
 		buf.writeInt((int) stunDuration);
 		buf.writeInt((int) unknown);
-		position.encode(buf);
-		hitDirection.encode(buf);
+		position.encode(buf, Long.class);
+		hitDirection.encode(buf, Float.class);
 		buf.writeByte(skillHit);
 		buf.writeByte(type);
 		buf.writeByte(showLight);

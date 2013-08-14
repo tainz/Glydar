@@ -17,8 +17,7 @@ public class GChunkItemData implements BaseData {
 	public void decode(ByteBuf buf) {
 		item = new GItem();
 		item.decode(buf);
-		position = new GVector3<Long>(new Long(null));
-		position.decode(buf);
+		position.decode(buf, Long.class);
 		rotation = buf.readFloat();
 		scale = buf.readFloat();
 		unknown1 = buf.readByte();
@@ -31,7 +30,7 @@ public class GChunkItemData implements BaseData {
 	@Override
 	public void encode(ByteBuf buf) {
 		item.encode(buf);
-		position.encode(buf);
+		position.encode(buf, Long.class);
 		buf.writeFloat(rotation);
 		buf.writeFloat(scale);
 		buf.writeByte(unknown1);

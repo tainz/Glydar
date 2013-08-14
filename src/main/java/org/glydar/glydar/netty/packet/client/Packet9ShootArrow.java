@@ -43,15 +43,13 @@ public class Packet9ShootArrow extends CubeWorldPacket {
         something5 = buf.readUnsignedInt();
         buf.readBytes(4); //Padding
 
-        position = new GVector3<Long>(new Long(null));
-        position.decode(buf);
+        position.decode(buf, Long.class);
 
         something13 = buf.readUnsignedInt();
         something14 = buf.readUnsignedInt();
         something15 = buf.readUnsignedInt();
 
-        velocity = new GVector3<Float>(new Float(null));
-        velocity.decode(buf);
+        velocity.decode(buf, Float.class);
 
         something19 = buf.readFloat();
         something20 = buf.readFloat();
@@ -74,11 +72,11 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 		buf.writeInt(chunkY);
 		buf.writeInt((int) something5);
 		buf.writeBytes(new byte[4]);
-		position.encode(buf);
+		position.encode(buf, Long.class);
 		buf.writeInt((int) something13);
 		buf.writeInt((int) something14);
 		buf.writeInt((int) something15);
-		velocity.encode(buf);
+		velocity.encode(buf, Float.class);
 		buf.writeFloat(something19);
 		buf.writeFloat(something20);
 		buf.writeFloat(something21);

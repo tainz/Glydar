@@ -61,6 +61,8 @@ public class Glydar {
 
 		s.getLogger().info("Server ready on port " + port);
         serverThread.start();
+        
+        s.run();
 	}
 
     public static GServer getServer() {

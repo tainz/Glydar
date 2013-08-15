@@ -15,7 +15,7 @@ import org.glydar.glydar.util.ZLibOperations;
 
 @CubeWorldPacket.Packet(id = 4)
 public class Packet4ServerUpdate extends CubeWorldPacket {
-	GServerUpdateData sud;
+	public GServerUpdateData sud;
 	byte[] rawData;
 	
 	//Not sure if this (decoding) is needed!?

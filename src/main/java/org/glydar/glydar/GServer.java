@@ -4,6 +4,7 @@ import org.glydar.api.Server;
 import org.glydar.api.permissions.Permission;
 import org.glydar.api.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
 
@@ -18,6 +19,8 @@ public class GServer implements Runnable, Server {
     private boolean running = true;
 
     public final boolean DEBUG;
+    
+    public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
 
     public GServer(boolean debug) {
         this.DEBUG = debug;
@@ -47,6 +50,15 @@ public class GServer implements Runnable, Server {
             /* TODO Server loop / tick code.
                Eventually; All periodic events will be processed here, such as AI logic, etc for entities.
              */
+            	
+            	if (serverUpdatePacket.sud != null){
+            		getLogger().info("Server Update Sent!");
+            		serverUpdatePacket.sendToAll();
+            		serverUpdatePacket = new Packet4ServerUpdate();
+            	} //else {
+            		//getLogger().info("Update Not Sent!");
+            	//}
+            	
                 Thread.sleep(1); //To check shutdown
             } catch (InterruptedException ex) { break; }
         }

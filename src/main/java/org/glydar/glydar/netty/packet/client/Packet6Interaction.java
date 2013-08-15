@@ -18,9 +18,12 @@ public class Packet6Interaction extends CubeWorldPacket {
     byte something6;
     int something7; //ushort
 
+    public Packet6Interaction() {
+    	item = new GItem();
+    }
+    
 	@Override
 	protected void internalDecode(ByteBuf buf) {
-		item = new GItem();
         item.decode(buf);
         chunkX = buf.readInt();
         chunkY = buf.readInt();

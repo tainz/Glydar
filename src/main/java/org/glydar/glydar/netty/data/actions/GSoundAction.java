@@ -12,6 +12,10 @@ public class GSoundAction implements BaseData{
 	float pitch;
 	float volume;
 	
+	public GSoundAction() {
+		position = new GVector3<Float>();
+	}
+	
 	@Override
 	public void decode(ByteBuf buf) {
 		position.decode(buf, Float.class);

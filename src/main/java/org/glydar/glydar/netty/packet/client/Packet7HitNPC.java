@@ -3,6 +3,9 @@ package org.glydar.glydar.netty.packet.client;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.api.data.Vector3;
+import org.glydar.glydar.Glydar;
+import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
@@ -20,8 +23,13 @@ public class Packet7HitNPC extends CubeWorldPacket {
 	byte type;
 	byte showLight;
 
+	public Packet7HitNPC() {
+		position = new GVector3<Long>();
+		hitDirection = new GVector3<Float>();
+	}
+	
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void internalDecode(ByteBuf buf) {
 		id = buf.readLong();
 		targetId = buf.readLong();
 		damage = buf.readFloat();
@@ -38,7 +46,7 @@ public class Packet7HitNPC extends CubeWorldPacket {
 	}
 	
 	@Override
-	protected void internalEncode(ByteBuf buf) {
+	public void internalEncode(ByteBuf buf) {
 		buf.writeLong(id);
 		buf.writeLong(targetId);
 		buf.writeFloat(damage);
@@ -52,5 +60,13 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		buf.writeByte(type);
 		buf.writeByte(showLight);
 		buf.writeByte((byte)0);
+	}
+	
+	@Override
+	public void receivedFrom(GPlayer ply){
+		if (Glydar.getServer().serverUpdatePacket.sud == null){
+			Glydar.getServer().serverUpdatePacket.sud = new GServerUpdateData();
+		}
+		Glydar.getServer().serverUpdatePacket.sud.hitPackets.add(this);
 	}
 }

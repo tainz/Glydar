@@ -1,43 +1,58 @@
 package org.glydar.glydar.netty.data;
 
+import java.util.ArrayList;
+
 import org.glydar.glydar.netty.data.actions.GDamageAction;
 import org.glydar.glydar.netty.data.actions.GKillAction;
 import org.glydar.glydar.netty.data.actions.GPickupAction;
 import org.glydar.glydar.netty.data.actions.GSoundAction;
 import org.glydar.glydar.netty.packet.client.Packet13MissionData;
 import org.glydar.glydar.netty.packet.client.Packet7HitNPC;
-import org.glydar.glydar.netty.packet.client.Packet9ShootArrow;
+import org.glydar.glydar.netty.packet.client.Packet9ShootProjectile;
 
 import io.netty.buffer.ByteBuf;
 
+//TODO: ArrayLists!
 public class GServerUpdateData implements BaseData {
-	GPacket4UnknownData[] unknownArray1;
-	Packet7HitNPC[] hitPackets;
+	ArrayList<GPacket4UnknownData> unknownArray1;
+	public ArrayList<Packet7HitNPC> hitPackets;
 	byte[][] unknownArray2;
-	GSoundAction[] soundActions;
-	Packet9ShootArrow[] shootArrowPackets;
+	ArrayList<GSoundAction> soundActions;
+	public ArrayList<Packet9ShootProjectile> shootPackets;
 	byte[][] unknownArray3;
-	GChunkItems[] chunkItems;
+	ArrayList<GChunkItems> chunkItems;
 	UnknownArray4[] unknownArray4;
-	GPickupAction[] pickupActions;
-	GKillAction[] killActions;
-	GDamageAction[] damageActions;
+	ArrayList<GPickupAction> pickupActions;
+	ArrayList<GKillAction> killActions;
+	ArrayList<GDamageAction> damageActions;
 	byte[][] unknownArray5;
-	Packet13MissionData[] missionData;
+	ArrayList<Packet13MissionData> missionData;
+	
+	public GServerUpdateData() {
+		unknownArray1 = new ArrayList<GPacket4UnknownData>();
+		hitPackets = new ArrayList<Packet7HitNPC>();
+		soundActions = new ArrayList<GSoundAction>();
+		shootPackets = new ArrayList<Packet9ShootProjectile>();
+		chunkItems = new ArrayList<GChunkItems>();
+		pickupActions = new ArrayList<GPickupAction>();
+		killActions = new ArrayList<GKillAction>();
+		damageActions = new ArrayList<GDamageAction>();
+		missionData = new ArrayList<Packet13MissionData>();
+	}
 	
 	@Override
 	public void decode(ByteBuf buf) {
 		int lengthI;
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			unknownArray1[i] = new GPacket4UnknownData();
-			unknownArray1[i].decode(buf);
+			unknownArray1.set(i, new GPacket4UnknownData());
+			unknownArray1.get(i).decode(buf);
 		}
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			hitPackets[i] = new Packet7HitNPC();
-			hitPackets[i].decode(buf);
+			hitPackets.set(i, new Packet7HitNPC());
+			hitPackets.get(i).decode(buf);
 		}
 		
 		lengthI = buf.readInt();
@@ -48,14 +63,14 @@ public class GServerUpdateData implements BaseData {
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			soundActions[i] = new GSoundAction();
-			soundActions[i].decode(buf);
+			soundActions.set(i, new GSoundAction());
+			soundActions.get(i).decode(buf);
 		}
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			shootArrowPackets[i] = new Packet9ShootArrow();
-			shootArrowPackets[i].decode(buf);
+			shootPackets.set(i, new Packet9ShootProjectile());
+			shootPackets.get(i).decode(buf);
 		}
 		
 		lengthI = buf.readInt();
@@ -66,8 +81,8 @@ public class GServerUpdateData implements BaseData {
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			chunkItems[i] = new GChunkItems();
-			chunkItems[i].decode(buf);
+			chunkItems.set(i, new GChunkItems());
+			chunkItems.get(i).decode(buf);
 		}
 		
 		long lengthL = buf.readLong();
@@ -82,20 +97,20 @@ public class GServerUpdateData implements BaseData {
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			pickupActions[i] = new GPickupAction();
-			pickupActions[i].decode(buf);
+			pickupActions.set(i, new GPickupAction());
+			pickupActions.get(i).decode(buf);
 		}
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			killActions[i] = new GKillAction();
-			killActions[i].decode(buf);
+			killActions.set(i, new GKillAction());
+			killActions.get(i).decode(buf);
 		}
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			damageActions[i] = new GDamageAction();
-			damageActions[i].decode(buf);
+			damageActions.set(i, new GDamageAction());
+			damageActions.get(i).decode(buf);
 		}
 		
 		lengthI = buf.readInt();
@@ -106,20 +121,20 @@ public class GServerUpdateData implements BaseData {
 		
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++){
-			missionData[i] = new Packet13MissionData();
-			missionData[i].decode(buf);
+			missionData.set(i, new Packet13MissionData());
+			missionData.get(i).decode(buf);
 		}
 
 	}
 
 	@Override
 	public void encode(ByteBuf buf) {
-		buf.writeInt(unknownArray1.length);
+		buf.writeInt(unknownArray1.size());
 		for (GPacket4UnknownData u : unknownArray1){
 			u.encode(buf);
 		}
 		
-		buf.writeInt(hitPackets.length);
+		buf.writeInt(hitPackets.size());
 		for (Packet7HitNPC p : hitPackets){
 			p.encode(buf);
 		}
@@ -129,13 +144,13 @@ public class GServerUpdateData implements BaseData {
 			buf.writeBytes(b);
 		}
 
-		buf.writeInt(soundActions.length);
+		buf.writeInt(soundActions.size());
 		for (GSoundAction a : soundActions){
 			a.encode(buf);
 		}
 		
-		buf.writeInt(shootArrowPackets.length);
-		for (Packet9ShootArrow p : shootArrowPackets){
+		buf.writeInt(shootPackets.size());
+		for (Packet9ShootProjectile p : shootPackets){
 			p.encode(buf);
 		}
 		
@@ -144,7 +159,7 @@ public class GServerUpdateData implements BaseData {
 			buf.writeBytes(b);
 		}
 		
-		buf.writeInt(chunkItems.length);
+		buf.writeInt(chunkItems.size());
 		for (GChunkItems c : chunkItems){
 			c.encode(buf);
 		}
@@ -158,17 +173,17 @@ public class GServerUpdateData implements BaseData {
 			}
 		}
 		
-		buf.writeInt(pickupActions.length);
+		buf.writeInt(pickupActions.size());
 		for (GPickupAction a : pickupActions){
 			a.encode(buf);
 		}
 		
-		buf.writeInt(killActions.length);
+		buf.writeInt(killActions.size());
 		for (GKillAction a : killActions){
 			a.encode(buf);
 		}
 		
-		buf.writeInt(damageActions.length);
+		buf.writeInt(damageActions.size());
 		for (GDamageAction a : damageActions){
 			a.encode(buf);
 		}
@@ -178,7 +193,7 @@ public class GServerUpdateData implements BaseData {
 			buf.writeBytes(b);
 		}
 		
-		buf.writeInt(missionData.length);
+		buf.writeInt(missionData.size());
 		for (Packet13MissionData p : missionData){
 			p.encode(buf);
 		}

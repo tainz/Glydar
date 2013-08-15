@@ -2,11 +2,14 @@ package org.glydar.glydar.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
 
+import org.glydar.glydar.Glydar;
+import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 9)
-public class Packet9ShootArrow extends CubeWorldPacket {
+public class Packet9ShootProjectile extends CubeWorldPacket {
     long entID; //Unsigned!
 
     int chunkX;
@@ -33,18 +36,23 @@ public class Packet9ShootArrow extends CubeWorldPacket {
     long something27; //uint
     long something28; //uint
 
+    public Packet9ShootProjectile(){
+    	position = new GVector3<Long>();
+    	velocity = new GVector3<Float>();
+    }
+    
     @Override
     protected void internalDecode(ByteBuf buf) {
         entID = buf.readLong(); //Unsigned long actually!
 
         chunkX = buf.readInt();
         chunkY = buf.readInt();
-
+        
         something5 = buf.readUnsignedInt();
         buf.readBytes(4); //Padding
-
+        
         position.decode(buf, Long.class);
-
+        
         something13 = buf.readUnsignedInt();
         something14 = buf.readUnsignedInt();
         something15 = buf.readUnsignedInt();
@@ -89,5 +97,15 @@ public class Packet9ShootArrow extends CubeWorldPacket {
 		buf.writeBytes(new byte[3]);
 		buf.writeInt((int) something27);
 		buf.writeInt((int) something28);
+	}
+	
+	//TODO: Add to server update packet!
+	
+	@Override
+	public void receivedFrom(GPlayer ply){
+		if (Glydar.getServer().serverUpdatePacket.sud == null){
+			Glydar.getServer().serverUpdatePacket.sud = new GServerUpdateData();
+		}
+		Glydar.getServer().serverUpdatePacket.sud.shootPackets.add(this);
 	}
 }

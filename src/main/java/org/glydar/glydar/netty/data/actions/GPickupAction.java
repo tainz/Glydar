@@ -10,10 +10,13 @@ public class GPickupAction implements BaseData {
 	long id;
 	GItem item;
 	
+	public GPickupAction() {
+		item = new GItem();
+	}
+	
 	@Override
 	public void decode(ByteBuf buf) {
 		id = buf.readLong();
-		item = new GItem();
 		item.decode(buf);
 		
 	}

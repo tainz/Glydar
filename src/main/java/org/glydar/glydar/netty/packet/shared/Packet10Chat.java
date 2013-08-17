@@ -9,6 +9,8 @@ import org.glydar.api.event.Event;
 import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.ChatEvent;
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.models.BaseTarget;
+import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -21,6 +23,7 @@ public class Packet10Chat extends CubeWorldPacket {
 	GEntity sender;
     long senderID;
     boolean cancelled;
+    BaseTarget target = EveryoneTarget.INSTANCE;
 
 	//DO NOT EVER TURN ON RECEIVING CACHING. THE SIGNATURES DIFFER!!!
 
@@ -65,7 +68,7 @@ public class Packet10Chat extends CubeWorldPacket {
 		sender = ply;
 		manageEvent(ply);
 		if (!cancelled){
-			new Packet10Chat(message, ply).sendToAll();
+			new Packet10Chat(message, ply).sendTo(target);
 	        Glydar.getServer().getLogger().info("(Chat) <"+ply.getEntityData().getName()+"> "+message);
 		}
     }
@@ -73,6 +76,7 @@ public class Packet10Chat extends CubeWorldPacket {
     public void manageEvent(GPlayer ply){
     	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
     	message = event.getMessage();
+    	target = event.getRecievers();
     	if (event.isCancelled()){
     			cancelled = true;
     	}

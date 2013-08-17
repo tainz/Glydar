@@ -9,6 +9,8 @@ import org.glydar.api.event.events.EntityHealthEvent;
 import org.glydar.api.event.events.EntityMoveEvent;
 import org.glydar.api.event.events.EntityUpdateEvent;
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.models.BaseTarget;
+import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -28,6 +30,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 	 byte[] rawData;
      GEntityData ed;
      boolean sendEntityData = false;
+     BaseTarget target = EveryoneTarget.INSTANCE;
 
 
     public Packet0EntityUpdate() {
@@ -107,7 +110,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
         }
         manageEvents(ply);
         ((GEntityData) ply.getEntityData()).updateFrom(this.ed);
-		this.sendToAll();
+		this.sendTo(target);
 		new Packet2UpdateFinished().sendToAll();
     }
 
@@ -140,17 +143,20 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 	public void manageEvents(GPlayer ply){
     	EntityUpdateEvent eue = (EntityUpdateEvent) EventManager.callEvent(new EntityUpdateEvent(ply, ed));
     	ed = (GEntityData) eue.getEntityData();
+    	target = eue.getRecievers();
     	
     	BitArray bitArray = new BitArray(8*ed.getBitmask().length, Bitops.flipBits(ed.getBitmask()));
     	if (bitArray.get(0)){
     		//Move
     		EntityUpdateEvent eme = (EntityUpdateEvent) EventManager.callEvent(new EntityMoveEvent(ply, ed));
         	ed = (GEntityData) eme.getEntityData();
+        	target = eue.getRecievers();
     	}
     	if (bitArray.get(27)){
     		//Health
     		EntityUpdateEvent ehe = (EntityUpdateEvent) EventManager.callEvent(new EntityHealthEvent(ply, ed));
         	ed = (GEntityData) ehe.getEntityData();
+        	target = eue.getRecievers();
     	}
     }
 }

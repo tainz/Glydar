@@ -3,6 +3,8 @@ package org.glydar.api.event.events;
 import org.glydar.api.data.EntityData;
 import org.glydar.api.event.Event;
 import org.glydar.api.models.Player;
+import org.glydar.glydar.models.BaseTarget;
+import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 
@@ -11,6 +13,7 @@ public class EntityUpdateEvent extends Event {
 	private boolean cancelled = false;
 	private Player player;
 	private EntityData ed;
+	private BaseTarget recievers = EveryoneTarget.INSTANCE;
 
 	public EntityUpdateEvent(final Player player, final EntityData ed) {
 		this.setPlayer(player);
@@ -35,5 +38,13 @@ public class EntityUpdateEvent extends Event {
 	
 	public void setEntityData(EntityData ed){
 		this.ed = ed;
+	}
+	
+	public BaseTarget getRecievers(){
+		return recievers;
+	}
+	
+	public void setRecievers(BaseTarget t){
+		recievers = t;
 	}
 }

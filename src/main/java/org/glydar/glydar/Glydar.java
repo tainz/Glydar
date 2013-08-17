@@ -40,6 +40,7 @@ public class Glydar {
 		serverBootstrap.childHandler(new CubeWorldServerInitializer());
 		serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
 		serverBootstrap.childOption(ChannelOption.TCP_NODELAY, true);
+		serverBootstrap.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 10 * 64 * 1024);
 		//serverBootstrap.setOption("child.keepAlive", true);
 		serverBootstrap.group(new NioEventLoopGroup());
 		serverBootstrap.channelFactory(new ChannelFactory<ServerChannel>() {
@@ -62,7 +63,7 @@ public class Glydar {
 		s.getLogger().info("Server ready on port " + port);
         serverThread.start();
         
-        //s.run();
+        s.run();
 	}
 
     public static GServer getServer() {

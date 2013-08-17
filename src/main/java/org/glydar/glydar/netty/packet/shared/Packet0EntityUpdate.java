@@ -111,7 +111,6 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
         manageEvents(ply);
         ((GEntityData) ply.getEntityData()).updateFrom(this.ed);
 		this.sendTo(target);
-		new Packet2UpdateFinished().sendToAll();
     }
 
     @Override
@@ -131,6 +130,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             if(compressedData != null) {
                 buf.writeInt(compressedData.length);
                 buf.writeBytes(compressedData);
+                //new Packet2UpdateFinished().sendToAll();
             } else {
                 Glydar.getServer().getLogger().warning("Compressed data is null, I'm just writing the raw data back!");
                 buf.writeInt(rawData.length);

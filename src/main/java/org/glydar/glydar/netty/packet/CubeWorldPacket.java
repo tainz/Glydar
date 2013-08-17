@@ -13,6 +13,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Set;
+import org.glydar.api.event.EventManager;
+import org.glydar.api.event.events.PacketEvent;
 
 public abstract class CubeWorldPacket {
     @Retention(RetentionPolicy.RUNTIME)
@@ -87,7 +89,10 @@ public abstract class CubeWorldPacket {
 	}
 
     private void _sendTo(GPlayer ply) {
-		ply.getChannelContext().write(this);
+                PacketEvent evt = new PacketEvent(this);
+                if (!((PacketEvent)EventManager.callEvent(evt)).isCancelled()) {
+                    ply.getChannelContext().write(this);
+                }
     }
 
     public void sendTo(BaseTarget target) {

@@ -100,18 +100,22 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
 		return ((InetSocketAddress)channelCtx.channel().remoteAddress()).getAddress().getHostAddress();
 	}
 	
-	public void sendMessageToPlayer(String message){
+	public void sendMessage(String message){
 		this.sendPacket(new Packet10Chat(message, 0));
+	}
+        
+        public void sendMessageToPlayer(String message){
+		sendMessage(message);
 	}
 	
 	public void kickPlayer(String message){
-		sendMessageToPlayer(message);
+		sendMessage(message);
 		playerLeft();
 		channelCtx.disconnect();
 	}
 	
 	public void kickPlayer(){
-		sendMessageToPlayer("You have been kicked!");
+		sendMessage("You have been kicked!");
 		playerLeft();
 		channelCtx.disconnect();
 	}

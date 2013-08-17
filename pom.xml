@@ -100,8 +100,29 @@
 	  <artifactId>guava</artifactId>
 	  <version>14.0.1</version>
 	 </dependency>
+         <dependency>
+          <groupId>org.yaml</groupId>
+          <artifactId>snakeyaml</artifactId>
+          <version>1.13-SNAPSHOT</version>
+         </dependency>
 	</dependencies>
 	<repositories>
-
-	</repositories>
+         <repository>
+          <id>Sonatype-public</id>
+          <name>SnakeYAML repository</name>
+          <url>http://oss.sonatype.org/content/groups/public/</url>
+         </repository>
+        </repositories>
+    <reporting>
+        <plugins>
+            <plugin>
+                <version>0.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <configLocation>config/sun_checks.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>

@@ -8,5 +8,7 @@ import org.glydar.api.permissions.Permissible;
 public interface CommandSender extends Permissible {
 
     public String getName();
+
+    public void sendMessage(String message);
     
 }

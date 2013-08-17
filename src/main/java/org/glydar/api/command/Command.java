@@ -1,6 +1,7 @@
 package org.glydar.api.command;
 
 import org.glydar.api.permissions.Permission;
+import org.glydar.api.plugin.Plugin;
 
 /**
  * @author YoshiGenius
@@ -8,13 +9,16 @@ import org.glydar.api.permissions.Permission;
 public class Command {
     private final Permission perm;
     private final String lbl;
-    private final String usage;
+    private String usage;
     private String permmsg = "You don't have access to that command.";
+    private Plugin plugin;
+    private String[] aliases = new String[]{};
     
-    public Command(String lbl, Permission perm, String usage) {
+    public Command(Plugin plugin, String lbl, Permission perm, String usage) {
         this.lbl = lbl;
         this.perm = perm;
         this.usage = usage;
+        this.plugin = plugin;
     }
     
     public String getCommandName() {
@@ -29,12 +33,40 @@ public class Command {
         return this.permmsg;
     }
     
-    public void setPermissionMessage(String permmsg) {
+    public Command setPermissionMessage(String permmsg) {
         this.permmsg = permmsg;
+        return this;
     }
     
     public String getUsage() {
         return this.usage;
+    }
+    
+    public Command setUsage(String usage) {
+        this.usage = usage;
+        return this;
+    }
+
+    public Plugin getPlugin() {
+        return this.plugin;
+    }
+    
+    public Command setPlugin(Plugin plg) {
+        this.plugin = plg;
+        return this;
+    }
+    
+    public String[] getAliases() {
+        return this.aliases;
+    }
+    
+    public Command setAliases(String[] aliases) {
+        if (aliases == null || aliases.length == 0) {
+            return this;
+        } else {
+            this.aliases = aliases;
+            return this;
+        }
     }
 
 }

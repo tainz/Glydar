@@ -11,6 +11,7 @@ import org.glydar.api.event.events.EntityUpdateEvent;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
+import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
@@ -96,15 +97,16 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     @Override
     public void receivedFrom(GPlayer ply) {
         if(!ply.joined) {
+        	GEntityData.FULL_BITMASK = ed.getBitmask();
             ply.setEntityData(this.ed);
             Glydar.getServer().getLogger().info("Player " + ply.getEntityData().getName() + " joined with entity ID " + ply.getEntityData().getId() + "! (Internal ID " + ply.entityID + ")");
             //TODO Send all current entity data and NOT just existing players
-            for (GPlayer p : Glydar.getServer().getConnectedPlayers()) {
-                if(p.entityID == ply.entityID) {
+            for (GEntity e : Glydar.getServer().getConnectedEntities()) {
+                if(e.entityID == ply.entityID) {
                     Glydar.getServer().getLogger().warning("I found myself! o.o");
                     continue;
                 }
-                ply.sendPacket(new Packet0EntityUpdate(p.getEntityData()));
+                ply.sendPacket(new Packet0EntityUpdate(e.getEntityData()));
             }
             ply.playerJoined();
         }
@@ -143,20 +145,20 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 	public void manageEvents(GPlayer ply){
     	EntityUpdateEvent eue = (EntityUpdateEvent) EventManager.callEvent(new EntityUpdateEvent(ply, ed));
     	ed = (GEntityData) eue.getEntityData();
-    	target = eue.getRecievers();
+    	target = eue.getTarget();
     	
     	BitArray bitArray = new BitArray(8*ed.getBitmask().length, Bitops.flipBits(ed.getBitmask()));
     	if (bitArray.get(0)){
     		//Move
     		EntityUpdateEvent eme = (EntityUpdateEvent) EventManager.callEvent(new EntityMoveEvent(ply, ed));
         	ed = (GEntityData) eme.getEntityData();
-        	target = eue.getRecievers();
+        	target = eue.getTarget();
     	}
     	if (bitArray.get(27)){
     		//Health
     		EntityUpdateEvent ehe = (EntityUpdateEvent) EventManager.callEvent(new EntityHealthEvent(ply, ed));
         	ed = (GEntityData) ehe.getEntityData();
-        	target = eue.getRecievers();
+        	target = eue.getTarget();
     	}
     }
 }

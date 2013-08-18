@@ -28,8 +28,54 @@ public class GAppearance implements BaseData, Appearance {
         backOffset = new GVector3<Float>();
         wingOffset = new GVector3<Float>();
     }
+    
+    
 
-    @Override
+    public GAppearance(Appearance a) {
+		this.notUsed1 = a.getNotUsed1();
+		this.notUsed2 = a.getNotUsed2();
+		this.hairR = a.getHairR();
+		this.hairG = a.getHairG();
+		this.hairB = a.getHairB();
+		this.movementFlags = a.getMovementFlags();
+		this.entityFlags = a.getEntityFlags();
+		this.scale = a.getScale();
+		this.boundingRadius = a.getBoundingRadius();
+		this.boundingHeight = a.getBoundingHeight();
+		this.headModel = a.getHeadModel();
+		this.hairModel = a.getHairModel();
+		this.handModel = a.getHandModel();
+		this.footModel = a.getFootModel();
+		this.bodyModel = a.getBodyModel();
+		this.backModel = a.getBackModel();
+		this.shoulderModel = a.getShoulderModel();
+		this.wingModel = a.getWingModel();
+		this.headScale = a.getHeadScale();
+		this.hairScale = a.getHairScale();
+		this.handScale = a.getHandScale();
+		this.footScale = a.getFootScale();
+		this.bodyScale = a.getBodyScale();
+		this.backScale = a.getBackScale();
+		this.unknown = a.getUnknown();
+		this.wingScale = a.getWingScale();
+		this.bodyPitch = a.getBodyPitch();
+		this.armPitch = a.getArmPitch();
+		this.armRoll = a.getArmRoll();
+		this.armYaw = a.getArmYaw();
+		this.feetPitch = a.getFeetPitch();
+		this.wingPitch = a.getWingPitch();
+		this.backPitch = a.getBackPitch();
+		this.bodyOffset = new GVector3<Float>(a.getBodyOffset());
+		this.headOffset = new GVector3<Float>(a.getHeadOffset());
+		this.handOffset = new GVector3<Float>(a.getHandOffset());
+		this.footOffset = new GVector3<Float>(a.getFootOffset());
+		this.backOffset = new GVector3<Float>(a.getBackOffset());
+		this.wingOffset = new GVector3<Float>(a.getWingOffset());
+	}
+
+
+
+	@Override
     public void decode(ByteBuf buf) {
         notUsed1 = buf.readByte();
         notUsed2 = buf.readByte();
@@ -382,7 +428,7 @@ public class GAppearance implements BaseData, Appearance {
 		this.backPitch = backPitch;
 	}
 
-	public GVector3<Float> getBodyOffset() {
+	public Vector3<Float> getBodyOffset() {
 		return bodyOffset;
 	}
 
@@ -390,7 +436,7 @@ public class GAppearance implements BaseData, Appearance {
 		this.bodyOffset = (GVector3) bodyOffset;
 	}
 
-	public GVector3 getHeadOffset() {
+	public Vector3<Float> getHeadOffset() {
 		return headOffset;
 	}
 
@@ -398,7 +444,7 @@ public class GAppearance implements BaseData, Appearance {
 		this.headOffset = (GVector3) headOffset;
 	}
 
-	public GVector3 getHandOffset() {
+	public Vector3<Float> getHandOffset() {
 		return handOffset;
 	}
 
@@ -406,7 +452,7 @@ public class GAppearance implements BaseData, Appearance {
 		this.handOffset = (GVector3) handOffset;
 	}
 
-	public GVector3 getFootOffset() {
+	public Vector3<Float> getFootOffset() {
 		return footOffset;
 	}
 
@@ -414,7 +460,7 @@ public class GAppearance implements BaseData, Appearance {
 		this.footOffset = (GVector3) footOffset;
 	}
 
-	public GVector3 getBackOffset() {
+	public Vector3<Float> getBackOffset() {
 		return backOffset;
 	}
 
@@ -422,7 +468,7 @@ public class GAppearance implements BaseData, Appearance {
 		this.backOffset = (GVector3) backOffset;
 	}
 
-	public GVector3 getWingOffset() {
+	public Vector3<Float> getWingOffset() {
 		return wingOffset;
 	}
 

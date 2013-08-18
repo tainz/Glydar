@@ -49,12 +49,12 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
 
 
     public void playerJoined() {
-    	Glydar.getServer().addPlayer(entityID, this);
+    	Glydar.getServer().addEntity(entityID, this);
     	this.joined = true;
     }
 
     public void playerLeft() {
-    	Glydar.getServer().removePlayer(entityID);
+    	Glydar.getServer().removeEntity(entityID);
         forceUpdateData();
     }
 	

@@ -52,9 +52,9 @@ public interface EntityData {
 
 	public void setPhysicsFlags(long physicsFlags);
 
-	public byte getSpeedFlags();
+	public byte getHostileType();
 
-	public void setSpeedFlags(byte speedFlags);
+	public void setHostileType(byte hostileType);
 
 	public long getEntityType();
 

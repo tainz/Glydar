@@ -20,6 +20,8 @@ import java.nio.ByteOrder;
 
 public class GEntityData implements BaseData, EntityData {
 
+	public static byte[] FULL_BITMASK;
+	
 	private long id;
 	private byte[] bitmask = new byte[8];
 
@@ -39,7 +41,7 @@ public class GEntityData implements BaseData, EntityData {
 
 	private float lookPitch;
 	private long physicsFlags; //Uint
-	private byte speedFlags;
+	private byte hostileType;
 	private long entityType; //Uint
 	private byte currentMode;
 	private long lastShootTime; //Uint
@@ -122,6 +124,86 @@ public class GEntityData implements BaseData, EntityData {
         skills = new long[11];
 
     }
+    
+    public GEntityData(EntityData e) {
+		this.id = e.getId();
+		this.bitmask = e.getBitmask();
+		this.posX = e.getPosX();
+		this.posY = e.getPosY();
+		this.posZ = e.getPosZ();
+		this.roll = e.getRoll();
+		this.pitch = e.getPitch();
+		this.yaw = e.getYaw();
+		this.velocity = new GVector3<Float>(e.getVelocity());
+		this.accel = new GVector3<Float>(e.getAccel());
+		this.extraVel = new GVector3<Float>(e.getExtraVel());
+		this.lookPitch = e.getLookPitch();
+		this.physicsFlags = e.getPhysicsFlags();
+		this.hostileType = e.getHostileType();
+		this.entityType = e.getEntityType();
+		this.currentMode = e.getCurrentMode();
+		this.lastShootTime = e.getLastShootTime();
+		this.hitCounter = e.getHitCounter();
+		this.lastHitTime = e.getLastHitTime();
+		this.app = new GAppearance(e.getApp());
+		this.flags1 = e.getFlags1();
+		this.flags2 = e.getFlags2();
+		this.rollTime = e.getRollTime();
+		this.stunTime = e.getStunTime();
+		this.slowedTime = e.getSlowedTime();
+		this.makeBlueTime = e.getMakeBlueTime();
+		this.speedUpTime = e.getSpeedUpTime();
+		this.slowPatchTime = e.getSlowPatchTime();
+		this.classType = e.getClassType();
+		this.specialization = e.getSpecialization();
+		this.chargedMP = e.getChargedMP();
+		this.rayHit = new GVector3<Float>(e.getRayHit());
+		HP = e.getHP();
+		MP = e.getMP();
+		this.blockPower = e.getBlockPower();
+		this.maxHPMultiplier = e.getMaxHPMultiplier();
+		this.shootSpeed = e.getShootSpeed();
+		this.damageMultiplier = e.getDamageMultiplier();
+		this.armorMultiplier = e.getArmorMultiplier();
+		this.resistanceMultiplier = e.getResistanceMultiplier();
+		this.level = e.getLevel();
+		this.currentXP = e.getCurrentXP();
+		this.itemData = new GItem(e.getItemData());
+		this.equipment = new GItem[e.getEquipment().length];
+		for (int j = 0; j < e.getEquipment().length; j++){
+			this.equipment[j] = new GItem(e.getEquipment()[j]);
+		}
+		this.iceBlockFour = e.getIceBlockFour();
+		this.skills = e.getSkills();
+		this.name = e.getName();
+		this.na1 = e.getNa1();
+		this.na2 = e.getNa2();
+		this.na3 = e.getNa3();
+		this.na4 = e.getNa4();
+		this.na5 = e.getNa5();
+		this.nu1 = e.getNu1();
+		this.nu2 = e.getNu2();
+		this.nu3 = e.getNu3();
+		this.nu4 = e.getNu4();
+		this.nu5 = e.getNu5();
+		this.nu6 = e.getNu6();
+		this.nu7 = e.getNu7();
+		this.nu8 = e.getNu8();
+		this.parentOwner = e.getParentOwner();
+		this.nu11 = e.getNu11();
+		this.nu12 = e.getNu12();
+		this.nu13 = e.getNu13();
+		this.nu14 = e.getNu14();
+		this.nu15 = e.getNu15();
+		this.nu16 = e.getNu16();
+		this.nu17 = e.getNu17();
+		this.nu18 = e.getNu18();
+		this.nu20 = e.getNu20();
+		this.nu21 = e.getNu21();
+		this.nu22 = e.getNu22();
+		this.nu19 = e.getNu19();
+		this.debugCap = e.getDebugCap();
+	}
 
     @Override
     @SuppressWarnings("restriction")
@@ -157,7 +239,7 @@ public class GEntityData implements BaseData, EntityData {
             physicsFlags = buf.readUnsignedInt();
         }
         if(bitArray.get(7)) {
-            speedFlags = buf.readByte();
+            hostileType = buf.readByte();
         }
         if(bitArray.get(8)) {
             entityType = buf.readUnsignedInt();
@@ -347,7 +429,7 @@ public class GEntityData implements BaseData, EntityData {
         	buf.writeInt((int)physicsFlags);
         }
         if(bitArray.get(7)) {
-        	buf.writeByte(speedFlags);
+        	buf.writeByte(hostileType);
         }
         if(bitArray.get(8)) {
         	buf.writeInt((int) entityType);
@@ -545,7 +627,7 @@ public class GEntityData implements BaseData, EntityData {
             this.physicsFlags = changes.getPhysicsFlags();
         }
         if(bitArray.get(7)) {
-            this.speedFlags = changes.getSpeedFlags();
+            this.hostileType = changes.getHostileType();
         }
         if(bitArray.get(8)) {
             this.entityType = changes.getEntityType();
@@ -752,7 +834,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.yaw = yaw;
 	}
 
-	public GVector3 getVelocity() {
+	public Vector3<Float> getVelocity() {
 		return velocity;
 	}
 
@@ -760,7 +842,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.velocity = (GVector3) velocity;
 	}
 
-	public GVector3 getAccel() {
+	public Vector3<Float> getAccel() {
 		return accel;
 	}
 
@@ -768,7 +850,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.accel = (GVector3) accel;
 	}
 
-	public GVector3 getExtraVel() {
+	public Vector3<Float> getExtraVel() {
 		return extraVel;
 	}
 
@@ -792,12 +874,12 @@ public class GEntityData implements BaseData, EntityData {
 		this.physicsFlags = physicsFlags;
 	}
 
-	public byte getSpeedFlags() {
-		return speedFlags;
+	public byte getHostileType() {
+		return hostileType;
 	}
 
-	public void setSpeedFlags(byte speedFlags) {
-		this.speedFlags = speedFlags;
+	public void setHostileType(byte hostileType) {
+		this.hostileType = hostileType;
 	}
 
 	public long getEntityType() {
@@ -840,7 +922,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.lastHitTime = lastHitTime;
 	}
 
-	public GAppearance getApp() {
+	public Appearance getApp() {
 		return app;
 	}
 
@@ -936,7 +1018,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.chargedMP = chargedMP;
 	}
 
-	public GVector3 getRayHit() {
+	public Vector3<Float> getRayHit() {
 		return rayHit;
 	}
 

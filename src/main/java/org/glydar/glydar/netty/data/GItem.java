@@ -14,7 +14,23 @@ public class GItem implements BaseData, Item {
     GItemUpgrade[] upgrades;
     long upgradeCount; //unsigned
 
-    public GItem() {
+    public GItem(Item i) {
+		this.type = i.getType();
+		this.subtype = i.getSubtype();
+		this.modifier = i.getModifier();
+		this.minusModifier = i.getMinusModifier();
+		this.rarity = i.getRarity();
+		this.material = i.getMaterial();
+		this.flags = i.getFlags();
+		this.level = i.getLevel();
+		this.upgrades = new GItemUpgrade[i.getUpgrades().length];
+		for (int j = 0; j < i.getUpgrades().length; j++){
+			this.upgrades[j] = new GItemUpgrade(i.getUpgrades()[j]);
+		}
+		this.upgradeCount = i.getUpgradeCount();
+	}
+
+	public GItem() {
         upgrades = new GItemUpgrade[32];
     }
 

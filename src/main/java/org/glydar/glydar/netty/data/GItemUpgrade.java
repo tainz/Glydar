@@ -11,6 +11,16 @@ public class GItemUpgrade implements BaseData, ItemUpgrade {
 	byte material;
 	long level;
 
+	public GItemUpgrade() {}
+	
+	public GItemUpgrade(ItemUpgrade i) {
+		this.xOffset = i.getxOffset();
+		this.yOffset = i.getyOffset();
+		this.zOffset = i.getzOffset();
+		this.material = i.getMaterial();
+		this.level = i.getLevel();
+	}
+
 	@Override
 	public void decode(ByteBuf buf) {
 		xOffset = buf.readByte();

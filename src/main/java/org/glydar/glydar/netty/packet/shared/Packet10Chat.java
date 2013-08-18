@@ -13,6 +13,7 @@ import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 10, variableLength = true)
@@ -76,7 +77,7 @@ public class Packet10Chat extends CubeWorldPacket {
     public void manageEvent(GPlayer ply){
     	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
     	message = event.getMessage();
-    	target = event.getRecievers();
+    	target = event.getTarget();
     	if (event.isCancelled()){
     			cancelled = true;
     	}

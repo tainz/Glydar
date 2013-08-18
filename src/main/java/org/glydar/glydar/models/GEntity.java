@@ -2,6 +2,7 @@ package org.glydar.glydar.models;
 
 import org.glydar.api.data.EntityData;
 import org.glydar.api.models.Entity;
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 
@@ -11,6 +12,9 @@ public class GEntity implements Entity{
 
 	public GEntity() {
 		entityID = GEntity.getNewEntityID();
+		if (!(this instanceof GPlayer)){
+			Glydar.getServer().addEntity(entityID, this);
+		}
 	}
 
 	protected GEntity(int forceID) {
@@ -27,12 +31,13 @@ public class GEntity implements Entity{
      * Call this whenever you modify anything in Player.data and wish to update all of the clients.
      */
     public void forceUpdateData() {
+    	data.setBitmask(GEntityData.FULL_BITMASK);
         new Packet0EntityUpdate(this.data).sendToAll();
     }
     
     public void forceUpdateData(GEntityData ed){
     	this.data = ed;
-    	new Packet0EntityUpdate(this.data).sendToAll();
+    	forceUpdateData();
     }
     
     public EntityData getEntityData(){

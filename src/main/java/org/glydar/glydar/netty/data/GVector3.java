@@ -10,6 +10,14 @@ public class GVector3<T> implements Vector3<T> {
     private T y;
     private T z;
     
+    public GVector3(){}
+    
+    public GVector3(Vector3<T> v){
+    	this.x = v.getX();
+    	this.y = v.getY();
+    	this.z = v.getZ();
+    }
+    
     @SuppressWarnings("unchecked")
 	public void decode(ByteBuf buf, Class<T> type) {
     	if (Float.class.isAssignableFrom(type)){

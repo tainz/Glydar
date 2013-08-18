@@ -3,11 +3,13 @@ package org.glydar.glydar;
 import org.glydar.api.Server;
 import org.glydar.api.permissions.Permission;
 import org.glydar.api.permissions.Permission.PermissionDefault;
+import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.ConsoleHandler;
@@ -23,7 +25,7 @@ public class GServer implements Runnable, Server {
     
     public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
     
-    private HashMap<Long, GPlayer> connectedPlayers = new HashMap<Long, GPlayer>();
+    private HashMap<Long, GEntity> connectedEntities = new HashMap<Long, GEntity>();
 
     public GServer(boolean debug) {
         this.DEBUG = debug;
@@ -35,27 +37,47 @@ public class GServer implements Runnable, Server {
     }
 
     public Collection<GPlayer> getConnectedPlayers() {
-        return connectedPlayers.values();
+    	ArrayList<GPlayer> players = new ArrayList<GPlayer>();
+    	for (GEntity e : connectedEntities.values()){
+    		if (e instanceof GPlayer){
+    			players.add((GPlayer) e);
+    		}
+    	}
+        return players;
+    }
+    
+    public Collection<GEntity> getConnectedEntities() {
+        return connectedEntities.values();
     }
 
-    public  GPlayer getPlayerByEntityID(long id) {
-        if(connectedPlayers.containsKey(id))
-            return connectedPlayers.get(id);
+    public  GEntity getEntityByEntityID(long id) {
+        if(connectedEntities.containsKey(id))
+            return connectedEntities.get(id);
         else
         {
-            Glydar.getServer().getLogger().warning("Unable to find player with entity ID "+id+"! Returning null!");
+            Glydar.getServer().getLogger().warning("Unable to find entity with entity ID "+id+"! Returning null!");
             return null;
         }
     }
     
-    public void addPlayer(long entityID, GPlayer p) {
-    	if(!connectedPlayers.containsKey(entityID)) {
-    		connectedPlayers.put(entityID, p);
+    public  GPlayer getPlayerByEntityID(long id) {
+        if(connectedEntities.containsKey(id)) {
+        	if (connectedEntities.get(id) instanceof GPlayer){
+        		return (GPlayer) connectedEntities.get(id);
+        	}
+    	}
+        Glydar.getServer().getLogger().warning("Unable to find player with entity ID "+id+"! Returning null!");
+        return null;
+    }
+    
+    public void addEntity(long entityID, GEntity e) {
+    	if(!connectedEntities.containsKey(entityID)) {
+    		connectedEntities.put(entityID, e);
         }
     }
     
-    public void removePlayer(long entityID) {
-    	connectedPlayers.remove(entityID);
+    public void removeEntity(long entityID) {
+    	connectedEntities.remove(entityID);
     }
     
 	public Logger getLogger() {

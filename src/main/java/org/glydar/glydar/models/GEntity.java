@@ -72,4 +72,9 @@ public class GEntity implements Entity{
 	public String toString() {
 		return "Entity {type="+getClass().getSimpleName()+", id="+entityID+'}';
 	}
+
+	@Override
+	public long getEntityId() {
+		return entityID;
+	}
 }

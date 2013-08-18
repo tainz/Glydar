@@ -5,6 +5,8 @@ import org.glydar.glydar.netty.data.GEntityData;
 
 public interface Entity {
 
+	public long getEntityId();
+	
 	/**
      * Temporary fix to allow plugins to manipulate entityData while we fix other issues.
      * Call this whenever you modify anything in Player.data and wish to update all of the clients.

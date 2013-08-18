@@ -15,6 +15,7 @@ public class EntityAPI {
 		GEntity g = new GEntity();
 		GEntityData d = new GEntityData(e);
 		g.setEntityData(d);
+		g.getEntityData().setId(g.entityID);
 		return g;
 	}
 }

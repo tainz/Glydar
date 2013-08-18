@@ -100,7 +100,6 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
         	GEntityData.FULL_BITMASK = ed.getBitmask();
             ply.setEntityData(this.ed);
             Glydar.getServer().getLogger().info("Player " + ply.getEntityData().getName() + " joined with entity ID " + ply.getEntityData().getId() + "! (Internal ID " + ply.entityID + ")");
-            //TODO Send all current entity data and NOT just existing players
             for (GEntity e : Glydar.getServer().getConnectedEntities()) {
                 if(e.entityID == ply.entityID) {
                     Glydar.getServer().getLogger().warning("I found myself! o.o");
@@ -127,7 +126,8 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             byte[] compressedData = null;
             try {
                 compressedData = ZLibOperations.compress(buf2.array());
-                System.out.println("Sending custom ED. Length: "+buf2.array().length+" compressed: "+compressedData.length);
+                //Debug
+                //System.out.println("Sending custom ED. Length: "+buf2.array().length+" compressed: "+compressedData.length);
             } catch (Exception e) { e.printStackTrace(); }
             if(compressedData != null) {
                 buf.writeInt(compressedData.length);

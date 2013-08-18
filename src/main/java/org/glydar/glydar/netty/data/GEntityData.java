@@ -14,12 +14,14 @@ import org.glydar.glydar.util.Bitops;
 
 import sun.security.util.BitArray;
 
+import java.lang.reflect.Field;
 import java.nio.ByteOrder;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
 
 public class GEntityData implements BaseData, EntityData {
 
+	//TODO: This is temporary xD
 	public static byte[] FULL_BITMASK;
 	
 	private long id;
@@ -122,7 +124,6 @@ public class GEntityData implements BaseData, EntityData {
             equipment[i] = new GItem();
 
         skills = new long[11];
-
     }
     
     public GEntityData(EntityData e) {

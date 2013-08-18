@@ -20,13 +20,14 @@ import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 
 public class GPlayer extends GEntity implements BaseTarget, CommandSender, Player {
-    private static HashMap<Long, GPlayer> connectedPlayers = new HashMap<Long, GPlayer>();
-
     public boolean joined = false;
-    private GEntityData data;
     private ChannelHandlerContext channelCtx;
     private boolean admin;
 
+    public GPlayer() {
+    	super();
+    }
+    
     public void setChannelContext(ChannelHandlerContext ctx) {
         this.channelCtx = ctx;
     }
@@ -46,55 +47,16 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
 	return ret;
     }
 
-    public static Collection<GPlayer> getConnectedPlayers() {
-        return connectedPlayers.values();
-    }
 
     public void playerJoined() {
-	if(!connectedPlayers.containsKey(entityID)) {
-		connectedPlayers.put(entityID, this);
-                this.joined = true;
-        }
+    	Glydar.getServer().addPlayer(entityID, this);
+    	this.joined = true;
     }
 
     public void playerLeft() {
-	connectedPlayers.remove(entityID);
+    	Glydar.getServer().removePlayer(entityID);
         forceUpdateData();
     }
-
-    /**
-     * Temporary fix to allow plugins to manipulate entityData while we fix other issues.
-     * Call this whenever you modify anything in Player.data and wish to update all of the clients.
-     */
-    public void forceUpdateData() {
-        new Packet0EntityUpdate(this.data).sendToAll();
-    }
-    
-    public void forceUpdateData(GEntityData ed){
-    	this.data = ed;
-    	new Packet0EntityUpdate(this.data).sendToAll();
-    }
-
-    public static GPlayer getPlayerByEntityID(long id) {
-        if(connectedPlayers.containsKey(id))
-            return connectedPlayers.get(id);
-        else
-        {
-            Glydar.getServer().getLogger().warning("Unable to find player with entity ID "+id+"! Returning null!");
-            return null;
-        }
-    }
-    
-    public EntityData getEntityData(){
-    	if (data == null){
-    		data = new GEntityData();
-    	}
-    	return data;
-    }
-
-	public void setEntityData(EntityData ed) {
-		this.data = (GEntityData) ed;
-	}
 	
 	public String getIp(){
 		return ((InetSocketAddress)channelCtx.channel().remoteAddress()).getAddress().getHostAddress();
@@ -104,7 +66,7 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
 		this.sendPacket(new Packet10Chat(message, 0));
 	}
         
-        public void sendMessageToPlayer(String message){
+    public void sendMessageToPlayer(String message){
 		sendMessage(message);
 	}
 	
@@ -112,12 +74,14 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
 		sendMessage(message);
 		playerLeft();
 		channelCtx.disconnect();
+		channelCtx.deregister();
 	}
 	
 	public void kickPlayer(){
 		sendMessage("You have been kicked!");
 		playerLeft();
 		channelCtx.disconnect();
+		channelCtx.deregister();
 	}
 
     @Override

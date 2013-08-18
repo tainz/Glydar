@@ -1,4 +1,4 @@
-package org.glydar.glydar.config;
+package org.glydar.api.config;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.glydar.api.config.Configuration;
+
 import org.glydar.glydar.Glydar;
 import org.yaml.snakeyaml.Yaml;
 

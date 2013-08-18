@@ -99,7 +99,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             ply.setEntityData(this.ed);
             Glydar.getServer().getLogger().info("Player " + ply.getEntityData().getName() + " joined with entity ID " + ply.getEntityData().getId() + "! (Internal ID " + ply.entityID + ")");
             //TODO Send all current entity data and NOT just existing players
-            for (GPlayer p : GPlayer.getConnectedPlayers()) {
+            for (GPlayer p : Glydar.getServer().getConnectedPlayers()) {
                 if(p.entityID == ply.entityID) {
                     Glydar.getServer().getLogger().warning("I found myself! o.o");
                     continue;

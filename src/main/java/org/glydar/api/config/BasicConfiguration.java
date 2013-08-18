@@ -1,11 +1,10 @@
-package org.glydar.glydar.config;
+package org.glydar.api.config;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Scanner;
-import org.glydar.api.config.Configuration;
 
 /**
  * @author YoshiGenius

@@ -9,6 +9,7 @@ import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
@@ -21,6 +22,8 @@ public class GServer implements Runnable, Server {
     public final boolean DEBUG;
     
     public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
+    
+    private HashMap<Long, GPlayer> connectedPlayers = new HashMap<Long, GPlayer>();
 
     public GServer(boolean debug) {
         this.DEBUG = debug;
@@ -32,9 +35,29 @@ public class GServer implements Runnable, Server {
     }
 
     public Collection<GPlayer> getConnectedPlayers() {
-        return GPlayer.getConnectedPlayers();
+        return connectedPlayers.values();
     }
 
+    public  GPlayer getPlayerByEntityID(long id) {
+        if(connectedPlayers.containsKey(id))
+            return connectedPlayers.get(id);
+        else
+        {
+            Glydar.getServer().getLogger().warning("Unable to find player with entity ID "+id+"! Returning null!");
+            return null;
+        }
+    }
+    
+    public void addPlayer(long entityID, GPlayer p) {
+    	if(!connectedPlayers.containsKey(entityID)) {
+    		connectedPlayers.put(entityID, p);
+        }
+    }
+    
+    public void removePlayer(long entityID) {
+    	connectedPlayers.remove(entityID);
+    }
+    
 	public Logger getLogger() {
 		return LOGGER;
 	}
@@ -84,5 +107,6 @@ public class GServer implements Runnable, Server {
             }
         }
     }
+    
 
 }

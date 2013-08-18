@@ -1,23 +1,21 @@
-package org.glydar.glydar;
+package org.glydar.api.command;
 
 import java.util.HashMap;
-import org.glydar.api.command.Command;
-import org.glydar.api.command.CommandExecutor;
+
 import org.glydar.api.command.CommandExecutor.CommandOutcome;
-import org.glydar.api.command.CommandSender;
 import org.glydar.api.plugin.Plugin;
 
 /**
  * @author YoshiGenius
  */
-public final class GCommander {
+public final class CommandManager {
     
     private static final HashMap<Command, CommandExecutor> executors = new HashMap<>();
     
     public static final String INVALID_COMMAND = "Invalid command entered! Type /help for help!";
     private static final String ERROR_OCCURRED = "An error occurred! Try again in a bit, maybe.";
     
-    protected GCommander() {}
+    protected CommandManager() {}
     
     protected static Plugin getOwningPlugin(String lbl) {
         for (Command cmd : executors.keySet()) {

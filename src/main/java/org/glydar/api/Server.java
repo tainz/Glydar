@@ -3,12 +3,20 @@ package org.glydar.api;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import org.glydar.api.models.Entity;
+import org.glydar.api.models.Player;
 import org.glydar.api.permissions.Permission;
 import org.glydar.glydar.models.GPlayer;
 
 public interface Server {
 
-	public Collection<GPlayer> getConnectedPlayers();
+	public Collection<Player> getConnectedPlayers();
+	
+	public Collection<Entity> getConnectedEntities();
+	
+	public Entity getEntityByEntityID(long id);
+	
+	public Player getPlayerByEntityID(long id);
 
 	public Logger getLogger();
 

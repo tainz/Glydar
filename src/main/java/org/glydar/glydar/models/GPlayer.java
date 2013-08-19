@@ -42,8 +42,8 @@ public class GPlayer extends GEntity implements BaseTarget, CommandSender, Playe
     }
 
     @Override
-    public Collection<GPlayer> getPlayers() {
-        Collection<GPlayer> ret = new HashSet<GPlayer>();
+    public Collection<Player> getPlayers() {
+        Collection<Player> ret = new HashSet<Player>();
 	ret.add(this);
 	return ret;
     }

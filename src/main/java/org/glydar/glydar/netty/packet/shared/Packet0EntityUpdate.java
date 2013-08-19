@@ -9,6 +9,7 @@ import org.glydar.api.event.events.EntityHealthEvent;
 import org.glydar.api.event.events.EntityMoveEvent;
 import org.glydar.api.event.events.EntityUpdateEvent;
 import org.glydar.api.event.events.PlayerJoinEvent;
+import org.glydar.api.models.Entity;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
@@ -105,8 +106,8 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
         	GEntityData.FULL_BITMASK = ed.getBitmask();
             ply.setEntityData(this.ed);
             Glydar.getServer().getLogger().info(joinMessage);
-            for (GEntity e : Glydar.getServer().getConnectedEntities()) {
-                if(e.entityID == ply.entityID) {
+            for (Entity e : Glydar.getServer().getConnectedEntities()) {
+                if(((GEntity) e).entityID == ply.entityID) {
                     Glydar.getServer().getLogger().warning("I found myself! o.o");
                     continue;
                 }

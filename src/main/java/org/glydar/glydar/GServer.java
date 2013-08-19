@@ -1,6 +1,8 @@
 package org.glydar.glydar;
 
 import org.glydar.api.Server;
+import org.glydar.api.models.Entity;
+import org.glydar.api.models.Player;
 import org.glydar.api.permissions.Permission;
 import org.glydar.api.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.models.GEntity;
@@ -36,21 +38,25 @@ public class GServer implements Runnable, Server {
 	    LOGGER.addHandler(console);
     }
 
-    public Collection<GPlayer> getConnectedPlayers() {
-    	ArrayList<GPlayer> players = new ArrayList<GPlayer>();
+    public Collection<Player> getConnectedPlayers() {
+    	ArrayList<Player> players = new ArrayList<Player>();
     	for (GEntity e : connectedEntities.values()){
     		if (e instanceof GPlayer){
-    			players.add((GPlayer) e);
+    			players.add((Player) e);
     		}
     	}
         return players;
     }
     
-    public Collection<GEntity> getConnectedEntities() {
-        return connectedEntities.values();
+    public Collection<Entity> getConnectedEntities() {
+    	ArrayList<Entity> entities = new ArrayList<Entity>();
+    	for (GEntity e : connectedEntities.values()){
+    		entities.add(e);
+    	}
+        return entities;
     }
 
-    public  GEntity getEntityByEntityID(long id) {
+    public Entity getEntityByEntityID(long id) {
         if(connectedEntities.containsKey(id))
             return connectedEntities.get(id);
         else
@@ -60,7 +66,7 @@ public class GServer implements Runnable, Server {
         }
     }
     
-    public  GPlayer getPlayerByEntityID(long id) {
+    public Player getPlayerByEntityID(long id) {
         if(connectedEntities.containsKey(id)) {
         	if (connectedEntities.get(id) instanceof GPlayer){
         		return (GPlayer) connectedEntities.get(id);
@@ -123,7 +129,7 @@ public class GServer implements Runnable, Server {
     }
 
     public void broadcast(String message, Permission permission) {
-        for (GPlayer player : this.getConnectedPlayers()) {
+        for (Player player : this.getConnectedPlayers()) {
             if (player.hasPermission(permission)) {
                 player.sendMessageToPlayer(message);
             }

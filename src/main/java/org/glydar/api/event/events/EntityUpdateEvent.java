@@ -49,18 +49,10 @@ public class EntityUpdateEvent extends Event {
 	}
 	
 	public Collection<Player> getRecievers(){
-		ArrayList<Player> players = new ArrayList<Player>();
-		for (GPlayer p : recievers.getPlayers()){
-			players.add((Player) p);
-		}
-		return players;
+		return recievers.getPlayers();
 	}
 	
 	public void setRecievers(Collection<Player> c){
-		ArrayList<GPlayer> gplayers = new ArrayList<GPlayer>();
-		for (Player p : c){
-			gplayers.add((GPlayer) p);
-		}
-		recievers = new CustomTarget(gplayers);
+		recievers = new CustomTarget(c);
 	}
 }

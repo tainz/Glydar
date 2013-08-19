@@ -11,6 +11,7 @@ import java.util.List;
 import org.glydar.api.command.CommandSender;
 import org.glydar.api.data.EntityData;
 import org.glydar.api.models.Player;
+import org.glydar.api.permissions.Permissible;
 import org.glydar.api.permissions.Permission;
 import org.glydar.api.permissions.PermissionAttachment;
 import org.glydar.glydar.Glydar;
@@ -19,7 +20,7 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 
-public class GPlayer extends GEntity implements BaseTarget, CommandSender, Player {
+public class GPlayer extends GEntity implements BaseTarget, CommandSender, Player, Permissible {
     public boolean joined = false;
     private ChannelHandlerContext channelCtx;
     private boolean admin;

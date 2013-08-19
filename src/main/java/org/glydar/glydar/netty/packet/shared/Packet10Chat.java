@@ -1,9 +1,12 @@
 package org.glydar.glydar.netty.packet.shared;
 
+import java.util.Arrays;
+
 import com.google.common.base.Charsets;
 
 import io.netty.buffer.ByteBuf;
 
+import org.glydar.api.command.CommandManager;
 import org.glydar.api.event.Cancellable;
 import org.glydar.api.event.Event;
 import org.glydar.api.event.EventManager;
@@ -67,14 +70,34 @@ public class Packet10Chat extends CubeWorldPacket {
     @Override
     public void receivedFrom(GPlayer ply) {
 		sender = ply;
-		manageEvent(ply);
-		if (!cancelled){
-			new Packet10Chat(message, ply).sendTo(target);
-	        Glydar.getServer().getLogger().info("(Chat) <"+ply.getEntityData().getName()+"> "+message);
+		boolean isCmd = manageCommands(ply);
+		if (!isCmd){
+			manageChatEvent(ply);
+			if (!cancelled){
+				new Packet10Chat(message, ply).sendTo(target);
+		        Glydar.getServer().getLogger().info("(Chat) <"+ply.getEntityData().getName()+"> "+message);
+			}
 		}
     }
     
-    public void manageEvent(GPlayer ply){
+    public boolean manageCommands(GPlayer ply){
+    	if (message.startsWith("/")){
+    		String command = message.substring(1);
+    		String[] parts = command.split(" ");
+    		String lbl = parts[0];
+    		String[] args;
+    		if (parts.length > 2){
+    			args = Arrays.copyOfRange(parts, 1, parts.length - 1);
+    		} else {
+    			args = null;
+    		}
+    		CommandManager.exec(ply, lbl, args);
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public void manageChatEvent(GPlayer ply){
     	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
     	message = event.getMessage();
     	target = event.getTarget();

@@ -8,6 +8,7 @@ import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.EntityHealthEvent;
 import org.glydar.api.event.events.EntityMoveEvent;
 import org.glydar.api.event.events.EntityUpdateEvent;
+import org.glydar.api.event.events.PlayerJoinEvent;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
@@ -97,9 +98,13 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     @Override
     public void receivedFrom(GPlayer ply) {
         if(!ply.joined) {
+        	//TODO: Add more functionality to join message!
+        	String joinMessage = manageJoinEvent(ply);
+        	
+        	//TODO: Temporary, make a proper constant!
         	GEntityData.FULL_BITMASK = ed.getBitmask();
             ply.setEntityData(this.ed);
-            Glydar.getServer().getLogger().info("Player " + ply.getEntityData().getName() + " joined with entity ID " + ply.getEntityData().getId() + "! (Internal ID " + ply.entityID + ")");
+            Glydar.getServer().getLogger().info(joinMessage);
             for (GEntity e : Glydar.getServer().getConnectedEntities()) {
                 if(e.entityID == ply.entityID) {
                     Glydar.getServer().getLogger().warning("I found myself! o.o");
@@ -109,7 +114,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
             }
             ply.playerJoined();
         }
-        manageEvents(ply);
+        manageEntityEvents(ply);
         ((GEntityData) ply.getEntityData()).updateFrom(this.ed);
 		this.sendTo(target);
     }
@@ -141,11 +146,22 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
         }
     }
     
+    public String manageJoinEvent(GPlayer ply){
+    	PlayerJoinEvent pje = (PlayerJoinEvent) EventManager.callEvent(new PlayerJoinEvent(ply));
+    	return pje.getJoinMessage();
+    }
+    
     @SuppressWarnings("restriction")
-	public void manageEvents(GPlayer ply){
+	public void manageEntityEvents(GPlayer ply){
+    	boolean fullUpdate = false;
+    	if (ed.getBitmask().equals(GEntityData.FULL_BITMASK)){
+    		fullUpdate = true;
+    	}
     	EntityUpdateEvent eue = (EntityUpdateEvent) EventManager.callEvent(new EntityUpdateEvent(ply, ed));
     	ed = (GEntityData) eue.getEntityData();
     	target = eue.getTarget();
+    	
+    	if (fullUpdate) return;
     	
     	BitArray bitArray = new BitArray(8*ed.getBitmask().length, Bitops.flipBits(ed.getBitmask()));
     	if (bitArray.get(0)){

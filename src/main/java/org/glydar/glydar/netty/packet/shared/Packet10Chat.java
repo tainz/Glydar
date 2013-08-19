@@ -1,14 +1,9 @@
 package org.glydar.glydar.netty.packet.shared;
 
 import java.util.Arrays;
-
 import com.google.common.base.Charsets;
-
 import io.netty.buffer.ByteBuf;
-
 import org.glydar.api.command.CommandManager;
-import org.glydar.api.event.Cancellable;
-import org.glydar.api.event.Event;
 import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.ChatEvent;
 import org.glydar.glydar.Glydar;
@@ -16,7 +11,6 @@ import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
-import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 10, variableLength = true)

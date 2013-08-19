@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteOrder;
 import java.util.Random;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;

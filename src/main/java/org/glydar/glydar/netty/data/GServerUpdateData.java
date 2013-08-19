@@ -1,7 +1,6 @@
 package org.glydar.glydar.netty.data;
 
 import java.util.ArrayList;
-
 import org.glydar.glydar.netty.data.actions.GDamageAction;
 import org.glydar.glydar.netty.data.actions.GKillAction;
 import org.glydar.glydar.netty.data.actions.GPickupAction;
@@ -9,7 +8,6 @@ import org.glydar.glydar.netty.data.actions.GSoundAction;
 import org.glydar.glydar.netty.packet.client.Packet13MissionData;
 import org.glydar.glydar.netty.packet.client.Packet7HitNPC;
 import org.glydar.glydar.netty.packet.client.Packet9ShootProjectile;
-
 import io.netty.buffer.ByteBuf;
 
 //TODO: ArrayLists!

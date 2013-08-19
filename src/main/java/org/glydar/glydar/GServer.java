@@ -10,7 +10,6 @@ import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

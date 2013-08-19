@@ -1,7 +1,6 @@
 package org.glydar.api.models;
 
 import java.util.List;
-
 import org.glydar.api.permissions.Permission;
 import org.glydar.api.permissions.PermissionAttachment;
 

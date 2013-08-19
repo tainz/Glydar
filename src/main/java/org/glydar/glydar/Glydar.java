@@ -7,12 +7,9 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-
 import org.glydar.api.plugin.PluginLoader;
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
-
 import java.net.InetSocketAddress;
-import java.nio.channels.Channel;
 
 public class Glydar {
 

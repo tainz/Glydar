@@ -1,20 +1,16 @@
 package org.glydar.glydar.netty.packet;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.SlicedByteBuf;
-
 import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GPlayer;
 import org.reflections.Reflections;
-
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Set;
-
 import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.PacketEvent;
 import org.glydar.api.models.Player;

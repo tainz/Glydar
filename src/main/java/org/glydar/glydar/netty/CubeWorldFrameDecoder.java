@@ -5,7 +5,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.MessageList;
 import io.netty.handler.codec.ReplayingDecoder;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-
 import java.nio.ByteOrder;
 
 public class CubeWorldFrameDecoder extends ReplayingDecoder {

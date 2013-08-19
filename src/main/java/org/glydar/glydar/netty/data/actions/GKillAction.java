@@ -1,7 +1,6 @@
 package org.glydar.glydar.netty.data.actions;
 
 import io.netty.buffer.ByteBuf;
-
 import org.glydar.glydar.netty.data.BaseData;
 
 public class GKillAction implements BaseData {

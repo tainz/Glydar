@@ -1,7 +1,6 @@
 package org.glydar.api.command;
 
 import java.util.HashMap;
-
 import org.glydar.api.command.CommandExecutor.CommandOutcome;
 import org.glydar.api.plugin.Plugin;
 

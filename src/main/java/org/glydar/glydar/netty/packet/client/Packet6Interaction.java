@@ -1,7 +1,6 @@
 package org.glydar.glydar.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
-
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GItem;

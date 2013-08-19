@@ -2,7 +2,6 @@ package org.glydar.glydar.netty.data.actions;
 
 import org.glydar.glydar.netty.data.BaseData;
 import org.glydar.glydar.netty.data.GVector3;
-
 import io.netty.buffer.ByteBuf;
 
 public class GSoundAction implements BaseData{

@@ -2,7 +2,6 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-
 import org.glydar.api.data.EntityData;
 import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.EntityHealthEvent;
@@ -17,12 +16,9 @@ import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.glydar.netty.packet.server.Packet2UpdateFinished;
 import org.glydar.glydar.util.Bitops;
 import org.glydar.glydar.util.ZLibOperations;
-
 import sun.security.util.BitArray;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteOrder;

@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-
 import java.nio.ByteOrder;
 
 public class CubeWorldByteEncoder extends MessageToByteEncoder<CubeWorldPacket> {

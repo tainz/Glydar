@@ -5,7 +5,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.Attribute;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-
 import java.io.IOException;
 
 public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorldPacket> {

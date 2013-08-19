@@ -3,7 +3,6 @@ package org.glydar.glydar.netty.packet.shared;
 import io.netty.buffer.ByteBuf;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
-import org.glydar.glydar.models.GServerEntity;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.server.Packet15Seed;
 import org.glydar.glydar.netty.packet.server.Packet16Join;

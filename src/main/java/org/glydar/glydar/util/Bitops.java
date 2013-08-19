@@ -1,7 +1,6 @@
 package org.glydar.glydar.util;
 
 import sun.security.util.BitArray;
-
 import java.util.BitSet;
 
 public class Bitops {

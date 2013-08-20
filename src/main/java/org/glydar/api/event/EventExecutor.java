@@ -1,6 +1,6 @@
 package org.glydar.api.event;
 
-public interface EventExecutor {
+public interface EventExecutor<E extends Event> {
 
-    void execute(Event event);
+    void execute(E event);
 }

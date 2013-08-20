@@ -1,7 +1,12 @@
 package org.glydar.glydar;
 
 import org.glydar.api.Server;
+import org.glydar.api.event.EventHandler;
 import org.glydar.api.event.EventManager;
+import org.glydar.api.event.Listener;
+import org.glydar.api.event.events.PacketEvent;
+import org.glydar.api.event.events.PlayerJoinEvent;
+import org.glydar.api.event.impl.DefaultEventManager;
 import org.glydar.api.models.Entity;
 import org.glydar.api.models.Player;
 import org.glydar.api.permissions.Permission;
@@ -27,7 +32,7 @@ public class GServer implements Runnable, Server {
     
     public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
     
-    private final EventManager eventManager = null;
+    private final EventManager eventManager = new DefaultEventManager();
     private HashMap<Long, GEntity> connectedEntities = new HashMap<Long, GEntity>();
     
 
@@ -38,6 +43,15 @@ public class GServer implements Runnable, Server {
 	    ConsoleHandler console = new ConsoleHandler();
 	    console.setFormatter(format);
 	    LOGGER.addHandler(console);
+
+	    eventManager.register(new Listener() {
+
+	        @EventHandler
+	        public void test(PacketEvent event) {
+	            Glydar.getServer().getLogger().info("Packet Event " + event.getPacket().getID());
+	        }
+        });
+
     }
 
     public EventManager getEventManager() {

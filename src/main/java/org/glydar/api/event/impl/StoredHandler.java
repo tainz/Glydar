@@ -1,4 +1,8 @@
-package org.glydar.api.event;
+package org.glydar.api.event.impl;
+
+import org.glydar.api.event.Event;
+import org.glydar.api.event.EventExecutor;
+import org.glydar.api.event.EventOrder;
 
 public class StoredHandler<E extends Event> implements Comparable<StoredHandler<E>> {
 

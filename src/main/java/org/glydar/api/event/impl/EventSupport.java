@@ -1,8 +1,11 @@
-package org.glydar.api.event;
+package org.glydar.api.event.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.glydar.api.event.Event;
+import org.glydar.api.event.EventPhase;
 
 public class EventSupport<E extends Event> {
 

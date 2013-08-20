@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface EventHandler {
 
-    public boolean ignoreCancelled() default false;
+    EventOrder order() default EventOrder.DEFAULT;
 
-	public EventOrder priority() default EventOrder.DEFAULT;
+    boolean ignoreCancelled() default false;
 }

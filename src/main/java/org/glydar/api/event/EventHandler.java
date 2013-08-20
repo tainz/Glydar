@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface EventHandler {
 
+    EventPhase phase() default EventPhase.MONITOR;
+
     EventOrder order() default EventOrder.DEFAULT;
 
     boolean ignoreCancelled() default false;

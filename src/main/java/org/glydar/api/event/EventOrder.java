@@ -5,6 +5,5 @@ public enum EventOrder {
 	EARLY,
 	DEFAULT,
 	LATE,
-	LATEST,
-	MONITOR;
+	LATEST;
 }

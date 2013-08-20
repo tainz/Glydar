@@ -92,7 +92,7 @@ public class Packet10Chat extends CubeWorldPacket {
     }
     
     public void manageChatEvent(GPlayer ply){
-    	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
+    	ChatEvent event = Glydar.getServer().getEventManager().callEvent(new ChatEvent(ply, message));
     	message = event.getMessage();
     	target = event.getTarget();
     	if (event.isCancelled()){

@@ -10,7 +10,7 @@ public class StoredListener{
     	private Plugin plugin;
     	private Listener listener;
     	private HashMap<String, ArrayList<Method>> methods = new HashMap<String, ArrayList<Method>>();
-    	private HashMap<Method, EventPriority> priorities = new HashMap<Method, EventPriority>();
+    	private HashMap<Method, EventOrder> priorities = new HashMap<Method, EventOrder>();
     	private List<Method> ignoreCancelled = new ArrayList<Method>();
     	
     	public StoredListener(Plugin p, Listener l){
@@ -26,7 +26,7 @@ public class StoredListener{
     		return listener;
     	}
     	
-    	public void addMethod(String eventName, Method method, EventPriority priority, Boolean ic){
+    	public void addMethod(String eventName, Method method, EventOrder priority, Boolean ic){
     		if (methods.containsKey(eventName)){
     			methods.get(eventName).add(method);
     		} else {
@@ -51,7 +51,7 @@ public class StoredListener{
     		return methods.get(eventName);
     	}
     	
-    	public boolean checkPriority(Method m, EventPriority ep){
+    	public boolean checkPriority(Method m, EventOrder ep){
     		if (priorities.get(m).equals(ep)){
     			return true;
     		} else {

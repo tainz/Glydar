@@ -15,5 +15,5 @@ public @interface EventHandler {
 
     public boolean ignoreCancelled() default false;
 
-	public EventPriority priority() default EventPriority.NORMAL;
+	public EventOrder priority() default EventOrder.DEFAULT;
 }

@@ -71,7 +71,7 @@ public class EventManager {
         	}
         }
         
-        for (EventPriority ep : EventPriority.values()){
+        for (EventOrder ep : EventOrder.values()){
         	for (Method m : methods.keySet()){
         		if (methods.get(m).checkPriority(m, ep)){
         			if (evt instanceof Cancellable) {

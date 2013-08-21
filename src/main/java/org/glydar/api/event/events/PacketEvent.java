@@ -2,7 +2,6 @@ package org.glydar.api.event.events;
 
 import org.glydar.api.event.Cancellable;
 import org.glydar.api.event.Event;
-import org.glydar.api.event.impl.EventSupport;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 /**
@@ -10,8 +9,6 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
  */
 public class PacketEvent extends Event implements Cancellable {
     
-    private static EventSupport<PacketEvent> EVENT_SUPPORT = new EventSupport<>();
-
     private boolean cancelled;
     private final CubeWorldPacket packet;
     
@@ -35,8 +32,4 @@ public class PacketEvent extends Event implements Cancellable {
         this.cancelled = cancelled;
     }
 
-    @Override
-    public EventSupport<?> getEventSupport() {
-        return EVENT_SUPPORT;
-    }
 }

@@ -2,15 +2,11 @@ package org.glydar.api;
 
 import java.util.Collection;
 import java.util.logging.Logger;
-
-import org.glydar.api.event.EventManager;
 import org.glydar.api.models.Entity;
 import org.glydar.api.models.Player;
 import org.glydar.api.permissions.Permission;
 
 public interface Server {
-
-    EventManager getEventManager();
 
 	public Collection<Player> getConnectedPlayers();
 	

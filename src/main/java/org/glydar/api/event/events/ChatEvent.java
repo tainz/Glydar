@@ -3,15 +3,12 @@ package org.glydar.api.event.events;
 import java.util.Collection;
 import org.glydar.api.event.Cancellable;
 import org.glydar.api.event.Event;
-import org.glydar.api.event.impl.EventSupport;
 import org.glydar.api.models.Player;
 import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.CustomTarget;
 import org.glydar.glydar.models.EveryoneTarget;
 
 public class ChatEvent extends Event implements Cancellable {
-
-    private static final EventSupport<ChatEvent> EVENT_SUPPORT = new EventSupport<>();
 
 	private boolean cancelled = false;
 	private Player player;
@@ -57,10 +54,5 @@ public class ChatEvent extends Event implements Cancellable {
 	
 	public void setRecievers(Collection<Player> c){
 		recievers = new CustomTarget(c);
-	}
-
-	@Override
-	public EventSupport<?> getEventSupport() {
-	    return EVENT_SUPPORT;
 	}
 }

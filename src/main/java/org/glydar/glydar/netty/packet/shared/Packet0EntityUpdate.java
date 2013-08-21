@@ -144,7 +144,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     }
     
     public String manageJoinEvent(GPlayer ply){
-    	PlayerJoinEvent pje = (PlayerJoinEvent) EventManager.callEvent(new PlayerJoinEvent(ply));
+    	PlayerJoinEvent pje = Glydar.getServer().getEventManager().callEvent(new PlayerJoinEvent(ply));
     	return pje.getJoinMessage();
     }
     
@@ -154,7 +154,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     	if (ed.getBitmask().equals(GEntityData.FULL_BITMASK)){
     		fullUpdate = true;
     	}
-    	EntityUpdateEvent eue = (EntityUpdateEvent) EventManager.callEvent(new EntityUpdateEvent(ply, ed));
+    	EntityUpdateEvent eue = Glydar.getServer().getEventManager().callEvent(new EntityUpdateEvent(ply, ed));
     	ed = (GEntityData) eue.getEntityData();
     	target = eue.getTarget();
     	
@@ -163,13 +163,13 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     	BitArray bitArray = new BitArray(8*ed.getBitmask().length, Bitops.flipBits(ed.getBitmask()));
     	if (bitArray.get(0)){
     		//Move
-    		EntityUpdateEvent eme = (EntityUpdateEvent) EventManager.callEvent(new EntityMoveEvent(ply, ed));
+    		EntityUpdateEvent eme = Glydar.getServer().getEventManager().callEvent(new EntityMoveEvent(ply, ed));
         	ed = (GEntityData) eme.getEntityData();
         	target = eue.getTarget();
     	}
     	if (bitArray.get(27)){
     		//Health
-    		EntityUpdateEvent ehe = (EntityUpdateEvent) EventManager.callEvent(new EntityHealthEvent(ply, ed));
+    		EntityUpdateEvent ehe = Glydar.getServer().getEventManager().callEvent(new EntityHealthEvent(ply, ed));
         	ed = (GEntityData) ehe.getEntityData();
         	target = eue.getTarget();
     	}

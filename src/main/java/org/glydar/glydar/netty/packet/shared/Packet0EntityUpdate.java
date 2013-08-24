@@ -95,12 +95,13 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     @Override
     public void receivedFrom(GPlayer ply) {
         if(!ply.joined) {
-        	//TODO: Add more functionality to join message!
-        	String joinMessage = manageJoinEvent(ply);
-        	
         	//TODO: Temporary, make a proper constant!
         	GEntityData.FULL_BITMASK = ed.getBitmask();
             ply.setEntityData(this.ed);
+            
+            //TODO: Add more functionality to join message!
+        	String joinMessage = manageJoinEvent(ply);
+            
             Glydar.getServer().getLogger().info(joinMessage);
             for (Entity e : Glydar.getServer().getConnectedEntities()) {
                 if(((GEntity) e).entityID == ply.entityID) {

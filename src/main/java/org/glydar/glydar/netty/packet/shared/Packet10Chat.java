@@ -4,7 +4,6 @@ import java.util.Arrays;
 import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 import org.glydar.api.command.CommandManager;
-import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.ChatEvent;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.BaseTarget;
@@ -92,7 +91,7 @@ public class Packet10Chat extends CubeWorldPacket {
     }
     
     public void manageChatEvent(GPlayer ply){
-    	ChatEvent event = (ChatEvent) EventManager.callEvent(new ChatEvent(ply, message));
+    	ChatEvent event = Glydar.getEventManager().callEvent(new ChatEvent(ply, message));
     	message = event.getMessage();
     	target = event.getTarget();
     	if (event.isCancelled()){

@@ -27,9 +27,7 @@ public class PacketEvent extends Event implements Cancellable {
         return this.cancelled;
     }
 
-    @Override
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
     }
-
 }

@@ -1,6 +1,8 @@
 package org.glydar.glydar.netty.packet;
 
 import io.netty.buffer.ByteBuf;
+
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.BaseTarget;
 import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GPlayer;
@@ -11,7 +13,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Set;
-import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.PacketEvent;
 import org.glydar.api.models.Player;
 
@@ -89,7 +90,7 @@ public abstract class CubeWorldPacket {
 
     private void _sendTo(GPlayer ply) {
                 PacketEvent evt = new PacketEvent(this);
-                if (!((PacketEvent)EventManager.callEvent(evt)).isCancelled()) {
+                if (!(Glydar.getEventManager().callEvent(evt)).isCancelled()) {
                     ply.getChannelContext().write(this);
                 }
     }

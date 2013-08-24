@@ -3,7 +3,6 @@ package org.glydar.glydar.netty.packet.shared;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.glydar.api.data.EntityData;
-import org.glydar.api.event.EventManager;
 import org.glydar.api.event.events.EntityHealthEvent;
 import org.glydar.api.event.events.EntityMoveEvent;
 import org.glydar.api.event.events.EntityUpdateEvent;
@@ -145,34 +144,14 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
     }
     
     public String manageJoinEvent(GPlayer ply){
-    	PlayerJoinEvent pje = (PlayerJoinEvent) EventManager.callEvent(new PlayerJoinEvent(ply));
+    	PlayerJoinEvent pje = Glydar.getEventManager().callEvent(new PlayerJoinEvent(ply));
     	return pje.getJoinMessage();
     }
     
-    @SuppressWarnings("restriction")
 	public void manageEntityEvents(GPlayer ply){
-    	boolean fullUpdate = false;
-    	if (ed.getBitmask().equals(GEntityData.FULL_BITMASK)){
-    		fullUpdate = true;
-    	}
-    	EntityUpdateEvent eue = (EntityUpdateEvent) EventManager.callEvent(new EntityUpdateEvent(ply, ed));
-    	ed = (GEntityData) eue.getEntityData();
-    	target = eue.getTarget();
-    	
-    	if (fullUpdate) return;
-    	
-    	BitArray bitArray = new BitArray(8*ed.getBitmask().length, Bitops.flipBits(ed.getBitmask()));
-    	if (bitArray.get(0)){
-    		//Move
-    		EntityUpdateEvent eme = (EntityUpdateEvent) EventManager.callEvent(new EntityMoveEvent(ply, ed));
-        	ed = (GEntityData) eme.getEntityData();
-        	target = eue.getTarget();
-    	}
-    	if (bitArray.get(27)){
-    		//Health
-    		EntityUpdateEvent ehe = (EntityUpdateEvent) EventManager.callEvent(new EntityHealthEvent(ply, ed));
-        	ed = (GEntityData) ehe.getEntityData();
-        	target = eue.getTarget();
-    	}
+    	EntityUpdateEvent event;
+		event = Glydar.getEventManager().callEvent(new EntityUpdateEvent(ply, ed));
+    	ed = (GEntityData) event.getEntityData();
+    	target = event.getTarget();
     }
 }

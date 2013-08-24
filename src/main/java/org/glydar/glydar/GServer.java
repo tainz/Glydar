@@ -1,6 +1,7 @@
 package org.glydar.glydar;
 
 import org.glydar.api.Server;
+import org.glydar.api.event.manager.EventManager;
 import org.glydar.api.models.Entity;
 import org.glydar.api.models.Player;
 import org.glydar.api.permissions.Permission;
@@ -25,16 +26,24 @@ public class GServer implements Runnable, Server {
     public final boolean DEBUG;
     
     public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
-    
+
+    private final EventManager eventManager;
+
     private HashMap<Long, GEntity> connectedEntities = new HashMap<Long, GEntity>();
 
     public GServer(boolean debug) {
         this.DEBUG = debug;
+        this.eventManager = new EventManager();
 	    LOGGER.setUseParentHandlers(false);
 	    LogFormatter format = new LogFormatter();
 	    ConsoleHandler console = new ConsoleHandler();
 	    console.setFormatter(format);
 	    LOGGER.addHandler(console);
+    }
+
+    @Override
+    public EventManager getEventManager() {
+    	return eventManager;
     }
 
     public Collection<Player> getConnectedPlayers() {

@@ -7,6 +7,8 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+import org.glydar.api.event.manager.EventManager;
 import org.glydar.api.plugin.PluginLoader;
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
 import java.net.InetSocketAddress;
@@ -65,6 +67,10 @@ public class Glydar {
 
     public static GServer getServer() {
         return s;
+    }
+
+    public static EventManager getEventManager() {
+    	return s.getEventManager();
     }
 
     public static void shutdown() {

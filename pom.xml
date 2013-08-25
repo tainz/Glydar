@@ -53,15 +53,48 @@
 					</execution>
 				</executions>
 			</plugin>
-		 <plugin>
-		  <groupId>org.apache.maven.plugins</groupId>
-		  <artifactId>maven-compiler-plugin</artifactId>
-		  <version>2.3.2</version>
-		  <configuration>
-		   <source>1.7</source>
-		   <target>1.7</target>
-		  </configuration>
-		 </plugin>
+		    <plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-compiler-plugin</artifactId>
+		        <version>2.3.2</version>
+		        <configuration>
+		            <source>1.7</source>
+		            <target>1.7</target>
+		        </configuration>
+		    </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+                    <uniqueVersion>false</uniqueVersion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <version>0.8</version>
+                <configuration>
+                    <message>Maven artifacts for ${project.version}</message>
+                    <server>github</server>
+                    <noJekyll>true</noJekyll>
+                    <outputDirectory>target/mvn-repo</outputDirectory>
+                    <branch>refs/heads/mvn-repo</branch>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <repositoryName>Glydar</repositoryName>
+                    <repositoryOwner>Glydar</repositoryOwner>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>

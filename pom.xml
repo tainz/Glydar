@@ -30,6 +30,8 @@
                                 <includes>
                                     <include>org.glydar.paraglydar:ParaGlydar</include>
                                     <include>io.netty:netty-all</include>
+                                    <include>org.reflections:reflections</include>
+                                    <include>org.javassist:javassist</include>
                                     <include>com.google.guava:guava</include>
                                     <include>commons-lang:commons-lang</include>
                                     <include>org.yaml:snakeyaml</include>

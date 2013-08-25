@@ -2,22 +2,25 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import org.glydar.api.data.EntityData;
-import org.glydar.api.event.events.EntityHealthEvent;
-import org.glydar.api.event.events.EntityMoveEvent;
-import org.glydar.api.event.events.EntityUpdateEvent;
-import org.glydar.api.event.events.PlayerJoinEvent;
-import org.glydar.api.models.Entity;
+
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.models.BaseTarget;
-import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.util.Bitops;
 import org.glydar.glydar.util.ZLibOperations;
+import org.glydar.paraglydar.data.EntityData;
+import org.glydar.paraglydar.event.events.EntityHealthEvent;
+import org.glydar.paraglydar.event.events.EntityMoveEvent;
+import org.glydar.paraglydar.event.events.EntityUpdateEvent;
+import org.glydar.paraglydar.event.events.PlayerJoinEvent;
+import org.glydar.paraglydar.models.BaseTarget;
+import org.glydar.paraglydar.models.Entity;
+import org.glydar.paraglydar.models.EveryoneTarget;
+
 import sun.security.util.BitArray;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteOrder;

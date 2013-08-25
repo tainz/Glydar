@@ -1,18 +1,21 @@
 package org.glydar.glydar.models;
 
 import io.netty.channel.ChannelHandlerContext;
+
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import org.glydar.api.command.CommandSender;
-import org.glydar.api.models.Player;
-import org.glydar.api.permissions.Permissible;
-import org.glydar.api.permissions.Permission;
-import org.glydar.api.permissions.PermissionAttachment;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
+import org.glydar.paraglydar.command.CommandSender;
+import org.glydar.paraglydar.models.BaseTarget;
+import org.glydar.paraglydar.models.Player;
+import org.glydar.paraglydar.permissions.Permissible;
+import org.glydar.paraglydar.permissions.Permission;
+import org.glydar.paraglydar.permissions.PermissionAttachment;
 
 public class GPlayer extends GEntity implements BaseTarget, CommandSender, Player, Permissible {
     public boolean joined = false;

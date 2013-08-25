@@ -1,16 +1,17 @@
 package org.glydar.glydar;
 
-import org.glydar.api.Server;
-import org.glydar.api.event.manager.EventManager;
-import org.glydar.api.models.Entity;
-import org.glydar.api.models.Player;
-import org.glydar.api.permissions.Permission;
-import org.glydar.api.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.glydar.util.LogFormatter;
+import org.glydar.paraglydar.Server;
+import org.glydar.paraglydar.event.manager.EventManager;
+import org.glydar.paraglydar.models.Entity;
+import org.glydar.paraglydar.models.Player;
+import org.glydar.paraglydar.permissions.Permission;
+import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

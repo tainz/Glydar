@@ -1,6 +1,7 @@
 package org.glydar.glydar.netty.data;
 
-import org.glydar.api.data.ItemUpgrade;
+import org.glydar.paraglydar.data.ItemUpgrade;
+
 import io.netty.buffer.ByteBuf;
 
 public class GItemUpgrade implements BaseData, ItemUpgrade {

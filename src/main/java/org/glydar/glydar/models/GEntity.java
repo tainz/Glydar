@@ -1,10 +1,10 @@
 package org.glydar.glydar.models;
 
-import org.glydar.api.data.EntityData;
-import org.glydar.api.models.Entity;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
+import org.glydar.paraglydar.data.EntityData;
+import org.glydar.paraglydar.models.Entity;
 
 public class GEntity implements Entity{
 	public final long entityID;
@@ -35,8 +35,8 @@ public class GEntity implements Entity{
         new Packet0EntityUpdate(this.data).sendToAll();
     }
     
-    public void forceUpdateData(GEntityData ed){
-    	this.data = ed;
+    public void forceUpdateData(EntityData ed){
+    	this.data = (GEntityData) ed;
     	forceUpdateData();
     }
     

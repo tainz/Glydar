@@ -1,13 +1,16 @@
 package org.glydar.glydar.netty.data;
 
 import com.google.common.base.Charsets;
+
 import io.netty.buffer.ByteBuf;
-import org.glydar.api.data.Appearance;
-import org.glydar.api.data.EntityData;
-import org.glydar.api.data.Item;
-import org.glydar.api.data.Vector3;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.util.Bitops;
+import org.glydar.paraglydar.data.Appearance;
+import org.glydar.paraglydar.data.EntityData;
+import org.glydar.paraglydar.data.Item;
+import org.glydar.paraglydar.data.Vector3;
+
 import sun.security.util.BitArray;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */

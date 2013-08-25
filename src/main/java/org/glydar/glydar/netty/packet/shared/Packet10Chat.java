@@ -1,16 +1,19 @@
 package org.glydar.glydar.netty.packet.shared;
 
 import java.util.Arrays;
+
 import com.google.common.base.Charsets;
+
 import io.netty.buffer.ByteBuf;
-import org.glydar.api.command.CommandManager;
-import org.glydar.api.event.events.ChatEvent;
+
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.models.BaseTarget;
-import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.paraglydar.command.CommandManager;
+import org.glydar.paraglydar.event.events.ChatEvent;
+import org.glydar.paraglydar.models.BaseTarget;
+import org.glydar.paraglydar.models.EveryoneTarget;
 
 @CubeWorldPacket.Packet(id = 10, variableLength = true)
 public class Packet10Chat extends CubeWorldPacket {

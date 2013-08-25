@@ -3,18 +3,18 @@ package org.glydar.glydar.netty.packet;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.models.BaseTarget;
-import org.glydar.glydar.models.EveryoneTarget;
 import org.glydar.glydar.models.GPlayer;
+import org.glydar.paraglydar.models.BaseTarget;
+import org.glydar.paraglydar.models.EveryoneTarget;
+import org.glydar.paraglydar.models.Player;
 import org.reflections.Reflections;
+
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Set;
-import org.glydar.api.event.events.PacketEvent;
-import org.glydar.api.models.Player;
 
 public abstract class CubeWorldPacket {
     @Retention(RetentionPolicy.RUNTIME)
@@ -89,10 +89,7 @@ public abstract class CubeWorldPacket {
 	}
 
     private void _sendTo(GPlayer ply) {
-                PacketEvent evt = new PacketEvent(this);
-                if (!(Glydar.getEventManager().callEvent(evt)).isCancelled()) {
-                    ply.getChannelContext().write(this);
-                }
+    	ply.getChannelContext().write(this);
     }
 
     public void sendTo(BaseTarget target) {

@@ -1,8 +1,9 @@
 package org.glydar.glydar.netty.data;
 
-import org.glydar.api.data.Appearance;
-import org.glydar.api.data.Vector3;
 import org.glydar.glydar.netty.data.GVector3;
+import org.glydar.paraglydar.data.Appearance;
+import org.glydar.paraglydar.data.Vector3;
+
 import io.netty.buffer.ByteBuf;
 
 public class GAppearance implements BaseData, Appearance {

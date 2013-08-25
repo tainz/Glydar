@@ -8,9 +8,10 @@ import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import org.glydar.api.event.manager.EventManager;
-import org.glydar.api.plugin.PluginLoader;
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
+import org.glydar.paraglydar.event.manager.EventManager;
+import org.glydar.paraglydar.plugin.PluginLoader;
+
 import java.net.InetSocketAddress;
 
 public class Glydar {

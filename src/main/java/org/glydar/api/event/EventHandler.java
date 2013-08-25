@@ -7,13 +7,14 @@ import java.lang.annotation.Target;
 
 /**
  * Notes methods that handle events inside a listener
+ *
  * @author YoshiGenius
  */
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
 public @interface EventHandler {
 
-    public boolean ignoreCancelled() default false;
+	EventPriority priority() default EventPriority.NORMAL;
 
-	public EventPriority priority() default EventPriority.NORMAL;
+	boolean ignoreCancelled() default false;
 }

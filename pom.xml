@@ -29,6 +29,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.glydar.paraglydar:ParaGlydar</include>
+                                    <include>io.netty:netty-all</include>
                                     <include>com.google.guava:guava</include>
                                     <include>commons-lang:commons-lang</include>
                                     <include>org.yaml:snakeyaml</include>

@@ -183,7 +183,7 @@
         <repository>
             <id>ParaGlydar-mvn-repo</id>
             <name>ParaGlydar</name>
-            <url>https://raw.github.com/Glydar/ParaGlydar/mvn-repo/</url>
+            <url>maven.cyberkitsune.net</url>
         </repository>
     </repositories>
     <reporting>

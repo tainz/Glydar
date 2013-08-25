@@ -178,9 +178,9 @@
             <url>http://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>CyberKitsune-public</id>
+            <id>ParaGlydar-mvn-repo</id>
             <name>ParaGlydar</name>
-            <url>http://maven.cyberkitsune.net/</url>
+            <url>https://raw.github.com/Glydar/ParaGlydar/mvn-repo/</url>
         </repository>
     </repositories>
     <reporting>

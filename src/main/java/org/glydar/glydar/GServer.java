@@ -4,7 +4,6 @@ import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
-import org.glydar.glydar.util.LogFormatter;
 import org.glydar.paraglydar.Server;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.models.Entity;
@@ -15,12 +14,11 @@ import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
 public class GServer implements Runnable, Server {
 
-	private final Logger LOGGER = Logger.getLogger(Glydar.class.getName());
+	private final IConsoleLogManager logManager;
 
     private boolean running = true;
 
@@ -34,12 +32,8 @@ public class GServer implements Runnable, Server {
 
     public GServer(boolean debug) {
         this.DEBUG = debug;
+	    this.logManager = new ConsoleLogManager(Glydar.class.getName());
         this.eventManager = new EventManager();
-	    LOGGER.setUseParentHandlers(false);
-	    LogFormatter format = new LogFormatter();
-	    ConsoleHandler console = new ConsoleHandler();
-	    console.setFormatter(format);
-	    LOGGER.addHandler(console);
     }
 
     @Override
@@ -70,7 +64,7 @@ public class GServer implements Runnable, Server {
             return connectedEntities.get(id);
         else
         {
-            Glydar.getServer().getLogger().warning("Unable to find entity with entity ID "+id+"! Returning null!");
+            Glydar.getServer().getLogger().warning("Unable to find entity with entity ID " + id + "! Returning null!");
             return null;
         }
     }
@@ -96,7 +90,7 @@ public class GServer implements Runnable, Server {
     }
     
 	public Logger getLogger() {
-		return LOGGER;
+		return this.logManager.getLogger();
 	}
 
 	public boolean isRunning() {

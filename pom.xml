@@ -29,9 +29,11 @@
                             <artifactSet>
                                 <includes>
                                     <include>org.glydar.paraglydar:*</include>
+                                    <include>com.google.guava:guava</include>
+                                    <include>commons-lang:commons-lang</include>
+                                    <include>org.yaml:snakeyaml</include>
                                 </includes>
                             </artifactSet>
-							<minimizeJar>false</minimizeJar>
 							<filters>
 								<filter>
 									<artifact>*:*</artifact>
@@ -40,10 +42,6 @@
 										<exclude>LICENSE</exclude>
 										<exclude>NOTICE</exclude>
 									</excludes>
-									<artifact>cglib:cglib</artifact>
-									<includes>
-										<include>**</include>
-									</includes>
 								</filter>
 							</filters>
 							<transformers>
@@ -118,11 +116,21 @@
 	        <groupId>com.google.guava</groupId>
 	        <artifactId>guava</artifactId>
 	        <version>14.0.1</version>
+            <type>jar</type>
+            <scope>compile</scope>
 	    </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.3</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.13-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
          <dependency>
          	<groupId>junit</groupId>

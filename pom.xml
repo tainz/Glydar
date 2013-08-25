@@ -2,7 +2,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.glydar</groupId>
 	<artifactId>Glydar</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${glydar.mainversion}</version>
+
+    <properties>
+        <glydar.majorversion>0</glydar.majorversion>
+        <glydar.minorversion>0</glydar.minorversion>
+        <glydar.revisionversion>0</glydar.revisionversion>
+        <glydar.mainversion>${glydar.majorversion}.${glydar.minorversion}.${glydar.revisionversion}</glydar.mainversion>
+        <paraglydar.mainversion>0.0.0</paraglydar.mainversion>
+    </properties>
+
 	<build>
 		<plugins>
 			<!-- Dependency addition plugin -->
@@ -12,8 +21,17 @@
 				<version>2.0</version>
 				<executions>
 					<execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
 						<configuration>
-							<minimizeJar>true</minimizeJar>
+                            <artifactSet>
+                                <includes>
+                                    <include>org.glydar.paraglydar:*</include>
+                                </includes>
+                            </artifactSet>
+							<minimizeJar>false</minimizeJar>
 							<filters>
 								<filter>
 									<artifact>*:*</artifact>
@@ -34,10 +52,6 @@
 					            </transformer>
 					     	</transformers>
 						</configuration>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -85,6 +99,11 @@
 	</build>
 	<dependencies>
         <dependency>
+            <groupId>org.glydar.paraglydar</groupId>
+            <artifactId>ParaGlydar</artifactId>
+            <version>${paraglydar.mainversion}</version>
+        </dependency>
+        <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>4.0.0.CR9</version>
@@ -95,30 +114,35 @@
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC1</version>
         </dependency>
-	 <dependency>
-	  <groupId>com.google.guava</groupId>
-	  <artifactId>guava</artifactId>
-	  <version>14.0.1</version>
-	 </dependency>
-         <dependency>
-          <groupId>org.yaml</groupId>
-          <artifactId>snakeyaml</artifactId>
-          <version>1.13-SNAPSHOT</version>
-         </dependency>
+	    <dependency>
+	        <groupId>com.google.guava</groupId>
+	        <artifactId>guava</artifactId>
+	        <version>14.0.1</version>
+	    </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.13-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 	<repositories>
-         <repository>
-          <id>Sonatype-public</id>
-          <name>SnakeYAML repository</name>
-          <url>http://oss.sonatype.org/content/groups/public/</url>
-         </repository>
-        </repositories>
+        <repository>
+            <id>Sonatype-public</id>
+            <name>SnakeYAML repository</name>
+            <url>http://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>CyberKitsune-public</id>
+            <name>ParaGlydar</name>
+            <url>http://maven.cyberkitsune.net/</url>
+        </repository>
+    </repositories>
     <reporting>
         <plugins>
             <plugin>
-                <version>0.1</version>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.10</version>
                 <configuration>
                     <configLocation>config/sun_checks.xml</configLocation>
                 </configuration>

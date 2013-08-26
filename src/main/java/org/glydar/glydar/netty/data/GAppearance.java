@@ -434,48 +434,48 @@ public class GAppearance implements BaseData, Appearance {
 		return bodyOffset;
 	}
 
-	public void setBodyOffset(Vector3 bodyOffset) {
-		this.bodyOffset = (GVector3) bodyOffset;
+	public void setBodyOffset(Vector3<Float> bodyOffset) {
+		this.bodyOffset = (GVector3<Float>) bodyOffset;
 	}
 
 	public Vector3<Float> getHeadOffset() {
 		return headOffset;
 	}
 
-	public void setHeadOffset(Vector3 headOffset) {
-		this.headOffset = (GVector3) headOffset;
+	public void setHeadOffset(Vector3<Float> headOffset) {
+		this.headOffset = (GVector3<Float>) headOffset;
 	}
 
 	public Vector3<Float> getHandOffset() {
 		return handOffset;
 	}
 
-	public void setHandOffset(Vector3 handOffset) {
-		this.handOffset = (GVector3) handOffset;
+	public void setHandOffset(Vector3<Float> handOffset) {
+		this.handOffset = (GVector3<Float>) handOffset;
 	}
 
 	public Vector3<Float> getFootOffset() {
 		return footOffset;
 	}
 
-	public void setFootOffset(Vector3 footOffset) {
-		this.footOffset = (GVector3) footOffset;
+	public void setFootOffset(Vector3<Float> footOffset) {
+		this.footOffset = (GVector3<Float>) footOffset;
 	}
 
 	public Vector3<Float> getBackOffset() {
 		return backOffset;
 	}
 
-	public void setBackOffset(Vector3 backOffset) {
-		this.backOffset = (GVector3) backOffset;
+	public void setBackOffset(Vector3<Float> backOffset) {
+		this.backOffset = (GVector3<Float>) backOffset;
 	}
 
 	public Vector3<Float> getWingOffset() {
 		return wingOffset;
 	}
 
-	public void setWingOffset(Vector3 wingOffset) {
-		this.wingOffset = (GVector3) wingOffset;
+	public void setWingOffset(Vector3<Float> wingOffset) {
+		this.wingOffset = (GVector3<Float>) wingOffset;
 	}
 
 

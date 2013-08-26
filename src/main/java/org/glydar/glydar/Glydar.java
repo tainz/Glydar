@@ -8,7 +8,9 @@ import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
+import org.glydar.glydar.models.GModelCreator;
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
+import org.glydar.glydar.netty.data.GDataCreator;
 import org.glydar.paraglydar.ParaGlydar;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.plugin.PluginLoader;
@@ -38,6 +40,7 @@ public class Glydar {
         }
         s = new GServer(serverDebug);
 	    ParaGlydar.setServer(s);
+	    ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
 		serverBootstrap = new ServerBootstrap();
 		serverBootstrap.childHandler(new CubeWorldServerInitializer());
 		serverBootstrap.option(ChannelOption.TCP_NODELAY, true);

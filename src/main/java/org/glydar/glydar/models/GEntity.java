@@ -6,7 +6,7 @@ import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.models.Entity;
 
-public class GEntity implements Entity{
+public abstract class GEntity implements Entity {
 	public final long entityID;
 	protected GEntityData data;
 

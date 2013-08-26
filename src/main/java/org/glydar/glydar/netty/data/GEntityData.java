@@ -15,6 +15,7 @@ import sun.security.util.BitArray;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
 
+@SuppressWarnings("restriction")
 public class GEntityData implements BaseData, EntityData {
 
 	//TODO: This is temporary xD
@@ -23,9 +24,7 @@ public class GEntityData implements BaseData, EntityData {
 	private long id;
 	private byte[] bitmask = new byte[8];
 
-	private long posX;
-	private long posY;
-	private long posZ;
+	private GVector3<Long> position;
 
 	private float roll;
 	private float pitch;
@@ -109,6 +108,7 @@ public class GEntityData implements BaseData, EntityData {
 
     public GEntityData() {
         bitmask = new byte[8];
+        position = new GVector3<Long>();
         velocity = new GVector3<Float>();
         accel = new GVector3<Float>();
         extraVel = new GVector3<Float>();
@@ -125,9 +125,7 @@ public class GEntityData implements BaseData, EntityData {
     public GEntityData(EntityData e) {
 		this.id = e.getId();
 		this.bitmask = e.getBitmask();
-		this.posX = e.getPosX();
-		this.posY = e.getPosY();
-		this.posZ = e.getPosZ();
+		this.position = new GVector3<Long>(e.getPosition());
 		this.roll = e.getRoll();
 		this.pitch = e.getPitch();
 		this.yaw = e.getYaw();
@@ -211,9 +209,7 @@ public class GEntityData implements BaseData, EntityData {
         //BitArray bitArray = new BitArray(bitmask);
 
         if(bitArray.get(0)) {
-            posX = buf.readLong();
-            posY = buf.readLong();
-            posZ = buf.readLong();
+            position.decode(buf, Long.class);
         }
         if(bitArray.get(1)) {
 	        pitch = buf.readFloat();
@@ -401,9 +397,7 @@ public class GEntityData implements BaseData, EntityData {
         buf.writeBytes(bitmask);
 
         if(bitArray.get(0)) {
-            buf.writeLong(posX);
-            buf.writeLong(posY);
-            buf.writeLong(posZ);
+            position.encode(buf, Long.class);
         }
         if(bitArray.get(1)) {
 	        buf.writeFloat(pitch);
@@ -599,9 +593,7 @@ public class GEntityData implements BaseData, EntityData {
 		BitArray bitArray = new BitArray(8*changes.getBitmask().length, Bitops.flipBits(changes.getBitmask())); //Size in bits, byte[]
 
         if(bitArray.get(0)) {
-            this.posX = changes.getPosX();
-            this.posY = changes.getPosY();
-            this.posZ = changes.getPosZ();
+            this.position = (GVector3<Long>) changes.getPosition();
         }
         if(bitArray.get(1)) {
             this.pitch = changes.getPitch();
@@ -609,13 +601,13 @@ public class GEntityData implements BaseData, EntityData {
             this.yaw = changes.getYaw();
         }
         if(bitArray.get(2)) {
-            this.velocity = (GVector3) changes.getVelocity();
+            this.velocity = (GVector3<Float>) changes.getVelocity();
         }
         if(bitArray.get(3)) {
-            this.accel = (GVector3) changes.getAccel();
+            this.accel = (GVector3<Float>) changes.getAccel();
         }
         if(bitArray.get(4)) {
-            this.extraVel = (GVector3) changes.getExtraVel();
+            this.extraVel = (GVector3<Float>) changes.getExtraVel();
         }
         if(bitArray.get(5)) {
             this.lookPitch = changes.getLookPitch();
@@ -686,7 +678,7 @@ public class GEntityData implements BaseData, EntityData {
             this.nu6 = changes.getNu6();
         }
         if(bitArray.get(26)) {
-            this.rayHit = (GVector3) changes.getRayHit();
+            this.rayHit = (GVector3<Float>) changes.getRayHit();
         }
         if(bitArray.get(27)) {
             this.HP = changes.getHP();
@@ -783,28 +775,12 @@ public class GEntityData implements BaseData, EntityData {
 		this.bitmask = mask;
 	}
 
-	public long getPosX() {
-		return posX;
+	public Vector3<Long> getPosition() {
+		return position;
 	}
 
-	public void setPosX(long posX) {
-		this.posX = posX;
-	}
-
-	public long getPosY() {
-		return posY;
-	}
-
-	public void setPosY(long posY) {
-		this.posY = posY;
-	}
-
-	public long getPosZ() {
-		return posZ;
-	}
-
-	public void setPosZ(long posZ) {
-		this.posZ = posZ;
+	public void setPosition(Vector3<Long> pos) {
+		this.position = (GVector3<Long>) pos;
 	}
 
 	public float getRoll() {
@@ -835,24 +811,24 @@ public class GEntityData implements BaseData, EntityData {
 		return velocity;
 	}
 
-	public void setVelocity(Vector3 velocity) {
-		this.velocity = (GVector3) velocity;
+	public void setVelocity(Vector3<Float> velocity) {
+		this.velocity = (GVector3<Float>) velocity;
 	}
 
 	public Vector3<Float> getAccel() {
 		return accel;
 	}
 
-	public void setAccel(Vector3 accel) {
-		this.accel = (GVector3) accel;
+	public void setAccel(Vector3<Float> accel) {
+		this.accel = (GVector3<Float>) accel;
 	}
 
 	public Vector3<Float> getExtraVel() {
 		return extraVel;
 	}
 
-	public void setExtraVel(Vector3 extraVel) {
-		this.extraVel = (GVector3) extraVel;
+	public void setExtraVel(Vector3<Float> extraVel) {
+		this.extraVel = (GVector3<Float>) extraVel;
 	}
 
 	public float getLookPitch() {
@@ -1019,8 +995,8 @@ public class GEntityData implements BaseData, EntityData {
 		return rayHit;
 	}
 
-	public void setRayHit(Vector3 rayHit) {
-		this.rayHit = (GVector3) rayHit;
+	public void setRayHit(Vector3<Float> rayHit) {
+		this.rayHit = (GVector3<Float>) rayHit;
 	}
 
 	public float getHP() {

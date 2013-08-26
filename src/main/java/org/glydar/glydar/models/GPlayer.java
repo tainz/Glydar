@@ -17,7 +17,7 @@ import org.glydar.paraglydar.permissions.Permissible;
 import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.PermissionAttachment;
 
-public class GPlayer extends GEntity implements BaseTarget, CommandSender, Player, Permissible {
+public class GPlayer extends GEntity implements Player {
     public boolean joined = false;
     private ChannelHandlerContext channelCtx;
     private boolean admin;

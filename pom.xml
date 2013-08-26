@@ -112,7 +112,7 @@
         <repository>
             <id>ParaGlydar-mvn-repo</id>
             <name>ParaGlydar</name>
-            <url>http://maven.craftednation.com:8080/archiva/repository/glydarteam/</url>
+            <url>http://maven.cyberkitsune.net/</url>
         </repository>
     </repositories>
 

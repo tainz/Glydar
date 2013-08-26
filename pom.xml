@@ -40,7 +40,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                                <dependencyReducedPomLocation>target/dependency-reduced-pom.xml</dependencyReducedPomLocation>                            <artifactSet>
+                            <artifactSet>
                                 <includes>
                                     <include>org.glydar.paraglydar:ParaGlydar</include>
                                     <include>io.netty:netty-all</include>

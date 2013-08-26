@@ -63,6 +63,7 @@ public class Glydar {
 		chan = serverBootstrap.bind(new InetSocketAddress(port));
 
 		s.getLogger().info("Server ready on port " + port);
+	    s.getLogger().info("This server is running " + s.getName() + " version " + s.getVersion());
         serverThread.start();
         
         s.run();

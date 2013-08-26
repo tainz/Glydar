@@ -10,6 +10,7 @@ import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
+import org.glydar.glydar.util.Versioning;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,16 +20,13 @@ import java.util.logging.Logger;
 public class GServer implements Runnable, Server {
 
 	private final IConsoleLogManager logManager;
-
     private boolean running = true;
-
     public final boolean DEBUG;
-    
     public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
-
     private final EventManager eventManager;
-
     private HashMap<Long, GEntity> connectedEntities = new HashMap<Long, GEntity>();
+	private final String serverName = "Glydar";
+	private final String serverVersion = Versioning.getParaGlydarVersion();
 
     public GServer(boolean debug) {
         this.DEBUG = debug;
@@ -41,7 +39,15 @@ public class GServer implements Runnable, Server {
     	return eventManager;
     }
 
-    public Collection<Player> getConnectedPlayers() {
+	public String getName() {
+		return serverName;
+	}
+
+	public String getVersion() {
+		return serverVersion;
+	}
+
+	public Collection<Player> getConnectedPlayers() {
     	ArrayList<Player> players = new ArrayList<Player>();
     	for (GEntity e : connectedEntities.values()){
     		if (e instanceof GPlayer){

@@ -1,5 +1,6 @@
 package org.glydar.glydar.netty.data;
 
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.Vector3;
@@ -15,7 +16,7 @@ public class GAppearance implements BaseData, Appearance {
 	float boundingRadius;
 	float boundingHeight;
 	int headModel, hairModel, handModel, footModel, bodyModel, backModel, shoulderModel, wingModel; //ushort
-	float headScale, hairScale, handScale, footScale, bodyScale, backScale, unknown, wingScale, shoulderScale, weaponScale;
+	float headScale, hairScale, handScale, footScale, bodyScale, backScale, unknown, wingScale, shoulderScale; //weaponScale;
 	float bodyPitch, armPitch, armRoll, armYaw;
 	float feetPitch, wingPitch, backPitch;
 	GVector3<Float> bodyOffset, headOffset, handOffset, footOffset, backOffset, wingOffset;
@@ -99,7 +100,7 @@ public class GAppearance implements BaseData, Appearance {
 		handScale = buf.readFloat();
 		footScale = buf.readFloat();
 		shoulderScale = buf.readFloat();
-		weaponScale = buf.readFloat();
+		//weaponScale = buf.readFloat();
 		backScale = buf.readFloat();
 		unknown = buf.readFloat();
 		wingScale = buf.readFloat();
@@ -145,7 +146,7 @@ public class GAppearance implements BaseData, Appearance {
 		buf.writeFloat(handScale);
 		buf.writeFloat(footScale);
 		buf.writeFloat(shoulderScale);
-		buf.writeFloat(weaponScale);
+		//buf.writeFloat(weaponScale);
 		buf.writeFloat(backScale);
 		buf.writeFloat(unknown);
 		buf.writeFloat(wingScale);

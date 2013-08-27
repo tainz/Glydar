@@ -1,15 +1,13 @@
 package org.glydar.glydar.netty.data;
 
+import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.DataCreator;
 import org.glydar.paraglydar.data.Vector3;
 import org.glydar.paraglydar.data.EntityData;
 
 public class GDataCreator implements DataCreator {
 
-	public GDataCreator() {
-	}
-
-	;
+	public GDataCreator() {};
 
 	//Creating Vectors
 	public Vector3<Float> createVector3(float x, float y, float z) {
@@ -53,5 +51,13 @@ public class GDataCreator implements DataCreator {
 	public EntityData createEntityData(EntityData e) {
 		return new GEntityData(e);
 	}
+	
+	//Creating Appearance Data
+	public Appearance createAppearance() {
+		return new GAppearance();
+	}
 
+	public Appearance createAppearance(Appearance a) {
+		return new GAppearance(a);
+	}
 }

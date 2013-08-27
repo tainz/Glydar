@@ -10,11 +10,14 @@ import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
+import org.glydar.glydar.util.LoggerOutputStream;
 import org.glydar.glydar.util.Versioning;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GServer implements Runnable, Server {
@@ -31,6 +34,8 @@ public class GServer implements Runnable, Server {
     public GServer(boolean debug) {
         this.DEBUG = debug;
 	    this.logManager = new ConsoleLogManager(Glydar.class.getName());
+	    System.setOut(new PrintStream(new LoggerOutputStream(Level.INFO, logManager.getLogger()), true));
+	    System.setErr(new PrintStream(new LoggerOutputStream(Level.SEVERE, logManager.getLogger()), true));
         this.eventManager = new EventManager();
     }
 

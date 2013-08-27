@@ -6,15 +6,15 @@ import org.glydar.paraglydar.data.ItemUpgrade;
 import io.netty.buffer.ByteBuf;
 
 public class GItem implements BaseData, Item {
-    byte type, subtype;
-    long modifier; //Uint
-    long minusModifier; //Uint
-    byte rarity, material, flags;
-    int level; //ushort
-    GItemUpgrade[] upgrades;
-    long upgradeCount; //unsigned
+	byte type, subtype;
+	long modifier; //Uint
+	long minusModifier; //Uint
+	byte rarity, material, flags;
+	int level; //ushort
+	GItemUpgrade[] upgrades;
+	long upgradeCount; //unsigned
 
-    public GItem(Item i) {
+	public GItem(Item i) {
 		this.type = i.getType();
 		this.subtype = i.getSubtype();
 		this.modifier = i.getModifier();
@@ -24,56 +24,56 @@ public class GItem implements BaseData, Item {
 		this.flags = i.getFlags();
 		this.level = i.getLevel();
 		this.upgrades = new GItemUpgrade[i.getUpgrades().length];
-		for (int j = 0; j < i.getUpgrades().length; j++){
+		for (int j = 0; j < i.getUpgrades().length; j++) {
 			this.upgrades[j] = new GItemUpgrade(i.getUpgrades()[j]);
 		}
 		this.upgradeCount = i.getUpgradeCount();
 	}
 
 	public GItem() {
-        upgrades = new GItemUpgrade[32];
-    }
+		upgrades = new GItemUpgrade[32];
+	}
 
-    @Override
-    public void decode(ByteBuf buf) {
-        type = buf.readByte();
-        subtype = buf.readByte();
-        buf.readBytes(2); //Skip
-        modifier = buf.readUnsignedInt();
-        minusModifier = buf.readUnsignedInt();
-        rarity = buf.readByte();
-        material = buf.readByte();
-        flags = buf.readByte();
-        buf.readByte();
-        level = buf.readUnsignedShort();
-        buf.readBytes(2); //Skip
-        for (int i = 0; i < upgrades.length; ++i) {
-            upgrades[i] = new GItemUpgrade();
-            upgrades[i].decode(buf);
-        }
+	@Override
+	public void decode(ByteBuf buf) {
+		type = buf.readByte();
+		subtype = buf.readByte();
+		buf.readBytes(2); //Skip
+		modifier = buf.readUnsignedInt();
+		minusModifier = buf.readUnsignedInt();
+		rarity = buf.readByte();
+		material = buf.readByte();
+		flags = buf.readByte();
+		buf.readByte();
+		level = buf.readUnsignedShort();
+		buf.readBytes(2); //Skip
+		for (int i = 0; i < upgrades.length; ++i) {
+			upgrades[i] = new GItemUpgrade();
+			upgrades[i].decode(buf);
+		}
 
-        upgradeCount = buf.readUnsignedInt();
-    }
+		upgradeCount = buf.readUnsignedInt();
+	}
 
-    @Override
-    public void encode(ByteBuf buf) {
-        buf.writeByte(type);
-        buf.writeByte(subtype);
-        buf.writeBytes(new byte[2]);
-        buf.writeInt((int)modifier);
-        buf.writeInt((int)minusModifier);
-        buf.writeByte(rarity);
-        buf.writeByte(material);
-        buf.writeByte(flags);
-        buf.writeBytes(new byte[1]);
-        buf.writeShort(level);
-        buf.writeBytes(new byte[2]);
-        for (int i = 0; i < upgrades.length; ++i) {
-            upgrades[i].encode(buf);
-        }
-        buf.writeInt((int) upgradeCount);
+	@Override
+	public void encode(ByteBuf buf) {
+		buf.writeByte(type);
+		buf.writeByte(subtype);
+		buf.writeBytes(new byte[2]);
+		buf.writeInt((int) modifier);
+		buf.writeInt((int) minusModifier);
+		buf.writeByte(rarity);
+		buf.writeByte(material);
+		buf.writeByte(flags);
+		buf.writeBytes(new byte[1]);
+		buf.writeShort(level);
+		buf.writeBytes(new byte[2]);
+		for (int i = 0; i < upgrades.length; ++i) {
+			upgrades[i].encode(buf);
+		}
+		buf.writeInt((int) upgradeCount);
 
-    }
+	}
 
 	public byte getType() {
 		return type;

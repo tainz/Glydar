@@ -12,12 +12,12 @@ public class GChunkItemData implements BaseData {
 	long dropTime;
 	long unknown2;
 	int unknown3;
-	
+
 	public GChunkItemData() {
 		item = new GItem();
 		position = new GVector3<Long>();
 	}
-	
+
 	@Override
 	public void decode(ByteBuf buf) {
 		item.decode(buf);

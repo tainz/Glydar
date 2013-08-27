@@ -7,14 +7,14 @@ public class GChunkItems implements BaseData {
 	int chunkLocX;
 	int chunkLocY;
 	GChunkItemData[] items;
-	
+
 	@Override
 	public void decode(ByteBuf buf) {
 		chunkLocX = buf.readInt();
 		chunkLocY = buf.readInt();
-		
+
 		int length = buf.readInt();
-		for (int i = 0; i < length; i++){
+		for (int i = 0; i < length; i++) {
 			items[i] = new GChunkItemData();
 			items[i].decode(buf);
 		}
@@ -26,7 +26,7 @@ public class GChunkItems implements BaseData {
 		buf.writeInt(chunkLocX);
 		buf.writeInt(chunkLocY);
 		buf.writeInt(items.length);
-		for (GChunkItemData i : items){
+		for (GChunkItemData i : items) {
 			i.encode(buf);
 		}
 

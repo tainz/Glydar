@@ -33,8 +33,8 @@ public class Packet17VersionExchange extends CubeWorldPacket {
 		ply.sendMessageToPlayer("Server powered by Glydar 0.0.1-SNAPSHOT");
 	}
 
-    @Override
-    protected void internalEncode(ByteBuf buf) {
-        buf.writeInt(version);
-    }
+	@Override
+	protected void internalEncode(ByteBuf buf) {
+		buf.writeInt(version);
+	}
 }

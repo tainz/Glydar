@@ -5,6 +5,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.Attribute;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+
 import java.io.IOException;
 
 public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorldPacket> {
@@ -12,16 +13,16 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 	protected void messageReceived(ChannelHandlerContext channelHandlerContext, CubeWorldPacket cubeWorldPacket) throws Exception {
 		Attribute<GPlayer> playerAttrib = channelHandlerContext.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY);
 		GPlayer player = playerAttrib.get();
-		if(player == null) {
+		if (player == null) {
 			player = new GPlayer();
-            player.setChannelContext(channelHandlerContext);
+			player.setChannelContext(channelHandlerContext);
 			playerAttrib.set(player);
 		}
-        try {
-		    cubeWorldPacket.receivedFrom(player);
-        } catch (IllegalAccessError e) {
-            //System.out.println("No handler for packet ID "+((CubeWorldPacket.Packet)cubeWorldPacket.getClass().getAnnotation(CubeWorldPacket.Packet.class)).id());
-        }
+		try {
+			cubeWorldPacket.receivedFrom(player);
+		} catch (IllegalAccessError e) {
+			//System.out.println("No handler for packet ID "+((CubeWorldPacket.Packet)cubeWorldPacket.getClass().getAnnotation(CubeWorldPacket.Packet.class)).id());
+		}
 	}
 
 	@Override

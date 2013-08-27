@@ -11,8 +11,9 @@ public class GItemUpgrade implements BaseData, ItemUpgrade {
 	byte material;
 	long level;
 
-	public GItemUpgrade() {}
-	
+	public GItemUpgrade() {
+	}
+
 	public GItemUpgrade(ItemUpgrade i) {
 		this.xOffset = i.getxOffset();
 		this.yOffset = i.getyOffset();
@@ -30,14 +31,14 @@ public class GItemUpgrade implements BaseData, ItemUpgrade {
 		level = buf.readUnsignedInt();
 	}
 
-    @Override
-    public void encode(ByteBuf buf) {
-        buf.writeByte(xOffset);
-        buf.writeByte(yOffset);
-        buf.writeByte(zOffset);
-        buf.writeByte(material);
-        buf.writeInt((int)level);
-    }
+	@Override
+	public void encode(ByteBuf buf) {
+		buf.writeByte(xOffset);
+		buf.writeByte(yOffset);
+		buf.writeByte(zOffset);
+		buf.writeByte(material);
+		buf.writeInt((int) level);
+	}
 
 	public byte getxOffset() {
 		return xOffset;

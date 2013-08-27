@@ -5,14 +5,14 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
 @CubeWorldPacket.Packet(id = 15)
 public class Packet15Seed extends CubeWorldPacket {
-    int seed;
+	int seed;
 
-    public Packet15Seed(int seed) {
-        this.seed = seed;
-    }
+	public Packet15Seed(int seed) {
+		this.seed = seed;
+	}
 
-    @Override
-    protected void internalEncode(ByteBuf buf) {
-        buf.writeInt(seed);
-    }
+	@Override
+	protected void internalEncode(ByteBuf buf) {
+		buf.writeInt(seed);
+	}
 }

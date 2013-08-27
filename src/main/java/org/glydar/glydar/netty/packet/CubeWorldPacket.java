@@ -17,25 +17,28 @@ import java.util.HashMap;
 import java.util.Set;
 
 public abstract class CubeWorldPacket {
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface Packet {
-        int id();
-        boolean variableLength() default false;
-        boolean noData() default false;
-    }
+	@Retention(RetentionPolicy.RUNTIME)
+	public @interface Packet {
+		int id();
+
+		boolean variableLength() default false;
+
+		boolean noData() default false;
+	}
 
 	protected boolean doCacheIncoming() {
 		return false;
 	}
 
 	private int _idCache = -1;
+
 	public int getID() {
-		if(_idCache < 0) {
+		if (_idCache < 0) {
 			_idCache = getClass().getAnnotation(CubeWorldPacket.Packet.class).id();
 		}
 		return _idCache;
 	}
-	
+
 	public boolean getNoData() {
 		return getClass().getAnnotation(CubeWorldPacket.Packet.class).noData();
 	}
@@ -43,8 +46,8 @@ public abstract class CubeWorldPacket {
 	private ByteBuf bufCache = null;
 
 	public void decode(ByteBuf buf) {
-        //THIS IS BROKEN :C
-        /*
+		//THIS IS BROKEN :C
+		/*
 		if(doCacheIncoming()) {
 			int idx = buf.readerIndex();
 			internalDecode(buf);
@@ -53,11 +56,11 @@ public abstract class CubeWorldPacket {
 		} else {
 			internalDecode(buf);
 		} */
-        internalDecode(buf);
+		internalDecode(buf);
 	}
 
 	public void encode(ByteBuf buf) {
-        //THIS IS BROKEN :C
+		//THIS IS BROKEN :C
         /*
 		if(bufCache == null) {
 			int idx = buf.writerIndex();
@@ -68,36 +71,36 @@ public abstract class CubeWorldPacket {
 			bufCache.readerIndex(0);
 			buf.writeBytes(bufCache);
 		} */
-        internalEncode(buf);
+		internalEncode(buf);
 	}
 
-    protected void internalDecode(ByteBuf buf) {
-        throw new IllegalAccessError("Packet cannot be decoded");
-    }
+	protected void internalDecode(ByteBuf buf) {
+		throw new IllegalAccessError("Packet cannot be decoded");
+	}
 
-    public void receivedFrom(GPlayer ply) {
-        throw new IllegalAccessError("Packet cannot be received");
-    }
+	public void receivedFrom(GPlayer ply) {
+		throw new IllegalAccessError("Packet cannot be received");
+	}
 
 	protected void internalEncode(ByteBuf buf) {
-        throw new IllegalAccessError("Packet cannot be encoded");
-    }
+		throw new IllegalAccessError("Packet cannot be encoded");
+	}
 
 	public void sendTo(GPlayer ply) {
 		bufCache = null;
 		_sendTo(ply);
 	}
 
-    private void _sendTo(GPlayer ply) {
-    	ply.getChannelContext().write(this);
-    }
+	private void _sendTo(GPlayer ply) {
+		ply.getChannelContext().write(this);
+	}
 
-    public void sendTo(BaseTarget target) {
+	public void sendTo(BaseTarget target) {
 		bufCache = null;
-        for (Player ply : target.getPlayers()) {
-            _sendTo((GPlayer) ply);
-        }
-    }
+		for (Player ply : target.getPlayers()) {
+			_sendTo((GPlayer) ply);
+		}
+	}
 
 	public void sendToAll() {
 		sendTo(EveryoneTarget.INSTANCE);
@@ -128,13 +131,13 @@ public abstract class CubeWorldPacket {
 		__addPacketsFromPackage("org.glydar.glydar.netty.packet.shared");
 	}
 
-    public static CubeWorldPacket getByID(int id) {
+	public static CubeWorldPacket getByID(int id) {
 		try {
 			return CUBE_WORLD_PACKET_HASH_MAP.get(id).newInstance();
 		} catch (Exception e) {
-            System.out.println("ID "+id);
+			System.out.println("ID " + id);
 			e.printStackTrace();
 			return null;
 		}
-    }
+	}
 }

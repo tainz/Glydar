@@ -8,7 +8,7 @@ public class GDamageAction implements BaseData {
 	long id;
 	long targetId;
 	float damage;
-	
+
 	@Override
 	public void decode(ByteBuf buf) {
 		id = buf.readLong();

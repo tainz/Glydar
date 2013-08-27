@@ -25,7 +25,7 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		position = new GVector3<Long>();
 		hitDirection = new GVector3<Float>();
 	}
-	
+
 	@Override
 	public void internalDecode(ByteBuf buf) {
 		id = buf.readLong();
@@ -42,7 +42,7 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		showLight = buf.readByte();
 		buf.readByte();
 	}
-	
+
 	@Override
 	public void internalEncode(ByteBuf buf) {
 		buf.writeLong(id);
@@ -57,12 +57,12 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		buf.writeByte(skillHit);
 		buf.writeByte(type);
 		buf.writeByte(showLight);
-		buf.writeByte((byte)0);
+		buf.writeByte((byte) 0);
 	}
-	
+
 	@Override
-	public void receivedFrom(GPlayer ply){
-		if (Glydar.getServer().serverUpdatePacket.sud == null){
+	public void receivedFrom(GPlayer ply) {
+		if (Glydar.getServer().serverUpdatePacket.sud == null) {
 			Glydar.getServer().serverUpdatePacket.sud = new GServerUpdateData();
 		}
 		Glydar.getServer().serverUpdatePacket.sud.hitPackets.add(this);

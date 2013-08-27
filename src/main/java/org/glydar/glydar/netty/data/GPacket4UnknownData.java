@@ -11,7 +11,7 @@ public class GPacket4UnknownData implements BaseData {
 	byte u6;
 	byte u7;
 	long u8;
-	
+
 	@Override
 	public void decode(ByteBuf buf) {
 		u1 = buf.readUnsignedInt();
@@ -35,5 +35,5 @@ public class GPacket4UnknownData implements BaseData {
 		buf.writeByte(u7);
 		buf.writeInt((int) u8);
 	}
-	
+
 }

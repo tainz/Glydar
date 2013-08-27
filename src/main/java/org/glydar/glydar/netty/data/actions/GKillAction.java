@@ -8,14 +8,14 @@ public class GKillAction implements BaseData {
 	long id;
 	long targetId;
 	int xp;
-	
+
 	@Override
 	public void decode(ByteBuf buf) {
 		id = buf.readLong();
 		targetId = buf.readLong();
 		buf.readBytes(4); //Maybe not padding
 		xp = buf.readInt();
-		
+
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class GKillAction implements BaseData {
 		buf.writeLong(targetId);
 		buf.writeBytes(new byte[4]);
 		buf.writeInt(xp);
-		
+
 	}
 
 }

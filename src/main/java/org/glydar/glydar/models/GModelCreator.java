@@ -6,15 +6,18 @@ import org.glydar.paraglydar.models.ModelCreator;
 import org.glydar.paraglydar.models.NPC;
 
 public class GModelCreator implements ModelCreator {
-	
-	public GModelCreator(){};
-	
+
+	public GModelCreator() {
+	}
+
+	;
+
 	//Creating NPCs
-	public NPC createNPC(){
+	public NPC createNPC() {
 		return new GNPC();
 	}
 
-	public NPC createNPC(EntityData e){
+	public NPC createNPC(EntityData e) {
 		GNPC n = new GNPC();
 		GEntityData d = new GEntityData(e);
 		n.setEntityData(d);

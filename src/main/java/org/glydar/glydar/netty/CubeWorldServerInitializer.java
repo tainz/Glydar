@@ -14,7 +14,7 @@ public class CubeWorldServerInitializer extends ChannelInitializer<SocketChannel
 		ChannelPipeline pipeline = socketChannel.pipeline();
 
 		pipeline.addLast("framer", new CubeWorldFrameDecoder());
-        pipeline.addLast("encoder", new CubeWorldByteEncoder());
+		pipeline.addLast("encoder", new CubeWorldByteEncoder());
 		pipeline.addLast("handler", new CubeWorldPacketHandler());
 
 	}

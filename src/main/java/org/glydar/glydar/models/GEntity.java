@@ -12,7 +12,7 @@ public abstract class GEntity implements Entity {
 
 	public GEntity() {
 		entityID = GEntity.getNewEntityID();
-		if (!(this instanceof GPlayer)){
+		if (!(this instanceof GPlayer)) {
 			Glydar.getServer().addEntity(entityID, this);
 		}
 	}
@@ -22,30 +22,31 @@ public abstract class GEntity implements Entity {
 	}
 
 	private static long ENTITY_ID = 1;
+
 	public static long getNewEntityID() {
 		return ENTITY_ID++;
 	}
-	
+
 	/**
-     * Temporary fix to allow plugins to manipulate entityData while we fix other issues.
-     * Call this whenever you modify anything in Player.data and wish to update all of the clients.
-     */
-    public void forceUpdateData() {
-    	data.setBitmask(GEntityData.FULL_BITMASK);
-        new Packet0EntityUpdate(this.data).sendToAll();
-    }
-    
-    public void forceUpdateData(EntityData ed){
-    	this.data = (GEntityData) ed;
-    	forceUpdateData();
-    }
-    
-    public EntityData getEntityData(){
-    	if (data == null){
-    		data = new GEntityData();
-    	}
-    	return data;
-    }
+	 * Temporary fix to allow plugins to manipulate entityData while we fix other issues.
+	 * Call this whenever you modify anything in Player.data and wish to update all of the clients.
+	 */
+	public void forceUpdateData() {
+		data.setBitmask(GEntityData.FULL_BITMASK);
+		new Packet0EntityUpdate(this.data).sendToAll();
+	}
+
+	public void forceUpdateData(EntityData ed) {
+		this.data = (GEntityData) ed;
+		forceUpdateData();
+	}
+
+	public EntityData getEntityData() {
+		if (data == null) {
+			data = new GEntityData();
+		}
+		return data;
+	}
 
 	public void setEntityData(EntityData ed) {
 		this.data = (GEntityData) ed;
@@ -70,7 +71,7 @@ public abstract class GEntity implements Entity {
 
 	@Override
 	public String toString() {
-		return "Entity {type="+getClass().getSimpleName()+", id="+entityID+'}';
+		return "Entity {type=" + getClass().getSimpleName() + ", id=" + entityID + '}';
 	}
 
 	@Override

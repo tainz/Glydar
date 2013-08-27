@@ -34,8 +34,6 @@ public class GServer implements Runnable, Server {
 	public GServer(boolean debug) {
 		this.DEBUG = debug;
 		this.logManager = new ConsoleLogManager(Glydar.class.getName());
-		System.setOut(new PrintStream(new LoggerOutputStream(Level.INFO, logManager.getLogger()), true));
-		System.setErr(new PrintStream(new LoggerOutputStream(Level.SEVERE, logManager.getLogger()), true));
 		this.eventManager = new EventManager();
 	}
 

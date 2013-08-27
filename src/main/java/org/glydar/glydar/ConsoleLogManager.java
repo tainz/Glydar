@@ -1,5 +1,8 @@
 package org.glydar.glydar;
 
+import org.glydar.glydar.util.LoggerOutputStream;
+
+import java.io.PrintStream;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +24,9 @@ public class ConsoleLogManager implements IConsoleLogManager {
 
 		console.setFormatter(formatter);
 		this.logger.addHandler(console);
+
+		System.setOut(new PrintStream(new LoggerOutputStream(Level.INFO, getLogger()), true));
+		System.setErr(new PrintStream(new LoggerOutputStream(Level.SEVERE, getLogger()), true));
 	}
 
 	public Logger getLogger() {

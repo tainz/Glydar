@@ -35,6 +35,15 @@ public class GServer implements Runnable, Server {
 		this.DEBUG = debug;
 		this.logManager = new ConsoleLogManager(Glydar.class.getName());
 		this.eventManager = new EventManager();
+
+		this.init();
+	}
+
+	public void init() {
+		ThreadedCommandReader commandReader = new ThreadedCommandReader(this);
+
+		commandReader.setDaemon(true);
+		commandReader.start();
 	}
 
 	@Override
@@ -105,6 +114,26 @@ public class GServer implements Runnable, Server {
 		return running;
 	}
 
+	public void shutdown() {
+		this.running = false;
+	}
+
+	public void broadcastMessage(String message) {
+		new Packet10Chat(message, 0).sendToAll();
+	}
+
+	public void broadcast(String message, String permission) {
+		broadcast(message, new Permission(permission, PermissionDefault.TRUE));
+	}
+
+	public void broadcast(String message, Permission permission) {
+		for (Player player : this.getConnectedPlayers()) {
+			if (player.hasPermission(permission)) {
+				player.sendMessageToPlayer(message);
+			}
+		}
+	}
+
 	@Override
 	public void run() {
 		while (this.isRunning()) {
@@ -128,26 +157,4 @@ public class GServer implements Runnable, Server {
 		}
 		getLogger().info("Goodbye!");
 	}
-
-	public void shutdown() {
-		this.running = false;
-	}
-
-	public void broadcastMessage(String message) {
-		new Packet10Chat(message, 0).sendToAll();
-	}
-
-	public void broadcast(String message, String permission) {
-		broadcast(message, new Permission(permission, PermissionDefault.TRUE));
-	}
-
-	public void broadcast(String message, Permission permission) {
-		for (Player player : this.getConnectedPlayers()) {
-			if (player.hasPermission(permission)) {
-				player.sendMessageToPlayer(message);
-			}
-		}
-	}
-
-
 }

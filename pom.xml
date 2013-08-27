@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.glydar.paraglydar</groupId>
             <artifactId>ParaGlydar</artifactId>
-            <version>${project.version}</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -110,9 +110,9 @@
             <url>http://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>ParaGlydar-mvn-repo</id>
+            <id>Glydar-public</id>
             <name>ParaGlydar</name>
-            <url>http://glydar.com:8080/repository/glydarteam/</url>
+            <url>http://glydar.org:8080/repository/glydarteam/</url>
         </repository>
     </repositories>
 

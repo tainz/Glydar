@@ -1,8 +1,6 @@
 package org.glydar.glydar.netty.packet;
 
 import io.netty.buffer.ByteBuf;
-
-import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.EveryoneTarget;
@@ -27,51 +25,24 @@ public abstract class CubeWorldPacket {
 		boolean noData() default false;
 	}
 
-	protected boolean doCacheIncoming() {
-		return false;
-	}
-
-	private int _idCache = -1;
+	private int id = -1;
 
 	public int getID() {
-		if (_idCache < 0) {
-			_idCache = getClass().getAnnotation(CubeWorldPacket.Packet.class).id();
+		if (id < 0) {
+			id = getClass().getAnnotation(CubeWorldPacket.Packet.class).id();
 		}
-		return _idCache;
+		return id;
 	}
 
 	public boolean getNoData() {
 		return getClass().getAnnotation(CubeWorldPacket.Packet.class).noData();
 	}
 
-	private ByteBuf bufCache = null;
-
 	public void decode(ByteBuf buf) {
-		//THIS IS BROKEN :C
-		/*
-		if(doCacheIncoming()) {
-			int idx = buf.readerIndex();
-			internalDecode(buf);
-			int newIdx = buf.readerIndex();
-			bufCache = new SlicedByteBuf(buf, idx, newIdx - idx);
-		} else {
-			internalDecode(buf);
-		} */
 		internalDecode(buf);
 	}
 
 	public void encode(ByteBuf buf) {
-		//THIS IS BROKEN :C
-        /*
-		if(bufCache == null) {
-			int idx = buf.writerIndex();
-			internalEncode(buf);
-			int newIdx = buf.writerIndex();
-			bufCache = new SlicedByteBuf(buf, idx, newIdx - idx);
-		} else {
-			bufCache.readerIndex(0);
-			buf.writeBytes(bufCache);
-		} */
 		internalEncode(buf);
 	}
 
@@ -88,7 +59,6 @@ public abstract class CubeWorldPacket {
 	}
 
 	public void sendTo(GPlayer ply) {
-		bufCache = null;
 		_sendTo(ply);
 	}
 
@@ -97,7 +67,6 @@ public abstract class CubeWorldPacket {
 	}
 
 	public void sendTo(BaseTarget target) {
-		bufCache = null;
 		for (Player ply : target.getPlayers()) {
 			_sendTo((GPlayer) ply);
 		}
@@ -109,7 +78,7 @@ public abstract class CubeWorldPacket {
 
 	private static final HashMap<Integer, Constructor<? extends CubeWorldPacket>> CUBE_WORLD_PACKET_HASH_MAP;
 
-	private static void __addPacketsFromPackage(String pkg) {
+	private static void addPacketsFromPackage(String pkg) {
 		Reflections refPackage = new Reflections(pkg);
 		Set<Class<? extends CubeWorldPacket>> clientPackets = refPackage.getSubTypesOf(CubeWorldPacket.class);
 		for (Class<? extends CubeWorldPacket> c : clientPackets) {
@@ -128,15 +97,14 @@ public abstract class CubeWorldPacket {
 
 	static {
 		CUBE_WORLD_PACKET_HASH_MAP = new HashMap<Integer, Constructor<? extends CubeWorldPacket>>();
-		__addPacketsFromPackage("org.glydar.glydar.netty.packet.client");
-		__addPacketsFromPackage("org.glydar.glydar.netty.packet.shared");
+		addPacketsFromPackage("org.glydar.glydar.netty.packet.client");
+		addPacketsFromPackage("org.glydar.glydar.netty.packet.shared");
 	}
 
 	public static CubeWorldPacket getByID(int id) {
 		try {
 			return CUBE_WORLD_PACKET_HASH_MAP.get(id).newInstance();
 		} catch (Exception e) {
-			System.out.println("ID " + id);
 			e.printStackTrace();
 			return null;
 		}

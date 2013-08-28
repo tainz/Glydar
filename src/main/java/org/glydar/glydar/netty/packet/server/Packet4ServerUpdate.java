@@ -1,10 +1,5 @@
 package org.glydar.glydar.netty.packet.server;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.ByteOrder;
-import java.util.Random;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.glydar.glydar.Glydar;
@@ -12,12 +7,16 @@ import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.util.ZLibOperations;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.ByteOrder;
+import java.util.Random;
+
 @CubeWorldPacket.Packet(id = 4)
 public class Packet4ServerUpdate extends CubeWorldPacket {
 	public GServerUpdateData sud;
 	byte[] rawData;
 
-	//Not sure if this (decoding) is needed!?
 	@Override
 	protected void internalDecode(ByteBuf buf) {
 		int zlibLength = buf.readInt();
@@ -65,7 +64,6 @@ public class Packet4ServerUpdate extends CubeWorldPacket {
 		byte[] compressedData = null;
 		try {
 			compressedData = ZLibOperations.compress(buf2.array());
-			System.out.println("Sending custom ED. Length: " + buf2.array().length + " compressed: " + compressedData.length);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,7 +71,7 @@ public class Packet4ServerUpdate extends CubeWorldPacket {
 			buf.writeInt(compressedData.length);
 			buf.writeBytes(compressedData);
 		} else {
-			Glydar.getServer().getLogger().severe("Server Update packet is nulll.., something fricked up :(");
+			Glydar.getServer().getLogger().severe("Server update is null!");
 		}
 	}
 

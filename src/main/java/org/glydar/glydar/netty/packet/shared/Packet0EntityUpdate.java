@@ -2,24 +2,18 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.glydar.util.Bitops;
 import org.glydar.glydar.util.ZLibOperations;
 import org.glydar.paraglydar.data.EntityData;
-import org.glydar.paraglydar.event.events.EntityHealthEvent;
-import org.glydar.paraglydar.event.events.EntityMoveEvent;
 import org.glydar.paraglydar.event.events.EntityUpdateEvent;
 import org.glydar.paraglydar.event.events.PlayerJoinEvent;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.EveryoneTarget;
-
-import sun.security.util.BitArray;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,11 +39,6 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 	public Packet0EntityUpdate(EntityData e) {
 		this.ed = (GEntityData) e;
 		sendEntityData = true;
-	}
-
-	@Override
-	protected boolean doCacheIncoming() {
-		return false;
 	}
 
 	@Override
@@ -107,9 +96,8 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 			String joinMessage = manageJoinEvent(ply);
 
 			Glydar.getServer().getLogger().info(joinMessage);
-			for (Entity e : Glydar.getServer().getConnectedEntities()) {
+			for (Entity e : ply.getWorld().getWorldEntities()) {
 				if (((GEntity) e).entityID == ply.entityID) {
-					Glydar.getServer().getLogger().warning("I found myself! o.o");
 					continue;
 				}
 				ply.sendPacket(new Packet0EntityUpdate(e.getEntityData()));
@@ -133,17 +121,14 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 			byte[] compressedData = null;
 			try {
 				compressedData = ZLibOperations.compress(buf2.array());
-				//Debug
-				//System.out.println("Sending custom ED. Length: "+buf2.array().length+" compressed: "+compressedData.length);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			if (compressedData != null) {
 				buf.writeInt(compressedData.length);
 				buf.writeBytes(compressedData);
-				//new Packet2UpdateFinished().sendToAll();
+				// TODO Send UpdateFinished packet to all
 			} else {
-				Glydar.getServer().getLogger().warning("Compressed data is null, I'm just writing the raw data back!");
 				buf.writeInt(rawData.length);
 				buf.writeBytes(rawData);
 			}

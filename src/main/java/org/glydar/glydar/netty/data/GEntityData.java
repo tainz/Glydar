@@ -391,7 +391,6 @@ public class GEntityData implements BaseData, EntityData {
 	@Override
 	public void encode(ByteBuf buf) {
 		buf.writeLong(id); //Ulong but whatever
-		//TODO: Not sure exactly how to approach writing unsigned ints!
 		BitArray bitArray = new BitArray(8 * bitmask.length, bitmask); //Size in bits, byte[]
 		buf.writeBytes(bitmask);
 
@@ -572,7 +571,7 @@ public class GEntityData implements BaseData, EntityData {
 
 		buf.capacity(buf.writerIndex() + 1);
 		if (buf.readerIndex() > 0) {
-			System.out.println("I read something during an encode?!");
+			Glydar.getServer().getLogger().warning("Data read during encode.");
 		}
 	}
 

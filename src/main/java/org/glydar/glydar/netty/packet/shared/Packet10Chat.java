@@ -1,21 +1,17 @@
 package org.glydar.glydar.netty.packet.shared;
 
-import java.util.Arrays;
-
 import com.google.common.base.Charsets;
-
 import io.netty.buffer.ByteBuf;
-
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.glydar.netty.packet.server.Packet15Seed;
 import org.glydar.paraglydar.command.CommandManager;
 import org.glydar.paraglydar.event.events.ChatEvent;
 import org.glydar.paraglydar.models.BaseTarget;
-import org.glydar.paraglydar.models.EveryoneTarget;
 import org.glydar.paraglydar.models.WorldTarget;
+
+import java.util.Arrays;
 
 @CubeWorldPacket.Packet(id = 10, variableLength = true)
 public class Packet10Chat extends CubeWorldPacket {
@@ -27,11 +23,7 @@ public class Packet10Chat extends CubeWorldPacket {
 	boolean cancelled;
 	BaseTarget target;
 
-	//DO NOT EVER TURN ON RECEIVING CACHING. THE SIGNATURES DIFFER!!!
-
-	public Packet10Chat() { //Needed for the package finder
-
-	}
+	public Packet10Chat() {}
 
 	public Packet10Chat(String message, GEntity sender) {
 		this.sender = sender;

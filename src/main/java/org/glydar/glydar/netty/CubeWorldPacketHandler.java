@@ -3,6 +3,7 @@ package org.glydar.glydar.netty;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.Attribute;
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 
@@ -21,7 +22,8 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 		try {
 			cubeWorldPacket.receivedFrom(player);
 		} catch (IllegalAccessError e) {
-			//System.out.println("No handler for packet ID "+((CubeWorldPacket.Packet)cubeWorldPacket.getClass().getAnnotation(CubeWorldPacket.Packet.class)).id());
+			CubeWorldPacket.Packet packet = (CubeWorldPacket.Packet) cubeWorldPacket.getClass().getAnnotation(CubeWorldPacket.Packet.class);
+			Glydar.getServer().getLogger().warning("No handler for packet ID " + packet.id());
 		}
 	}
 
@@ -31,7 +33,8 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 			GPlayer player = ctx.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY).get();
 
 			if (player != null) {
-				System.out.println("Player " + player.entityID + " has disconnected!");
+				Glydar.getServer().getLogger().info("Player " + player.getName() + " (ID: "
+						+ player.getEntityId() + ")" + " has disconnected!");
 				player.playerLeft();
 				ctx.close();
 			}

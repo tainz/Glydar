@@ -31,6 +31,8 @@ public class ThreadedCommandReader extends Thread {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// Catch NPE
 		}
 	}
 

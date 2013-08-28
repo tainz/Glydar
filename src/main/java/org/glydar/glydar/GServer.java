@@ -27,6 +27,7 @@ public class GServer implements Runnable, Server {
 	private HashMap<Long, GEntity> connectedEntities = new HashMap<Long, GEntity>();
 	private final String serverName = "Glydar";
 	private final String serverVersion = Versioning.getParaGlydarVersion();
+	private Thread commandReader;
 
 	public GServer(boolean debug) {
 		this.DEBUG = debug;
@@ -37,7 +38,7 @@ public class GServer implements Runnable, Server {
 	}
 
 	public void init() {
-		ThreadedCommandReader commandReader = new ThreadedCommandReader(this);
+		commandReader = new ThreadedCommandReader(this);
 
 		commandReader.setDaemon(true);
 		commandReader.start();
@@ -112,6 +113,7 @@ public class GServer implements Runnable, Server {
 	}
 
 	public void shutdown() {
+		this.commandReader.interrupt();
 		this.running = false;
 	}
 

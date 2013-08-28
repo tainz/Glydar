@@ -17,6 +17,7 @@ import org.glydar.glydar.util.Versioning;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class GServer implements Runnable, Server {
@@ -147,6 +148,12 @@ public class GServer implements Runnable, Server {
 	
 	public World getDefaultWorld(){
 		return defaultWorld;
+	}
+	
+	public Map<Long, World> getWorlds(){
+		HashMap<Long,World> m = new HashMap<Long, World>();
+		m.putAll(serverWorlds);
+		return m;
 	}
 
 	@Override

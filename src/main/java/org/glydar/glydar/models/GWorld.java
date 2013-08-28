@@ -40,17 +40,14 @@ public class GWorld implements World {
 		return seed;
 	}
 	
-	public void setSeed(int seed){
+	//Not sure if this should be used :)
+	/*public void setSeed(int seed){
 		this.seed = seed;
 		new Packet15Seed(seed).sendTo(new WorldTarget(this));
-	}
+	}*/
 	
 	public String getName(){
 		return name;
-	}
-	
-	public void setName(String name){
-		this.name = name;
 	}
 	
 	public void addEntity(long entityID, Entity e) {

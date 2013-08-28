@@ -101,6 +101,12 @@ public class GPlayer extends GEntity implements Player {
 		}
 		super.changeWorld(w);
 		new Packet15Seed(w.getSeed()).sendTo(this);
+		for (Entity e : this.getWorld().getWorldEntities()) {
+			if (((GEntity) e).entityID == this.entityID) {
+				continue;
+			}
+			this.sendPacket(new Packet0EntityUpdate(e.getEntityData()));
+		}
 	}
 
 	@Override

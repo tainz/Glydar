@@ -8,11 +8,17 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.netty.data.GEntityData;
+import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.netty.packet.server.Packet15Seed;
+import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.command.CommandSender;
 import org.glydar.paraglydar.models.BaseTarget;
+import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
+import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.permissions.Permissible;
 import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.PermissionAttachment;
@@ -78,6 +84,23 @@ public class GPlayer extends GEntity implements Player {
 		sendMessage("You have been kicked!");
 		playerLeft();
 		channelCtx.close();
+	}
+	
+	@Override
+	public void changeWorld(World w){
+		//Temporary(?) way of removing all current models in players client!
+		for (Entity e : w.getWorldEntities()) {
+			GEntityData ed = new GEntityData(e.getEntityData());
+			ed.setHostileType((byte) 2);
+			GVector3<Long> v = new GVector3<Long>();
+			v.setX((long) 0);
+			v.setY((long) 0);
+			v.setZ((long) 0);
+			ed.setPosition(v);
+			new Packet0EntityUpdate(ed).sendTo(this);
+		}
+		super.changeWorld(w);
+		new Packet15Seed(w.getSeed()).sendTo(this);
 	}
 
 	@Override

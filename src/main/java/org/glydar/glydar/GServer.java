@@ -7,7 +7,9 @@ import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.models.Entity;
+import org.glydar.paraglydar.models.EveryoneTarget;
 import org.glydar.paraglydar.models.Player;
+import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.util.Versioning;
@@ -24,7 +26,11 @@ public class GServer implements Runnable, Server {
 	public final boolean DEBUG;
 	public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
 	private final EventManager eventManager;
-	private HashMap<Long, GEntity> connectedEntities = new HashMap<Long, GEntity>();
+	
+	private HashMap<Long, Entity> connectedEntities = new HashMap<Long, Entity>();
+	private HashMap<Long, World> serverWorlds = new HashMap<Long, World>();
+	protected World defaultWorld;
+	
 	private final String serverName = "Glydar";
 	private final String serverVersion = Versioning.getParaGlydarVersion();
 	private Thread commandReader;
@@ -59,7 +65,7 @@ public class GServer implements Runnable, Server {
 
 	public Collection<Player> getConnectedPlayers() {
 		ArrayList<Player> players = new ArrayList<Player>();
-		for (GEntity e : connectedEntities.values()) {
+		for (Entity e : connectedEntities.values()) {
 			if (e instanceof GPlayer) {
 				players.add((Player) e);
 			}
@@ -69,7 +75,7 @@ public class GServer implements Runnable, Server {
 
 	public Collection<Entity> getConnectedEntities() {
 		ArrayList<Entity> entities = new ArrayList<Entity>();
-		for (GEntity e : connectedEntities.values()) {
+		for (Entity e : connectedEntities.values()) {
 			entities.add(e);
 		}
 		return entities;
@@ -94,7 +100,7 @@ public class GServer implements Runnable, Server {
 		return null;
 	}
 
-	public void addEntity(long entityID, GEntity e) {
+	public void addEntity(long entityID, Entity e) {
 		if (!connectedEntities.containsKey(entityID)) {
 			connectedEntities.put(entityID, e);
 		}
@@ -118,7 +124,7 @@ public class GServer implements Runnable, Server {
 	}
 
 	public void broadcastMessage(String message) {
-		new Packet10Chat(message, 0).sendToAll();
+		new Packet10Chat(message, 0).sendTo(EveryoneTarget.INSTANCE);
 	}
 
 	public void broadcast(String message, String permission) {
@@ -132,6 +138,16 @@ public class GServer implements Runnable, Server {
 			}
 		}
 	}
+	
+	public void addWorld(World w){
+		if (!serverWorlds.containsKey(w.getWorldId())){
+			serverWorlds.put(w.getWorldId(), w);
+		}
+	}
+	
+	public World getDefaultWorld(){
+		return defaultWorld;
+	}
 
 	@Override
 	public void run() {
@@ -143,7 +159,7 @@ public class GServer implements Runnable, Server {
 
 				if (serverUpdatePacket.sud != null) {
 					getLogger().info("Server Update Sent!");
-					serverUpdatePacket.sendToAll();
+					serverUpdatePacket.sendToWorld(defaultWorld);
 					serverUpdatePacket = new Packet4ServerUpdate();
 				} //else {
 				//getLogger().info("Update Not Sent!");

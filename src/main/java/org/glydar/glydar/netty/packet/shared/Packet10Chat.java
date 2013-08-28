@@ -10,10 +10,12 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.netty.packet.server.Packet15Seed;
 import org.glydar.paraglydar.command.CommandManager;
 import org.glydar.paraglydar.event.events.ChatEvent;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.EveryoneTarget;
+import org.glydar.paraglydar.models.WorldTarget;
 
 @CubeWorldPacket.Packet(id = 10, variableLength = true)
 public class Packet10Chat extends CubeWorldPacket {
@@ -23,7 +25,7 @@ public class Packet10Chat extends CubeWorldPacket {
 	GEntity sender;
 	long senderID;
 	boolean cancelled;
-	BaseTarget target = EveryoneTarget.INSTANCE;
+	BaseTarget target;
 
 	//DO NOT EVER TURN ON RECEIVING CACHING. THE SIGNATURES DIFFER!!!
 
@@ -35,6 +37,7 @@ public class Packet10Chat extends CubeWorldPacket {
 		this.sender = sender;
 		this.senderID = sender.entityID;
 		this.message = message;
+		target = new WorldTarget(sender.getWorld());
 	}
 
 	/**

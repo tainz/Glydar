@@ -4,13 +4,11 @@ import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.models.ModelCreator;
 import org.glydar.paraglydar.models.NPC;
+import org.glydar.paraglydar.models.World;
 
 public class GModelCreator implements ModelCreator {
 
-	public GModelCreator() {
-	}
-
-	;
+	public GModelCreator() {};
 
 	//Creating NPCs
 	public NPC createNPC() {
@@ -23,5 +21,10 @@ public class GModelCreator implements ModelCreator {
 		n.setEntityData(d);
 		n.getEntityData().setId(n.entityID);
 		return n;
+	}
+
+	@Override
+	public World createWorld(String name, int seed) {
+		return new GWorld(name, seed);
 	}
 }

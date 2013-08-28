@@ -29,7 +29,7 @@ public class Packet17VersionExchange extends CubeWorldPacket {
 		Glydar.getServer().getLogger().info("Client from " + ply.getChannelContext().channel().remoteAddress() + " says hi! Version " + version + " ent id " + ply.entityID);
 
 		ply.sendPacket(new Packet16Join(ply.entityID));
-		ply.sendPacket(new Packet15Seed(69));
+		ply.sendPacket(new Packet15Seed(ply.getWorld().getSeed()));
 		ply.sendMessageToPlayer("Server powered by Glydar 0.0.1-SNAPSHOT");
 	}
 

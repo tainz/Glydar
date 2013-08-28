@@ -7,6 +7,7 @@ import org.glydar.glydar.models.GPlayer;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.EveryoneTarget;
 import org.glydar.paraglydar.models.Player;
+import org.glydar.paraglydar.models.World;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
@@ -102,7 +103,7 @@ public abstract class CubeWorldPacket {
 		}
 	}
 
-	public void sendToAll() {
+	public void sendToWorld(World w) {
 		sendTo(EveryoneTarget.INSTANCE);
 	}
 

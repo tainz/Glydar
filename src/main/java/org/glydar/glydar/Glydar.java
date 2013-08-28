@@ -9,6 +9,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import org.glydar.glydar.models.GModelCreator;
+import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
 import org.glydar.glydar.netty.data.GDataCreator;
 import org.glydar.paraglydar.ParaGlydar;
@@ -38,6 +39,9 @@ public class Glydar {
 			}
 		}
 		s = new GServer(serverDebug);
+		//TODO: MAke this configurable in config
+		s.defaultWorld = new GWorld("Default", 12345);
+		
 		ParaGlydar.setServer(s);
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
 

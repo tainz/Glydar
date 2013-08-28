@@ -40,19 +40,22 @@ public class Glydar {
 		s = new GServer(serverDebug);
 		ParaGlydar.setServer(s);
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
+
+		final int port = 12345;
+
 		serverBootstrap = new ServerBootstrap();
-		serverBootstrap.childHandler(new CubeWorldServerInitializer());
-		serverBootstrap.option(ChannelOption.TCP_NODELAY, true);
-		serverBootstrap.childOption(ChannelOption.TCP_NODELAY, true);
-		serverBootstrap.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 10 * 64 * 1024);
-		//serverBootstrap.setOption("child.keepAlive", true);
-		serverBootstrap.group(new NioEventLoopGroup());
-		serverBootstrap.channelFactory(new ChannelFactory<ServerChannel>() {
-			@Override
-			public ServerChannel newChannel() {
-				return new NioServerSocketChannel();
-			}
-		});
+		serverBootstrap.childHandler(new CubeWorldServerInitializer())
+				.option(ChannelOption.TCP_NODELAY, true)
+				.option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
+				.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)
+				.group(new NioEventLoopGroup())
+				.channelFactory(new ChannelFactory<ServerChannel>() {
+					@Override
+					public ServerChannel newChannel() {
+						return new NioServerSocketChannel();
+					}
+				})
+				.bind(new InetSocketAddress(port));
 
 		try {
 			loader.loadPlugins();
@@ -60,14 +63,10 @@ public class Glydar {
 			e.printStackTrace();
 		}
 
-		final int port = 12345;
-
-		chan = serverBootstrap.bind(new InetSocketAddress(port));
-
 		s.getLogger().info("Server ready on port " + port);
 		s.getLogger().info("This server is running " + s.getName() + " version " + s.getVersion());
-		serverThread.start();
 
+		serverThread.start();
 		s.run();
 	}
 

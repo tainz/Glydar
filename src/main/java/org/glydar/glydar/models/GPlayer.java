@@ -71,15 +71,13 @@ public class GPlayer extends GEntity implements Player {
 	public void kickPlayer(String message) {
 		sendMessage(message);
 		playerLeft();
-		channelCtx.disconnect();
-		channelCtx.deregister();
+		channelCtx.close();
 	}
 
 	public void kickPlayer() {
 		sendMessage("You have been kicked!");
 		playerLeft();
-		channelCtx.disconnect();
-		channelCtx.deregister();
+		channelCtx.close();
 	}
 
 	@Override

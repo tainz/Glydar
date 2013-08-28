@@ -92,7 +92,7 @@ public abstract class CubeWorldPacket {
 	}
 
 	private void _sendTo(GPlayer ply) {
-		ply.getChannelContext().write(this);
+		ply.getChannelContext().writeAndFlush(this);
 	}
 
 	public void sendTo(BaseTarget target) {

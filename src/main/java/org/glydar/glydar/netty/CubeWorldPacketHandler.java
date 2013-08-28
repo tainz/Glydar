@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorldPacket> {
 	@Override
-	protected void messageReceived(ChannelHandlerContext channelHandlerContext, CubeWorldPacket cubeWorldPacket) throws Exception {
+	protected void channelRead0(ChannelHandlerContext channelHandlerContext, CubeWorldPacket cubeWorldPacket) throws Exception {
 		Attribute<GPlayer> playerAttrib = channelHandlerContext.attr(CubeWorldServerInitializer.PLAYER_ATTRIBUTE_KEY);
 		GPlayer player = playerAttrib.get();
 		if (player == null) {
@@ -33,7 +33,7 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 			if (player != null) {
 				System.out.println("Player " + player.entityID + " has disconnected!");
 				player.playerLeft();
-				ctx.deregister();
+				ctx.close();
 			}
 		}
 	}

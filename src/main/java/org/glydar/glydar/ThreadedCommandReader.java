@@ -14,7 +14,7 @@ public class ThreadedCommandReader extends Thread {
 	final private Server server;
 	final private ConsoleCommandSender console;
 
-	ThreadedCommandReader(GServer server) {
+	ThreadedCommandReader(Server server) {
 		this.server = server;
 		this.console = new ConsoleCommandSender();
 	}

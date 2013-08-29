@@ -67,7 +67,7 @@ public class GServer implements Runnable, Server {
 	public Collection<Player> getConnectedPlayers() {
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (Entity e : connectedEntities.values()) {
-			if (e instanceof GPlayer) {
+			if (e instanceof Player) {
 				players.add((Player) e);
 			}
 		}
@@ -93,8 +93,8 @@ public class GServer implements Runnable, Server {
 
 	public Player getPlayerByEntityID(long id) {
 		if (connectedEntities.containsKey(id)) {
-			if (connectedEntities.get(id) instanceof GPlayer) {
-				return (GPlayer) connectedEntities.get(id);
+			if (connectedEntities.get(id) instanceof Player) {
+				return (Player) connectedEntities.get(id);
 			}
 		}
 		Glydar.getServer().getLogger().warning("Unable to find player with entity ID " + id + "! Returning null!");

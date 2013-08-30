@@ -89,7 +89,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 	public void receivedFrom(GPlayer ply) {
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
-			GEntityData.FULL_BITMASK = ed.getBitmask();
+			GEntityData.FULL_BITMASK = ed.getBitSet();
 			ply.setEntityData(this.ed);
 
 			//TODO: Add more functionality to join message!

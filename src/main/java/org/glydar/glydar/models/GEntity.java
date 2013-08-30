@@ -39,7 +39,7 @@ public abstract class GEntity implements Entity {
 	 * Call this whenever you modify anything in Player.data and wish to update all of the clients.
 	 */
 	public void forceUpdateData() {
-		data.setBitmask(GEntityData.FULL_BITMASK);
+		data.setBitSet(GEntityData.FULL_BITMASK);
 		new Packet0EntityUpdate(this.data).sendToWorld(world);
 	}
 

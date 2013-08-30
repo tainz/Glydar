@@ -14,12 +14,9 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.server.Packet15Seed;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
-import org.glydar.paraglydar.command.CommandSender;
-import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
-import org.glydar.paraglydar.permissions.Permissible;
 import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.PermissionAttachment;
 

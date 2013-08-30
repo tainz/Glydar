@@ -1224,7 +1224,7 @@ public class GEntityData implements BaseData, EntityData {
 	}
 
 	public void setSpawnPosition(Vector3<Long> spawnPosition) {
-		this.spawnPosition = (GVector3) spawnPosition;
+		this.spawnPosition = (GVector3<Long>) spawnPosition;
 	}
 
 	public long getNu20() {

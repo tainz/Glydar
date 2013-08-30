@@ -5,10 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.netty.packet.server.Packet15Seed;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.models.Entity;
-import org.glydar.paraglydar.models.EveryoneTarget;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.models.WorldTarget;

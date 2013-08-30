@@ -8,7 +8,7 @@ import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import java.nio.ByteOrder;
 import java.util.List;
 
-public class CubeWorldFrameDecoder extends ReplayingDecoder {
+public class CubeWorldFrameDecoder extends ReplayingDecoder<Void> {
 
 	@Override
 	protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> objects) throws Exception {

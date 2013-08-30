@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.paraglydar.models.BaseTarget;
-import org.glydar.paraglydar.models.EveryoneTarget;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.models.WorldTarget;

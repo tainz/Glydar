@@ -1,7 +1,5 @@
 package org.glydar.glydar;
 
-import org.glydar.glydar.models.GEntity;
-import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;

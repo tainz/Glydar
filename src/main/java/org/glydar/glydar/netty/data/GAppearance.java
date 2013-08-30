@@ -1,6 +1,5 @@
 package org.glydar.glydar.netty.data;
 
-import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.Vector3;

@@ -10,7 +10,7 @@ public class GItem implements BaseData, Item {
 	long modifier; //Uint
 	long minusModifier; //Uint
 	byte rarity, material, flags;
-	int level; //ushort
+	short level; //ushort
 	GItemUpgrade[] upgrades;
 	long upgradeCount; //unsigned
 
@@ -45,7 +45,7 @@ public class GItem implements BaseData, Item {
 		material = buf.readByte();
 		flags = buf.readByte();
 		buf.readByte();
-		level = buf.readUnsignedShort();
+		level = buf.readShort();
 		buf.readBytes(2); //Skip
 		for (int i = 0; i < upgrades.length; ++i) {
 			upgrades[i] = new GItemUpgrade();
@@ -131,11 +131,11 @@ public class GItem implements BaseData, Item {
 		this.flags = flags;
 	}
 
-	public int getLevel() {
+	public short getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(short level) {
 		this.level = level;
 	}
 

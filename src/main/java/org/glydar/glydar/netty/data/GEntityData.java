@@ -93,12 +93,7 @@ public class GEntityData implements BaseData, EntityData {
 	private long parentOwner;
 	private long nu11;
 	private long nu12;
-	private long nu13;
-	private long nu14;
-	private long nu15;
-	private long nu16;
-	private long nu17;
-	private long nu18;
+	private GVector3<Long> spawnPosition;
 	private long nu20;
 	private long nu21;
 	private long nu22;
@@ -118,7 +113,7 @@ public class GEntityData implements BaseData, EntityData {
 		equipment = new GItem[13];
 		for (int i = 0; i < 13; i++)
 			equipment[i] = new GItem();
-
+		spawnPosition = new GVector3<Long>();
 		skills = new long[11];
 	}
 
@@ -187,12 +182,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.parentOwner = e.getParentOwner();
 		this.nu11 = e.getNu11();
 		this.nu12 = e.getNu12();
-		this.nu13 = e.getNu13();
-		this.nu14 = e.getNu14();
-		this.nu15 = e.getNu15();
-		this.nu16 = e.getNu16();
-		this.nu17 = e.getNu17();
-		this.nu18 = e.getNu18();
+		this.spawnPosition = (GVector3<Long>) e.getSpawnPosition();
 		this.nu20 = e.getNu20();
 		this.nu21 = e.getNu21();
 		this.nu22 = e.getNu22();
@@ -343,12 +333,7 @@ public class GEntityData implements BaseData, EntityData {
 			nu12 = buf.readUnsignedInt();
 		}
 		if (bitArray.get(40)) {
-			nu13 = buf.readUnsignedInt();
-			nu14 = buf.readUnsignedInt();
-			nu15 = buf.readUnsignedInt();
-			nu16 = buf.readUnsignedInt();
-			nu17 = buf.readUnsignedInt();
-			nu18 = buf.readUnsignedInt();
+			spawnPosition.decode(buf, Long.class);
 		}
 		if (bitArray.get(41)) {
 			nu20 = buf.readUnsignedInt();
@@ -529,12 +514,7 @@ public class GEntityData implements BaseData, EntityData {
 			buf.writeInt((int) nu12);
 		}
 		if (bitArray.get(40)) {
-			buf.writeInt((int) nu13);
-			buf.writeInt((int) nu14);
-			buf.writeInt((int) nu15);
-			buf.writeInt((int) nu16);
-			buf.writeInt((int) nu17);
-			buf.writeInt((int) nu18);
+			spawnPosition.encode(buf, Long.class);
 		}
 		if (bitArray.get(41)) {
 			buf.writeInt((int) nu20);
@@ -554,9 +534,9 @@ public class GEntityData implements BaseData, EntityData {
 			}
 		}
 		if (bitArray.get(45)) {
-			byte[] utf8 = name.getBytes(Charsets.UTF_8);
-			buf.writeBytes(new byte[4]); //TODO But why?
-			buf.writeBytes(utf8);
+			byte[] ascii = name.getBytes(Charsets.US_ASCII);
+			//buf.writeByte(4); //TODO: Why??
+			buf.writeBytes(ascii);
 			buf.writeBytes(new byte[16 - name.length()]);
 
 		}
@@ -724,12 +704,7 @@ public class GEntityData implements BaseData, EntityData {
 			this.nu12 = changes.getNu12();
 		}
 		if (bitArray.get(40)) {
-			this.nu13 = changes.getNu13();
-			this.nu14 = changes.getNu14();
-			this.nu15 = changes.getNu15();
-			this.nu16 = changes.getNu16();
-			this.nu17 = changes.getNu17();
-			this.nu18 = changes.getNu18();
+			this.spawnPosition = (GVector3<Long>) changes.getSpawnPosition();
 		}
 		if (bitArray.get(41)) {
 			this.nu20 = changes.getNu20();
@@ -1244,52 +1219,12 @@ public class GEntityData implements BaseData, EntityData {
 		this.nu12 = nu12;
 	}
 
-	public long getNu13() {
-		return nu13;
+	public Vector3<Long> getSpawnPosition() {
+		return spawnPosition;
 	}
 
-	public void setNu13(long nu13) {
-		this.nu13 = nu13;
-	}
-
-	public long getNu14() {
-		return nu14;
-	}
-
-	public void setNu14(long nu14) {
-		this.nu14 = nu14;
-	}
-
-	public long getNu15() {
-		return nu15;
-	}
-
-	public void setNu15(long nu15) {
-		this.nu15 = nu15;
-	}
-
-	public long getNu16() {
-		return nu16;
-	}
-
-	public void setNu16(long nu16) {
-		this.nu16 = nu16;
-	}
-
-	public long getNu17() {
-		return nu17;
-	}
-
-	public void setNu17(long nu17) {
-		this.nu17 = nu17;
-	}
-
-	public long getNu18() {
-		return nu18;
-	}
-
-	public void setNu18(long nu18) {
-		this.nu18 = nu18;
+	public void setSpawnPosition(Vector3<Long> spawnPosition) {
+		this.spawnPosition = (GVector3) spawnPosition;
 	}
 
 	public long getNu20() {

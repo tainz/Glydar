@@ -1,11 +1,13 @@
 package org.glydar.glydar.netty.packet;
 
 import io.netty.buffer.ByteBuf;
+
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.EveryoneTarget;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
+import org.glydar.paraglydar.models.WorldTarget;
 import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
@@ -73,7 +75,7 @@ public abstract class CubeWorldPacket {
 	}
 
 	public void sendToWorld(World w) {
-		sendTo(EveryoneTarget.INSTANCE);
+		sendTo(new WorldTarget(w));
 	}
 
 	private static final HashMap<Integer, Constructor<? extends CubeWorldPacket>> CUBE_WORLD_PACKET_HASH_MAP;

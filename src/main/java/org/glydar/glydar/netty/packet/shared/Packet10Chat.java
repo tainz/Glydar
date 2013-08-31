@@ -1,7 +1,9 @@
 package org.glydar.glydar.netty.packet.shared;
 
 import com.google.common.base.Charsets;
+
 import io.netty.buffer.ByteBuf;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
@@ -74,16 +76,9 @@ public class Packet10Chat extends CubeWorldPacket {
 
 	public boolean manageCommands(GPlayer ply) {
 		if (message.startsWith("/")) {
-			String command = message.substring(1);
-			String[] parts = command.split(" ");
-			String name = parts[0];
-			String[] args;
-			if (parts.length > 2) {
-				args = Arrays.copyOfRange(parts, 1, parts.length - 1);
-			} else {
-				args = null;
-			}
-			Glydar.getServer().getCommandManager().exec(ply, name, args);
+			String[] cmd = message.split(" ");
+			String[] args = (String[]) Arrays.copyOfRange(cmd, 1, cmd.length);
+			Glydar.getServer().getCommandManager().exec(ply, cmd[0].substring(1), args);
 			return true;
 		}
 		return false;

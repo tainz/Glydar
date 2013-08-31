@@ -27,7 +27,7 @@ public class ThreadedCommandReader extends Thread {
 				String[] cmd = bufferedReader.readLine().split(" ");
 				String[] args = (String[]) Arrays.copyOfRange(cmd, 1, cmd.length);
 				this.console.sendMessage("Executing command " + cmd[0]);
-				CommandManager.exec(console, cmd[0], args);
+				server.getCommandManager().exec(console, cmd[0], args);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

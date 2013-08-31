@@ -66,6 +66,8 @@ public class Glydar {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		ParaGlydar.setPluginLoader(loader);
 
 		s.getLogger().info("Server ready on port " + port);
 		s.getLogger().info("This server is running " + s.getName() + " version " + s.getVersion());

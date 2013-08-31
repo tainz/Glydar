@@ -3,6 +3,7 @@ package org.glydar.glydar;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;
+import org.glydar.paraglydar.command.CommandManager;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.EveryoneTarget;
@@ -24,7 +25,9 @@ public class GServer implements Runnable, Server {
 	private boolean running = true;
 	public final boolean DEBUG;
 	public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
+	
 	private final EventManager eventManager;
+	private final CommandManager commandManager;
 	
 	private HashMap<Long, Entity> connectedEntities = new HashMap<Long, Entity>();
 	private HashMap<Long, World> serverWorlds = new HashMap<Long, World>();
@@ -38,6 +41,7 @@ public class GServer implements Runnable, Server {
 		this.DEBUG = debug;
 		this.logManager = new ConsoleLogManager(Glydar.class.getName());
 		this.eventManager = new EventManager(logManager.getLogger());
+		this.commandManager = new CommandManager();
 
 		this.init();
 	}
@@ -49,9 +53,12 @@ public class GServer implements Runnable, Server {
 		commandReader.start();
 	}
 
-	@Override
 	public EventManager getEventManager() {
 		return eventManager;
+	}
+	
+	public CommandManager getCommandManager() {
+		return commandManager;
 	}
 
 	public String getName() {

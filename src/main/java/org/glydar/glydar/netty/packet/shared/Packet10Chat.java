@@ -76,14 +76,14 @@ public class Packet10Chat extends CubeWorldPacket {
 		if (message.startsWith("/")) {
 			String command = message.substring(1);
 			String[] parts = command.split(" ");
-			String lbl = parts[0];
+			String name = parts[0];
 			String[] args;
 			if (parts.length > 2) {
 				args = Arrays.copyOfRange(parts, 1, parts.length - 1);
 			} else {
 				args = null;
 			}
-			CommandManager.exec(ply, lbl, args);
+			Glydar.getServer().getCommandManager().exec(ply, name, args);
 			return true;
 		}
 		return false;

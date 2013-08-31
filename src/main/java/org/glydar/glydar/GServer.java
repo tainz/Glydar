@@ -13,10 +13,7 @@ import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.util.Versioning;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class GServer implements Runnable, Server {
@@ -36,8 +33,9 @@ public class GServer implements Runnable, Server {
 	private final String serverName = "Glydar";
 	private final String serverVersion = Versioning.getParaGlydarVersion();
 	private Thread commandReader;
+    private List<String> admins = new ArrayList<>();
 
-	public GServer(boolean debug) {
+    public GServer(boolean debug) {
 		this.DEBUG = debug;
 		this.logManager = new ConsoleLogManager(Glydar.class.getName());
 		this.eventManager = new EventManager(logManager.getLogger());
@@ -160,6 +158,14 @@ public class GServer implements Runnable, Server {
 		m.putAll(serverWorlds);
 		return m;
 	}
+    
+    public List<String> getAdmins() {
+        return admins;
+    }
+
+    protected void setAdmins(List<String> admins) {
+        this.admins = admins;
+    }
 
 	@Override
 	public void run() {

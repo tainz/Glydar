@@ -16,7 +16,13 @@ import org.glydar.paraglydar.ParaGlydar;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.plugin.PluginLoader;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
 
 public class Glydar {
 
@@ -41,7 +47,31 @@ public class Glydar {
 		s = new GServer(serverDebug);
 		//TODO: MAke this configurable in config
 		s.defaultWorld = new GWorld("Default", 12345);
-		
+
+        File adminsFile = new File("admins.txt");
+        List<String> admins = new ArrayList<>();
+        if (!adminsFile.exists()) {
+            try {
+                adminsFile.createNewFile();
+            } catch (Exception e) {
+                s.getLogger().log(Level.SEVERE, "Could not create admins file.");
+            }
+        } else {
+            try {
+                Scanner scanner = new Scanner(adminsFile);
+                while (scanner.hasNext()) {
+                    String line = scanner.next();
+                    if (line == null || line.equals("")){
+                    } else {
+                        admins.add(line.trim());
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                s.getLogger().log(Level.SEVERE, "Couldn't find admins file.");
+            }
+        }
+        s.setAdmins(admins);
+
 		ParaGlydar.setServer(s);
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
 

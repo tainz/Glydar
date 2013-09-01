@@ -3,7 +3,7 @@ package org.glydar.glydar;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;
-import org.glydar.paraglydar.command.CommandManager;
+import org.glydar.paraglydar.command.manager.CommandManager;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.EveryoneTarget;
@@ -39,7 +39,7 @@ public class GServer implements Runnable, Server {
 		this.DEBUG = debug;
 		this.logManager = new ConsoleLogManager(Glydar.class.getName());
 		this.eventManager = new EventManager(logManager.getLogger());
-		this.commandManager = new CommandManager();
+		this.commandManager = new CommandManager(logManager.getLogger());
 
 		this.init();
 	}

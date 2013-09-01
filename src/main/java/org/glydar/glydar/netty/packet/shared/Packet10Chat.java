@@ -8,7 +8,7 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.paraglydar.command.CommandManager;
+import org.glydar.paraglydar.command.manager.CommandManager;
 import org.glydar.paraglydar.event.events.ChatEvent;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.WorldTarget;
@@ -76,9 +76,7 @@ public class Packet10Chat extends CubeWorldPacket {
 
 	public boolean manageCommands(GPlayer ply) {
 		if (message.startsWith("/")) {
-			String[] cmd = message.split(" ");
-			String[] args = (String[]) Arrays.copyOfRange(cmd, 1, cmd.length);
-			Glydar.getServer().getCommandManager().exec(ply, cmd[0].substring(1), args);
+			Glydar.getServer().getCommandManager().execute(ply, message.substring(1));
 			return true;
 		}
 		return false;

@@ -1,13 +1,11 @@
 package org.glydar.glydar;
 
 import org.glydar.paraglydar.Server;
-import org.glydar.paraglydar.command.CommandManager;
 import org.glydar.paraglydar.command.ConsoleCommandSender;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class ThreadedCommandReader extends Thread {
 
@@ -24,10 +22,9 @@ public class ThreadedCommandReader extends Thread {
 
 		try {
 			while (this.server.isRunning()) {
-				String[] cmd = bufferedReader.readLine().split(" ");
-				String[] args = (String[]) Arrays.copyOfRange(cmd, 1, cmd.length);
-				this.console.sendMessage("Executing command " + cmd[0]);
-				server.getCommandManager().exec(console, cmd[0], args);
+				String cmdLine = bufferedReader.readLine();
+				this.console.sendMessage("Executing command " + cmdLine);
+				server.getCommandManager().execute(console, cmdLine);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

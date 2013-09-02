@@ -67,6 +67,7 @@ public class Glydar {
                         admins.add(line.trim());
                     }
                 }
+                scanner.close();
             } catch (FileNotFoundException e) {
                 s.getLogger().log(Level.SEVERE, "Couldn't find admins file.");
             }

@@ -190,4 +190,16 @@ public class GServer implements Runnable, Server {
 		}
 		getLogger().info("Goodbye!");
 	}
+
+	@Override
+	public boolean isDebugging() {
+		return this.DEBUG;
+	}
+
+	@Override
+	public void debug(String message) {
+		if (isDebugging()) {
+			getLogger().info("[DEBUG] " + message);
+		}
+	}
 }

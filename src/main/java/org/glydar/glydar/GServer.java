@@ -147,19 +147,22 @@ public class GServer implements Runnable, Server {
 	}
 	
 	public void addWorld(World w){
-		if (!serverWorlds.containsKey(w.getWorldId())){
-			serverWorlds.put(w.getWorldId(), w);
+		for (World world : getWorlds()) {
+			if (world.getWorldId() == w.getWorldId()) {
+				return;
+			}
 		}
+		getWorlds().add(w);
 	}
 	
 	public World getDefaultWorld(){
-		return defaultWorld;
+		return getWorlds().get(0);
 	}
 	
-	public Map<Long, World> getWorlds(){
-		HashMap<Long,World> m = new HashMap<Long, World>();
-		m.putAll(serverWorlds);
-		return m;
+	public List<World> getWorlds(){
+		List<World> worlds = new ArrayList<>();
+		worlds.addAll(serverWorlds.values());
+		return worlds;
 	}
     
     public List<String> getAdmins() {

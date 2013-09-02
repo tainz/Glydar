@@ -8,14 +8,6 @@ import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import org.glydar.glydar.models.GModelCreator;
-import org.glydar.glydar.models.GWorld;
-import org.glydar.glydar.netty.CubeWorldServerInitializer;
-import org.glydar.glydar.netty.data.GDataCreator;
-import org.glydar.paraglydar.ParaGlydar;
-import org.glydar.paraglydar.event.manager.EventManager;
-import org.glydar.paraglydar.plugin.PluginLoader;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.InetSocketAddress;
@@ -23,6 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
+
+import org.glydar.glydar.models.GModelCreator;
+import org.glydar.glydar.models.GWorld;
+import org.glydar.glydar.netty.CubeWorldServerInitializer;
+import org.glydar.glydar.netty.data.GDataCreator;
+import org.glydar.paraglydar.ParaGlydar;
+import org.glydar.paraglydar.event.manager.EventManager;
+import org.glydar.paraglydar.plugin.PluginLoader;
 
 public class Glydar {
 
@@ -46,8 +46,6 @@ public class Glydar {
 			}
 		}
 		s = new GServer(serverDebug);
-		//TODO: MAke this configurable in config
-		s.defaultWorld = new GWorld("Default", 12345);
 
         File adminsFile = new File("admins.txt");
         List<String> admins = new ArrayList<>();
@@ -77,7 +75,12 @@ public class Glydar {
         GlydarConfig config = new GlydarConfig();
         config.setupServer(s);
 		s.setPort(config.getPort());
-        
+		for (String key : config.getConfig().getConfigurationSection("worlds").getKeys(false)) {
+			String name = config.getConfig().getString("worlds." + key + ".name");
+			int seed = config.getConfig().getInt("worlds." + key + ".seed");
+			GWorld world = new GWorld(name, seed);
+			s.addWorld(world);
+		}
 		ParaGlydar.setServer(s);
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
 

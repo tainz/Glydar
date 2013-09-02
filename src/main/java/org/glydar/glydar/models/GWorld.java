@@ -15,6 +15,7 @@ public class GWorld implements World {
 	long worldId;
 	private String name;
 	private int seed;
+	private boolean allowPVP;
 	
 	private HashMap<Long,Entity> worldEntities = new HashMap<Long,Entity>();
 	
@@ -26,6 +27,7 @@ public class GWorld implements World {
 	public GWorld(String name, int seed){
 		this.name = name;
 		this.seed = seed;
+		allowPVP = false;
 		worldId = GWorld.getNewWorldId();
 		Glydar.getServer().addWorld(this);
 	}
@@ -78,5 +80,14 @@ public class GWorld implements World {
 	
 	public void broadcastMessage(String message) {
 		new Packet10Chat(message, 0).sendTo(new WorldTarget(this));
+	}
+
+	@Override
+	public boolean isPVPAllowed() {
+		return this.allowPVP;
+	}
+	
+	public void setPVPAllowed(boolean allowPVP) {
+		this.allowPVP = allowPVP;
 	}
 }

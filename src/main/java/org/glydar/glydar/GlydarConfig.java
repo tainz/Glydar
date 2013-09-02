@@ -16,7 +16,6 @@ public class GlydarConfig {
 			try {
 				file.createNewFile();
 				config = YamlConfiguration.loadConfiguration(file);
-				config.set("pvp", "false");
 				config.set("max-players", 4);
 				config.set("port", 12345);
 				config.save(file);
@@ -26,8 +25,11 @@ public class GlydarConfig {
 		}
 	}
 	
+	protected YamlConfiguration getConfig() {
+		return config;
+	}
+	
 	protected void setupServer(Server server) {
-		server.setPVPAllowed(config.getBoolean("pvp"));
 		server.setMaxPlayers(config.getInt("max-players"));
 	}
 	

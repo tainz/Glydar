@@ -1,11 +1,13 @@
 package org.glydar.glydar.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.paraglydar.models.Entity;
 
 @CubeWorldPacket.Packet(id = 7)
 public class Packet7HitNPC extends CubeWorldPacket {
@@ -62,6 +64,9 @@ public class Packet7HitNPC extends CubeWorldPacket {
 
 	@Override
 	public void receivedFrom(GPlayer ply) {
+		Entity damaged = Glydar.getServer().getEntityByEntityID(targetId);
+		damaged.getEntityData().setHP(damaged.getEntityData().getHP() - damage);
+		damaged.forceUpdateData();
 		if (Glydar.getServer().serverUpdatePacket.sud == null) {
 			Glydar.getServer().serverUpdatePacket.sud = new GServerUpdateData();
 		}

@@ -90,6 +90,7 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
 			GEntityData.FULL_BITMASK = ed.getBitSet();
+			ed.setHostileType((byte) 1);
 			ply.setEntityData(this.ed);
 
 			//TODO: Add more functionality to join message!
@@ -100,7 +101,9 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 				if (((GEntity) e).entityID == ply.entityID) {
 					continue;
 				}
-				ply.sendPacket(new Packet0EntityUpdate(e.getEntityData()));
+				EntityData d = e.getEntityData();
+				d.setHostileType((byte) 1);
+				ply.sendPacket(new Packet0EntityUpdate(d));
 			}
 			ply.playerJoined();
 		}

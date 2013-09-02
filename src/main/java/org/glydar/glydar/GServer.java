@@ -175,7 +175,7 @@ public class GServer implements Runnable, Server {
                Eventually; All periodic events will be processed here, such as AI logic, etc for entities.
              */
 
-				if (serverUpdatePacket.sud != null) {
+				if (serverUpdatePacket.sud != null && System.currentTimeMillis() % 250 == 0) {
 					getLogger().info("Server Update Sent!");
 					serverUpdatePacket.sendToWorld(defaultWorld);
 					serverUpdatePacket = new Packet4ServerUpdate();

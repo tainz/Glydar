@@ -28,7 +28,6 @@ public class GServer implements Runnable, Server {
 	
 	private HashMap<Long, Entity> connectedEntities = new HashMap<Long, Entity>();
 	private HashMap<Long, World> serverWorlds = new HashMap<Long, World>();
-	protected World defaultWorld;
 	
 	private final String serverName = "Glydar";
 	private final String serverVersion = Versioning.getParaGlydarVersion();
@@ -183,7 +182,7 @@ public class GServer implements Runnable, Server {
 
 				if (serverUpdatePacket.sud != null && System.currentTimeMillis() % 250 == 0) {
 					getLogger().info("Server Update Sent!");
-					serverUpdatePacket.sendToWorld(defaultWorld);
+					serverUpdatePacket.sendToWorld(getDefaultWorld());
 					serverUpdatePacket = new Packet4ServerUpdate();
 				} //else {
 				//getLogger().info("Update Not Sent!");

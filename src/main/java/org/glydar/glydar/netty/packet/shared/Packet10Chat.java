@@ -8,12 +8,9 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.paraglydar.command.manager.CommandManager;
 import org.glydar.paraglydar.event.events.ChatEvent;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.WorldTarget;
-
-import java.util.Arrays;
 
 @CubeWorldPacket.Packet(id = 10, variableLength = true)
 public class Packet10Chat extends CubeWorldPacket {

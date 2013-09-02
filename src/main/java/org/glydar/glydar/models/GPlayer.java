@@ -23,9 +23,9 @@ import org.glydar.paraglydar.permissions.PermissionAttachment;
 public class GPlayer extends GEntity implements Player {
 	public boolean joined = false;
 	private ChannelHandlerContext channelCtx;
-	private boolean admin;
+    private boolean admin;
 
-	public GPlayer() {
+    public GPlayer() {
 		super();
 	}
 

@@ -36,6 +36,7 @@ public class Glydar {
 	public static boolean ignorePacketErrors = false;
 
 	public static void main(String[] args) {
+		long startMillis = System.currentTimeMillis();
 		if (args.length > 0) {
 			for (String s : args) {
 				if (s.equalsIgnoreCase("-ignorepacketerrors"))
@@ -103,7 +104,10 @@ public class Glydar {
 		s.getLogger().info("This server is running " + s.getName() + " version " + s.getVersion());
 
 		serverThread.start();
+		long finishMillis = System.currentTimeMillis();
+		s.getLogger().info("Server started in " + (finishMillis - startMillis) + "ms");
 		s.run();
+		
 	}
 
 	public static GServer getServer() {

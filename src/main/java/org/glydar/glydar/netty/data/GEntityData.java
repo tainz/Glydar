@@ -372,6 +372,7 @@ public class GEntityData implements BaseData, EntityData {
 	public void encode(ByteBuf buf) {
 		buf.writeLong(id); //Ulong but whatever
 		buf.writeBytes(bitSet.toByteArray());
+		buf.writeBytes(new byte[8 - bitSet.toByteArray().length]); //BitSet/BitArray are the stupidest classes ever :(
 
 		if (bitSet.get(0)) {
 			position.encode(buf, Long.class);
@@ -528,8 +529,7 @@ public class GEntityData implements BaseData, EntityData {
 			}
 		}
 		if (bitSet.get(45)) {
-			byte[] ascii = name.getBytes(Charsets.US_ASCII);
-			//buf.writeByte(4); //TODO: Why??
+			byte[] ascii = name.getBytes(Charsets.UTF_8);
 			buf.writeBytes(ascii);
 			buf.writeBytes(new byte[16 - name.length()]);
 

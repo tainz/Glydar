@@ -126,7 +126,7 @@ public class GAppearance implements BaseData, Appearance {
 		buf.writeByte(hairR);
 		buf.writeByte(hairG);
 		buf.writeByte(hairB);
-		buf.writeByte((byte) 0);
+		buf.writeBytes(new byte[1]);
 		buf.writeByte(movementFlags);
 		buf.writeByte(entityFlags);
 		buf.writeFloat(scale);

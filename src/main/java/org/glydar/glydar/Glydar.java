@@ -74,10 +74,12 @@ public class Glydar {
         }
         s.setAdmins(admins);
 
+        GlydarConfig config = new GlydarConfig();
+        config.setupServer(s);
+		s.setPort(config.getPort());
+        
 		ParaGlydar.setServer(s);
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
-
-		final int port = 12345;
 
 		serverBootstrap = new ServerBootstrap();
 		serverBootstrap.childHandler(new CubeWorldServerInitializer())
@@ -91,7 +93,7 @@ public class Glydar {
 						return new NioServerSocketChannel();
 					}
 				})
-				.bind(new InetSocketAddress(port));
+				.bind(new InetSocketAddress(s.getPort()));
 
 		try {
 			loader.loadPlugins();
@@ -101,7 +103,7 @@ public class Glydar {
 		
 		ParaGlydar.setPluginLoader(loader);
 
-		s.getLogger().info("Server ready on port " + port);
+		s.getLogger().info("Server ready on port " + s.getPort());
 		s.getLogger().info("This server is running " + s.getName() + " version " + s.getVersion());
 
 		serverThread.start();

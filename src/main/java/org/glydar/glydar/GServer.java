@@ -34,6 +34,9 @@ public class GServer implements Runnable, Server {
 	private final String serverVersion = Versioning.getParaGlydarVersion();
 	private Thread commandReader;
     private List<String> admins = new ArrayList<>();
+    private int maxPlayers;
+    private boolean allowPVP;
+	private int port;
 
     public GServer(boolean debug) {
 		this.DEBUG = debug;
@@ -201,5 +204,29 @@ public class GServer implements Runnable, Server {
 		if (isDebugging()) {
 			getLogger().info("[DEBUG] " + message);
 		}
+	}
+	
+	public boolean isPVPAllowed() {
+		return allowPVP;
+	}
+	
+	public void setPVPAllowed(boolean allowPVP) {
+		this.allowPVP = allowPVP;
+	}
+	
+	public int getMaxPlayers() {
+		return maxPlayers;
+	}
+	
+	public void setMaxPlayers(int maxPlayers) {
+		this.maxPlayers = maxPlayers;
+	}
+	
+	public int getPort() {
+		return port;
+	}
+
+	protected void setPort(int port) {
+		this.port = port;
 	}
 }

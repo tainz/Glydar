@@ -18,6 +18,8 @@ public class GlydarConfig {
 				config = YamlConfiguration.loadConfiguration(file);
 				config.set("max-players", 4);
 				config.set("port", 12345);
+				config.set("worlds.Default.name", "Default");
+				config.set("worlds.Default.seed", 12345);
 				config.save(file);
 			} catch (Exception e) {}
 		} else {

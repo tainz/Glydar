@@ -1,9 +1,8 @@
 package org.glydar.glydar.netty.data;
 
-import org.glydar.glydar.Glydar;
-import org.glydar.paraglydar.data.Vector3;
-
 import io.netty.buffer.ByteBuf;
+
+import org.glydar.paraglydar.data.Vector3;
 
 public class GVector3<T> implements Vector3<T> {
 	private T x;

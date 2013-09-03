@@ -151,11 +151,12 @@ public class GServer implements Runnable, Server {
 				return;
 			}
 		}
-		getWorlds().add(w);
+		serverWorlds.put(w.getWorldId(), w);
+		Glydar.getServer().getLogger().info("Added world id: " + w.getWorldId());
 	}
 	
 	public World getDefaultWorld(){
-		return getWorlds().get(0);
+		return serverWorlds.get(1);
 	}
 	
 	public List<World> getWorlds(){

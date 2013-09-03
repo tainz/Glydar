@@ -12,7 +12,7 @@ import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.models.WorldTarget;
 
 public class GWorld implements World {
-	long worldId;
+	final long worldId;
 	private String name;
 	private int seed;
 	private boolean allowPVP;

@@ -27,6 +27,7 @@ public class GlydarConfig {
 		config = YamlConfiguration.loadConfiguration(file);
 		config.addDefault("max-players", 4);
 		config.addDefault("port", 12345);
+		config.addDefault("fps", 50);
 		config.addDefault("worlds.default-world.name", "Default");
 		config.addDefault("worlds.default-world.seed", 1111);
 		config.options().copyDefaults(true);
@@ -42,6 +43,7 @@ public class GlydarConfig {
 	protected void setupServer(Server server) {
 		server.setMaxPlayers(config.getInt("max-players"));
 		((GServer)server).setPort(config.getInt("port"));
+		((GServer)server).setFps(config.getInt("fps"));
 		setUpWorlds();
 		setUpAdmins(server);
 	}

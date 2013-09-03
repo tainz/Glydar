@@ -1,5 +1,6 @@
 package org.glydar.glydar;
 
+import org.glydar.glydar.netty.packet.server.Packet2UpdateFinished;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;
@@ -33,9 +34,11 @@ public class GServer implements Runnable, Server {
 	private final String serverVersion = Versioning.getParaGlydarVersion();
 	private Thread commandReader;
     private List<String> admins = new ArrayList<>();
+    
     private int maxPlayers;
     private boolean allowPVP;
 	private int port;
+	private int fps;
 
     public GServer(boolean debug) {
 		this.DEBUG = debug;
@@ -179,7 +182,18 @@ public class GServer implements Runnable, Server {
 	        /* TODO Server loop / tick code.
                Eventually; All periodic events will be processed here, such as AI logic, etc for entities.
              */
-
+				
+				//EntityUpdate events are controller through this loop. 
+				//TODO: Figure out optimal system for FPS.
+				if (System.currentTimeMillis() % (1000/fps) == 0){
+					for (Entity e : getConnectedEntities()){
+						e.forceUpdateData(true);
+					}
+					for (World w : getWorlds()){
+						new Packet2UpdateFinished().sendToWorld(w);
+					}
+				}
+				
 				if (serverUpdatePacket.sud != null && System.currentTimeMillis() % 250 == 0) {
 					getLogger().info("Server Update Sent!");
 					serverUpdatePacket.sendToWorld(getDefaultWorld());
@@ -230,5 +244,9 @@ public class GServer implements Runnable, Server {
 
 	protected void setPort(int port) {
 		this.port = port;
+	}
+	
+	protected void setFps(int fps) {
+		this.fps = fps;
 	}
 }

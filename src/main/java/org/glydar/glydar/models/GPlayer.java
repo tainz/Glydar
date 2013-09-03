@@ -86,25 +86,8 @@ public class GPlayer extends GEntity implements Player {
 	
 	@Override
 	public void changeWorld(World w){
-		//Temporary(?) way of removing all current models in players client!
-		for (Entity e : w.getWorldEntities()) {
-			GEntityData ed = new GEntityData(e.getEntityData());
-			ed.setHostileType((byte) 2);
-			GVector3<Long> v = new GVector3<Long>();
-			v.setX((long) 0);
-			v.setY((long) 0);
-			v.setZ((long) 0);
-			ed.setPosition(v);
-			new Packet0EntityUpdate(ed).sendTo(this);
-		}
 		super.changeWorld(w);
 		new Packet15Seed(w.getSeed()).sendTo(this);
-		for (Entity e : this.getWorld().getWorldEntities()) {
-			if (((GEntity) e).entityID == this.entityID) {
-				continue;
-			}
-			this.sendPacket(new Packet0EntityUpdate(e.getEntityData()));
-		}
 	}
 
 	@Override

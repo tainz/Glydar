@@ -27,6 +27,20 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		position = new GVector3<Long>();
 		hitDirection = new GVector3<Float>();
 	}
+	
+	public Packet7HitNPC(GPlayer ply){
+		id = ply.getEntityId();
+		targetId = ply.getEntityId();
+		damage = 100F;
+		critical = (byte) 0;
+		stunDuration = 3;
+		unknown = 0;
+		position = new GVector3<Long>(ply.getEntityData().getPosition());
+		hitDirection = new GVector3<Float>(ply.getEntityData().getExtraVel());
+		skillHit = (byte) 0;
+		type = (byte) 0;
+		showLight = (byte) 0;
+	}
 
 	@Override
 	public void internalDecode(ByteBuf buf) {

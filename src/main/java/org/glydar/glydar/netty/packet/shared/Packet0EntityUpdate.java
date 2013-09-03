@@ -2,11 +2,13 @@ package org.glydar.glydar.netty.packet.shared;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.netty.packet.server.Packet2UpdateFinished;
 import org.glydar.glydar.util.ZLibOperations;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.event.events.EntityUpdateEvent;
@@ -90,9 +92,9 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
 			GEntityData.FULL_BITMASK = ed.getBitSet();
-			ed.setHostileType((byte) 1);
+			//PVP testing: ed.setHostileType((byte) 1);
 			ply.setEntityData(this.ed);
-
+			
 			//TODO: Add more functionality to join message!
 			String joinMessage = manageJoinEvent(ply);
 
@@ -102,14 +104,13 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 					continue;
 				}
 				EntityData d = e.getEntityData();
-				d.setHostileType((byte) 1);
 				ply.sendPacket(new Packet0EntityUpdate(d));
 			}
 			ply.playerJoined();
 		}
 		manageEntityEvents(ply);
 		((GEntityData) ply.getEntityData()).updateFrom(this.ed);
-		this.sendTo(target);
+		//this.sendTo(target);
 	}
 
 	@Override
@@ -130,7 +131,6 @@ public class Packet0EntityUpdate extends CubeWorldPacket {
 			if (compressedData != null) {
 				buf.writeInt(compressedData.length);
 				buf.writeBytes(compressedData);
-				// TODO Send UpdateFinished packet to all
 			} else {
 				buf.writeInt(rawData.length);
 				buf.writeBytes(rawData);

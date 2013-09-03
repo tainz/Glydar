@@ -38,14 +38,13 @@ public abstract class GEntity implements Entity {
 	 * Temporary fix to allow plugins to manipulate entityData while we fix other issues.
 	 * Call this whenever you modify anything in Player.data and wish to update all of the clients.
 	 */
-	public void forceUpdateData() {
-		data.setBitSet(GEntityData.FULL_BITMASK);
-		new Packet0EntityUpdate(this.data).sendToWorld(world);
-	}
-
-	public void forceUpdateData(EntityData ed) {
-		this.data = (GEntityData) ed;
+	public void forceUpdateData(boolean full) {
+		if (full) data.setBitSet(GEntityData.FULL_BITMASK);
 		forceUpdateData();
+	}
+	
+	public void forceUpdateData() {
+		new Packet0EntityUpdate(this.data).sendToWorld(world);
 	}
 
 	public EntityData getEntityData() {
@@ -64,18 +63,6 @@ public abstract class GEntity implements Entity {
 	}
 	
 	public void changeWorld(World w){
-		//Temporary (?) way of removing the model from world
-		for (Player p : w.getWorldPlayers()) {
-			GEntityData ed = new GEntityData(this.getEntityData());
-			ed.setHostileType((byte) 2);
-			GVector3<Long> v = new GVector3<Long>();
-			v.setX((long) 0);
-			v.setY((long) 0);
-			v.setZ((long) 0);
-			ed.setPosition(v);
-			new Packet0EntityUpdate(ed).sendTo(p);
-		}
-		
 		world.removeEntity(entityID);
 		world = (GWorld) w;
 		world.addEntity(entityID, this);

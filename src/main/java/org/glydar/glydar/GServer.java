@@ -156,7 +156,7 @@ public class GServer implements Runnable, Server {
 	}
 	
 	public World getDefaultWorld(){
-		return serverWorlds.get(1);
+		return serverWorlds.get(1L);
 	}
 	
 	public List<World> getWorlds(){

@@ -56,6 +56,7 @@ public class GPlayer extends GEntity implements Player {
 
 	public void playerLeft() {
 		Glydar.getServer().removeEntity(entityID);
+		world.removeEntity(entityID);
 		forceUpdateData();
 	}
 

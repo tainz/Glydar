@@ -152,7 +152,6 @@ public class GServer implements Runnable, Server {
 			}
 		}
 		serverWorlds.put(w.getWorldId(), w);
-		Glydar.getServer().getLogger().info("Added world id: " + w.getWorldId());
 	}
 	
 	public World getDefaultWorld(){

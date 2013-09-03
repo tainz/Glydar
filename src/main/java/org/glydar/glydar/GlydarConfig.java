@@ -50,6 +50,7 @@ public class GlydarConfig {
 		new GWorld(config.getString("worlds.default-world.name"),config.getInt("default-world.seed"));
 		
 		for (String key : config.getConfigurationSection("worlds").getKeys(false)) {
+			if(key.contains("default-world")) return;
 			String name = config.getString("worlds." + key + ".name");
 			int seed = config.getInt("worlds." + key + ".seed");
 			new GWorld(name, seed);

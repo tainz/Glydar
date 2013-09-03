@@ -8,16 +8,9 @@ import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.logging.Level;
 
 import org.glydar.glydar.models.GModelCreator;
-import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.netty.CubeWorldServerInitializer;
 import org.glydar.glydar.netty.data.GDataCreator;
 import org.glydar.paraglydar.ParaGlydar;

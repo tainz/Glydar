@@ -47,40 +47,9 @@ public class Glydar {
 		}
 		s = new GServer(serverDebug);
 
-        File adminsFile = new File("admins.txt");
-        List<String> admins = new ArrayList<>();
-        if (!adminsFile.exists()) {
-            try {
-                adminsFile.createNewFile();
-            } catch (Exception e) {
-                s.getLogger().log(Level.SEVERE, "Could not create admins file.");
-            }
-        } else {
-            try {
-                Scanner scanner = new Scanner(adminsFile);
-                while (scanner.hasNext()) {
-                    String line = scanner.next();
-                    if (line == null || line.equals("")){
-                    } else {
-                        admins.add(line.trim());
-                    }
-                }
-                scanner.close();
-            } catch (FileNotFoundException e) {
-                s.getLogger().log(Level.SEVERE, "Couldn't find admins file.");
-            }
-        }
-        s.setAdmins(admins);
-
         GlydarConfig config = new GlydarConfig();
         config.setupServer(s);
-		s.setPort(config.getPort());
-		for (String key : config.getConfig().getConfigurationSection("worlds").getKeys(false)) {
-			String name = config.getConfig().getString("worlds." + key + ".name");
-			int seed = config.getConfig().getInt("worlds." + key + ".seed");
-			GWorld world = new GWorld(name, seed);
-			s.addWorld(world);
-		}
+		
 		ParaGlydar.setServer(s);
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
 

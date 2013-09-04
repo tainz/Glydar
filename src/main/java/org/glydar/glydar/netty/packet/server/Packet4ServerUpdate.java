@@ -71,7 +71,7 @@ public class Packet4ServerUpdate extends CubeWorldPacket {
 			buf.writeInt(compressedData.length);
 			buf.writeBytes(compressedData);
 		} else {
-			Glydar.getServer().getLogger().severe("Server update is null!");
+			Glydar.getServer().getLogger().severe("World update is null! o.o");
 		}
 	}
 

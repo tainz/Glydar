@@ -17,27 +17,31 @@ import io.netty.buffer.ByteBuf;
 public class GServerUpdateData implements BaseData {
 	ArrayList<GPacket4UnknownData> unknownArray1;
 	public ArrayList<Packet7HitNPC> hitPackets;
-	byte[][] unknownArray2;
+	ArrayList<byte[]> unknownArray2;
 	ArrayList<GSoundAction> soundActions;
 	public ArrayList<Packet9ShootProjectile> shootPackets;
-	byte[][] unknownArray3;
+	ArrayList<byte[]> unknownArray3;
 	ArrayList<GChunkItems> chunkItems;
-	UnknownArray4[] unknownArray4;
+	ArrayList<UnknownArray4> unknownArray4;
 	ArrayList<GPickupAction> pickupActions;
-	ArrayList<GKillAction> killActions;
+	public ArrayList<GKillAction> killActions;
 	ArrayList<GDamageAction> damageActions;
-	byte[][] unknownArray5;
+	ArrayList<byte[]> unknownArray5;
 	ArrayList<Packet13MissionData> missionData;
 
 	public GServerUpdateData() {
 		unknownArray1 = new ArrayList<GPacket4UnknownData>();
+		unknownArray2 = new ArrayList<byte[]>();
 		hitPackets = new ArrayList<Packet7HitNPC>();
 		soundActions = new ArrayList<GSoundAction>();
 		shootPackets = new ArrayList<Packet9ShootProjectile>();
+		unknownArray3 = new ArrayList<byte[]>();
 		chunkItems = new ArrayList<GChunkItems>();
+		unknownArray4 = new ArrayList<UnknownArray4>();
 		pickupActions = new ArrayList<GPickupAction>();
 		killActions = new ArrayList<GKillAction>();
 		damageActions = new ArrayList<GDamageAction>();
+		unknownArray5 = new ArrayList<byte[]>();
 		missionData = new ArrayList<Packet13MissionData>();
 	}
 
@@ -58,8 +62,8 @@ public class GServerUpdateData implements BaseData {
 
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++) {
-			unknownArray2[i] = new byte[72];
-			buf.readBytes(unknownArray2[i]);
+			unknownArray2.set(i, new byte[72]);
+			buf.readBytes(unknownArray2.get(i));
 		}
 
 		lengthI = buf.readInt();
@@ -76,8 +80,8 @@ public class GServerUpdateData implements BaseData {
 
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++) {
-			unknownArray3[i] = new byte[88];
-			buf.readBytes(unknownArray3[i]);
+			unknownArray3.set(i, new byte[88]);
+			buf.readBytes(unknownArray3.get(i));
 		}
 
 		lengthI = buf.readInt();
@@ -86,13 +90,13 @@ public class GServerUpdateData implements BaseData {
 			chunkItems.get(i).decode(buf);
 		}
 
-		long lengthL = buf.readLong();
-		for (long i = 0; i < lengthL; i++) {
-			unknownArray4[(int) i].u1 = buf.readLong();
-			lengthI = buf.readInt();
-			for (int j = 0; j < lengthI; j++) {
-				unknownArray4[(int) i].u2[j] = new byte[16];
-				buf.readBytes(buf.readBytes(unknownArray4[(int) i].u2[j]));
+		lengthI = buf.readInt();
+		for (int i = 0; i < lengthI; i++) {
+			unknownArray4.get(i).u1 = buf.readLong();
+			int lengthIa = buf.readInt();
+			for (int j = 0; j < lengthIa; j++) {
+				unknownArray4.get(i).u2.set(j,new byte[16]);
+				buf.readBytes(unknownArray4.get(i).u2.get(j));
 			}
 		}
 
@@ -116,8 +120,8 @@ public class GServerUpdateData implements BaseData {
 
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++) {
-			unknownArray5[i] = new byte[40];
-			buf.readBytes(unknownArray5[i]);
+			unknownArray5.set(i, new byte[40]);
+			buf.readBytes(unknownArray5.get(i));
 		}
 
 		lengthI = buf.readInt();
@@ -129,19 +133,18 @@ public class GServerUpdateData implements BaseData {
 	}
 
 	@Override
-	public void encode(ByteBuf buf) {
+	public void encode(ByteBuf buf) {		
 		buf.writeInt(unknownArray1.size());
 		for (GPacket4UnknownData u : unknownArray1) {
 			u.encode(buf);
 		}
 
 		buf.writeInt(hitPackets.size());
-		Glydar.getServer().getLogger().info("HitPackets amount: " + hitPackets.size());
 		for (Packet7HitNPC p : hitPackets) {
 			p.encode(buf);
 		}
 
-		buf.writeInt(unknownArray2.length);
+		buf.writeInt(unknownArray2.size());
 		for (byte[] b : unknownArray2) {
 			buf.writeBytes(b);
 		}
@@ -156,7 +159,7 @@ public class GServerUpdateData implements BaseData {
 			p.encode(buf);
 		}
 
-		buf.writeInt(unknownArray3.length);
+		buf.writeInt(unknownArray3.size());
 		for (byte[] b : unknownArray3) {
 			buf.writeBytes(b);
 		}
@@ -166,10 +169,10 @@ public class GServerUpdateData implements BaseData {
 			c.encode(buf);
 		}
 
-		buf.writeLong(unknownArray4.length);
+		buf.writeInt(unknownArray4.size());
 		for (UnknownArray4 u : unknownArray4) {
 			buf.writeLong(u.u1);
-			buf.writeInt(u.u2.length);
+			buf.writeInt(u.u2.size());
 			for (byte[] b : u.u2) {
 				buf.writeBytes(b);
 			}
@@ -190,7 +193,7 @@ public class GServerUpdateData implements BaseData {
 			a.encode(buf);
 		}
 
-		buf.writeInt(unknownArray5.length);
+		buf.writeInt(unknownArray5.size());
 		for (byte[] b : unknownArray5) {
 			buf.writeBytes(b);
 		}
@@ -204,7 +207,7 @@ public class GServerUpdateData implements BaseData {
 	//TODO: Temporary, until we know what this is o.o
 	protected class UnknownArray4 {
 		long u1;
-		byte[][] u2;
+		ArrayList<byte[]> u2 = new ArrayList<byte[]>();
 
 	}
 }

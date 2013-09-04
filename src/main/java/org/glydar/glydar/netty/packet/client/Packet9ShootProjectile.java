@@ -1,11 +1,14 @@
 package org.glydar.glydar.netty.packet.client;
 
 import io.netty.buffer.ByteBuf;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.paraglydar.models.Entity;
 
 @CubeWorldPacket.Packet(id = 9)
 public class Packet9ShootProjectile extends CubeWorldPacket {
@@ -102,9 +105,10 @@ public class Packet9ShootProjectile extends CubeWorldPacket {
 
 	@Override
 	public void receivedFrom(GPlayer ply) {
-		if (Glydar.getServer().serverUpdatePacket.sud == null) {
-			Glydar.getServer().serverUpdatePacket.sud = new GServerUpdateData();
+		Entity shooter = Glydar.getServer().getEntityByEntityID(entID);
+		if (((GWorld) shooter.getWorld()).worldUpdatePacket.sud == null) {
+			((GWorld) shooter.getWorld()).worldUpdatePacket.sud = new GServerUpdateData();
 		}
-		Glydar.getServer().serverUpdatePacket.sud.shootPackets.add(this);
+		((GWorld) shooter.getWorld()).worldUpdatePacket.sud.shootPackets.add(this);
 	}
 }

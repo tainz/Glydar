@@ -1,5 +1,6 @@
 package org.glydar.glydar;
 
+import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.netty.packet.server.Packet2UpdateFinished;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
@@ -22,7 +23,6 @@ public class GServer implements Runnable, Server {
 	private final IConsoleLogManager logManager;
 	private boolean running = true;
 	public final boolean DEBUG;
-	public Packet4ServerUpdate serverUpdatePacket = new Packet4ServerUpdate();
 	
 	private final EventManager eventManager;
 	private final CommandManager commandManager;
@@ -36,7 +36,6 @@ public class GServer implements Runnable, Server {
     private List<String> admins = new ArrayList<>();
     
     private int maxPlayers;
-    private boolean allowPVP;
 	private int port;
 	private int fps;
 
@@ -183,25 +182,26 @@ public class GServer implements Runnable, Server {
                Eventually; All periodic events will be processed here, such as AI logic, etc for entities.
              */
 				
-				//EntityUpdate events are controller through this loop. 
+				
 				//TODO: Figure out optimal system for FPS.
 				if (System.currentTimeMillis() % (1000/fps) == 0){
+					//EntityUpdate events are controller through this loop. 
 					for (Entity e : getConnectedEntities()){
 						e.forceUpdateData(true);
 					}
 					for (World w : getWorlds()){
 						new Packet2UpdateFinished().sendToWorld(w);
 					}
+					
+					//WorldUpdatePackets are controlled here:
+					for (World w : getWorlds()){
+						if (((GWorld)w).worldUpdatePacket.sud != null){
+							((GWorld)w).worldUpdatePacket.sendToWorld(w);
+							((GWorld)w).worldUpdatePacket = new Packet4ServerUpdate();
+						}
+					}
 				}
 				
-				if (serverUpdatePacket.sud != null && System.currentTimeMillis() % 250 == 0) {
-					getLogger().info("Server Update Sent!");
-					serverUpdatePacket.sendToWorld(getDefaultWorld());
-					serverUpdatePacket = new Packet4ServerUpdate();
-				} //else {
-				//getLogger().info("Update Not Sent!");
-				//}
-
 				Thread.sleep(1); //To check shutdown
 			} catch (InterruptedException ex) {
 				break;
@@ -220,14 +220,6 @@ public class GServer implements Runnable, Server {
 		if (isDebugging()) {
 			getLogger().info("[DEBUG] " + message);
 		}
-	}
-	
-	public boolean isPVPAllowed() {
-		return allowPVP;
-	}
-	
-	public void setPVPAllowed(boolean allowPVP) {
-		this.allowPVP = allowPVP;
 	}
 	
 	public int getMaxPlayers() {

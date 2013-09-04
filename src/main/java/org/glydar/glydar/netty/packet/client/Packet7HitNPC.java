@@ -4,10 +4,13 @@ import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.data.GVector3;
+import org.glydar.glydar.netty.data.actions.GKillAction;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.paraglydar.models.Entity;
+import org.glydar.paraglydar.models.Player;
 
 @CubeWorldPacket.Packet(id = 7)
 public class Packet7HitNPC extends CubeWorldPacket {
@@ -78,12 +81,33 @@ public class Packet7HitNPC extends CubeWorldPacket {
 
 	@Override
 	public void receivedFrom(GPlayer ply) {
-		Entity damaged = Glydar.getServer().getEntityByEntityID(targetId);
-		damaged.getEntityData().setHP(damaged.getEntityData().getHP() - damage);
-		damaged.forceUpdateData();
-		if (Glydar.getServer().serverUpdatePacket.sud == null) {
-			Glydar.getServer().serverUpdatePacket.sud = new GServerUpdateData();
+		Entity hurt = Glydar.getServer().getEntityByEntityID(targetId);
+		Entity attacker = Glydar.getServer().getEntityByEntityID(id);
+		
+		hurt.getEntityData().setHP(hurt.getEntityData().getHP() - damage);
+		if (!(hurt instanceof Player)){
+			hurt.forceUpdateData();
 		}
-		Glydar.getServer().serverUpdatePacket.sud.hitPackets.add(this);
+		
+		if (((GWorld) hurt.getWorld()).worldUpdatePacket.sud == null) {
+			((GWorld) hurt.getWorld()).worldUpdatePacket.sud = new GServerUpdateData();
+		}
+		
+		((GWorld) hurt.getWorld()).worldUpdatePacket.sud.hitPackets.add(this);
+		
+		if (hurt.getEntityData().getHP() <= 0){
+			GKillAction ka = new GKillAction();
+			ka.setId(id);
+			ka.setTargetId(targetId);
+			if (attacker != null && hurt != null){
+				//TODO: Figure out a better equation!
+				ka.setXp((int) (hurt.getEntityData().getLevel()/attacker.getEntityData().getLevel() * 5));
+			} else {
+				ka.setXp(0);
+			}
+			
+			((GWorld) hurt.getWorld()).worldUpdatePacket.sud.killActions.add(ka);
+		}
+		
 	}
 }

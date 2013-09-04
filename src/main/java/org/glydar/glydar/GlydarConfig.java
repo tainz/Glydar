@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import org.glydar.glydar.models.GWorld;
 import org.glydar.paraglydar.Server;
 import org.glydar.paraglydar.configuration.file.YamlConfiguration;
+import org.glydar.paraglydar.models.World;
 
 public class GlydarConfig {
 	
@@ -30,6 +31,7 @@ public class GlydarConfig {
 		config.addDefault("fps", 50);
 		config.addDefault("worlds.default-world.name", "Default");
 		config.addDefault("worlds.default-world.seed", 1111);
+		config.addDefault("worlds.default-world.pvp", false);
 		config.options().copyDefaults(true);
 		try {
 			config.save(file);
@@ -49,13 +51,14 @@ public class GlydarConfig {
 	}
 	
 	private void setUpWorlds(){
-		new GWorld(config.getString("worlds.default-world.name"),config.getInt("default-world.seed"));
+		World defaultW = new GWorld(config.getString("worlds.default-world.name"),config.getInt("default-world.seed"));
+		defaultW.setPVPAllowed(config.getBoolean("worlds.default-world.pvp"));
 		
 		for (String key : config.getConfigurationSection("worlds").getKeys(false)) {
 			if(key.contains("default-world")) return;
 			String name = config.getString("worlds." + key + ".name");
 			int seed = config.getInt("worlds." + key + ".seed");
-			new GWorld(name, seed);
+			new GWorld(name, seed).setPVPAllowed(config.getBoolean("worlds." + key + ".pvp"));
 		}
 	}
 	

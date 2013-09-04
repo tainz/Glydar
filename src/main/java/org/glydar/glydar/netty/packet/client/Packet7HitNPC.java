@@ -34,9 +34,9 @@ public class Packet7HitNPC extends CubeWorldPacket {
 	public Packet7HitNPC(GPlayer ply){
 		id = ply.getEntityId();
 		targetId = ply.getEntityId();
-		damage = 100F;
+		damage = -100F;
 		critical = (byte) 0;
-		stunDuration = 3;
+		stunDuration = 0;
 		unknown = 0;
 		position = new GVector3<Long>(ply.getEntityData().getPosition());
 		hitDirection = new GVector3<Float>(ply.getEntityData().getExtraVel());
@@ -99,11 +99,12 @@ public class Packet7HitNPC extends CubeWorldPacket {
 			GKillAction ka = new GKillAction();
 			ka.setId(id);
 			ka.setTargetId(targetId);
-			if (attacker != null && hurt != null){
+			if (attacker != null && hurt != null ){
+				if (attacker.getEntityData().getLevel() > 0 && hurt.getEntityData().getLevel() > 0)
 				//TODO: Figure out a better equation!
 				ka.setXp((int) (hurt.getEntityData().getLevel()/attacker.getEntityData().getLevel() * 5));
 			} else {
-				ka.setXp(0);
+				ka.setXp(5);
 			}
 			
 			((GWorld) hurt.getWorld()).worldUpdatePacket.sud.killActions.add(ka);

@@ -32,6 +32,8 @@ public class GItem implements BaseData, Item {
 
 	public GItem() {
 		upgrades = new GItemUpgrade[32];
+		for (int i = 0; i < 32; i++)
+			upgrades[i] = new GItemUpgrade();
 	}
 
 	@Override

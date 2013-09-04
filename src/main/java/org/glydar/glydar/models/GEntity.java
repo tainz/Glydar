@@ -16,11 +16,11 @@ public abstract class GEntity implements Entity {
 
 	public GEntity() {
 		entityID = GEntity.getNewEntityID();
+		world = (GWorld) Glydar.getServer().getDefaultWorld();
 		if (!(this instanceof GPlayer)) {
 			Glydar.getServer().addEntity(entityID, this);
+			world.addEntity(entityID, this);
 		}
-		world = (GWorld) Glydar.getServer().getDefaultWorld();
-		world.addEntity(entityID, this);
 	}
 
 	protected GEntity(int forceID) {

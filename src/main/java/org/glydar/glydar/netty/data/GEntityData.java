@@ -101,17 +101,17 @@ public class GEntityData implements BaseData, EntityData {
 
 	public GEntityData() {
 		bitSet = new BitSet(64);
-		position = new GVector3<Long>();
-		velocity = new GVector3<Float>();
-		accel = new GVector3<Float>();
-		extraVel = new GVector3<Float>();
-		rayHit = new GVector3<Float>();
+		position = new GVector3<Long>(Long.class);
+		velocity = new GVector3<Float>(Float.class);
+		accel = new GVector3<Float>(Float.class);
+		extraVel = new GVector3<Float>(Float.class);
+		rayHit = new GVector3<Float>(Float.class);
 		app = new GAppearance();
 		itemData = new GItem();
 		equipment = new GItem[13];
 		for (int i = 0; i < 13; i++)
 			equipment[i] = new GItem();
-		spawnPosition = new GVector3<Long>();
+		spawnPosition = new GVector3<Long>(Long.class);
 		skills = new long[11];
 	}
 
@@ -370,10 +370,13 @@ public class GEntityData implements BaseData, EntityData {
 
 	@Override
 	public void encode(ByteBuf buf) {
+		//For testing purposes using default dummy entity :)
+		/*boolean dummy = false;
+		if (name.contains("dummy")) dummy = true;*/
+		
 		buf.writeLong(id); //Ulong but whatever
 		buf.writeBytes(bitSet.toByteArray());
 		buf.writeBytes(new byte[8 - bitSet.toByteArray().length]); //BitSet/BitArray are the stupidest classes ever :(
-
 		if (bitSet.get(0)) {
 			position.encode(buf, Long.class);
 		}
@@ -529,10 +532,9 @@ public class GEntityData implements BaseData, EntityData {
 			}
 		}
 		if (bitSet.get(45)) {
-			byte[] ascii = name.getBytes(Charsets.UTF_8);
+			byte[] ascii = name.getBytes(Charsets.US_ASCII);
 			buf.writeBytes(ascii);
 			buf.writeBytes(new byte[16 - name.length()]);
-
 		}
 		if (bitSet.get(46)) {
 			for (int i = 0; i < 11; i++) {
@@ -542,7 +544,7 @@ public class GEntityData implements BaseData, EntityData {
 		if (bitSet.get(47)) {
 			buf.writeInt((int) iceBlockFour);
 		}
-
+		
 		buf.capacity(buf.writerIndex() + 1);
 		if (buf.readerIndex() > 0) {
 			Glydar.getServer().getLogger().warning("Data read during encode.");

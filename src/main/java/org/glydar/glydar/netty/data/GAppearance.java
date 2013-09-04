@@ -21,12 +21,12 @@ public class GAppearance implements BaseData, Appearance {
 	GVector3<Float> bodyOffset, headOffset, handOffset, footOffset, backOffset, wingOffset;
 
 	public GAppearance() {
-		bodyOffset = new GVector3<Float>();
-		headOffset = new GVector3<Float>();
-		handOffset = new GVector3<Float>();
-		footOffset = new GVector3<Float>();
-		backOffset = new GVector3<Float>();
-		wingOffset = new GVector3<Float>();
+		bodyOffset = new GVector3<Float>(Float.class);
+		headOffset = new GVector3<Float>(Float.class);
+		handOffset = new GVector3<Float>(Float.class);
+		footOffset = new GVector3<Float>(Float.class);
+		backOffset = new GVector3<Float>(Float.class);
+		wingOffset = new GVector3<Float>(Float.class);
 	}
 
 

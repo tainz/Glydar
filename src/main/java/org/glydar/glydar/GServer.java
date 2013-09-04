@@ -1,6 +1,8 @@
 package org.glydar.glydar;
 
+import org.glydar.glydar.models.GNPC;
 import org.glydar.glydar.models.GWorld;
+import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.packet.server.Packet2UpdateFinished;
 import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
@@ -9,6 +11,7 @@ import org.glydar.paraglydar.command.manager.CommandManager;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.EveryoneTarget;
+import org.glydar.paraglydar.models.NPC;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.permissions.Permission;
@@ -29,6 +32,7 @@ public class GServer implements Runnable, Server {
 	
 	private HashMap<Long, Entity> connectedEntities = new HashMap<Long, Entity>();
 	private HashMap<Long, World> serverWorlds = new HashMap<Long, World>();
+	public NPC n;
 	
 	private final String serverName = "Glydar";
 	private final String serverVersion = Versioning.getParaGlydarVersion();
@@ -44,7 +48,7 @@ public class GServer implements Runnable, Server {
 		this.logManager = new ConsoleLogManager(Glydar.class.getName());
 		this.eventManager = new EventManager(logManager.getLogger());
 		this.commandManager = new CommandManager(logManager.getLogger());
-
+		
 		this.init();
 	}
 
@@ -176,6 +180,12 @@ public class GServer implements Runnable, Server {
 
 	@Override
 	public void run() {
+		//TODO: Work on this
+		//Default Entity which will be used for "faking" hit packets/xp packets and the lot!
+		n = new GNPC();
+		n.getEntityData().setName("dummy");
+		n.getEntityData().setHostileType((byte) 2);
+		
 		while (this.isRunning()) {
 			try {
 	        /* TODO Server loop / tick code.

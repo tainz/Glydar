@@ -51,7 +51,7 @@ public class GlydarConfig {
 	}
 	
 	private void setUpWorlds(){
-		World defaultW = new GWorld(config.getString("worlds.default-world.name"),config.getInt("default-world.seed"));
+		World defaultW = new GWorld(config.getString("worlds.default-world.name"),config.getInt("worlds.default-world.seed"));
 		defaultW.setPVPAllowed(config.getBoolean("worlds.default-world.pvp"));
 		
 		for (String key : config.getConfigurationSection("worlds").getKeys(false)) {

@@ -1,5 +1,7 @@
 package org.glydar.glydar.netty.data;
 
+import java.lang.reflect.Constructor;
+
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.paraglydar.data.Vector3;
@@ -9,7 +11,25 @@ public class GVector3<T> implements Vector3<T> {
 	private T y;
 	private T z;
 
-	public GVector3() {
+	public GVector3() {	}
+	
+	@SuppressWarnings("unchecked")
+	public GVector3(Class<T> type) {	
+		if (Float.class.isAssignableFrom(type)) {
+			x = (T) (Float) 0F;
+			y = (T) (Float) 0F;
+			z = (T) (Float) 0F;
+		} else if (Integer.class.isAssignableFrom(type)) {
+			x = (T) (Integer) 0;
+			y = (T) (Integer) 0;
+			z = (T) (Integer) 0;
+		} else if (Long.class.isAssignableFrom(type)) {
+			x = (T) (Long) 0L;
+			y = (T) (Long) 0L;
+			z = (T) (Long) 0L;
+		} else { //Not sure why this would happen, but just in-case
+
+		}
 	}
 
 	public GVector3(Vector3<T> v) {

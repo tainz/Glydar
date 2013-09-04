@@ -52,6 +52,7 @@ public class GPlayer extends GEntity implements Player {
 	public void playerJoined() {
 		Glydar.getServer().addEntity(entityID, this);
 		this.joined = true;
+		world.addEntity(entityID, this);
 	}
 
 	public void playerLeft() {

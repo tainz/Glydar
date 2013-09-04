@@ -61,6 +61,7 @@ public class GWorld implements World {
 		} else {
 			e.getEntityData().setHostileType((byte) 0);
 		}
+		e.forceUpdateData(true);
 	}
 
 	public void removeEntity(long entityID) {

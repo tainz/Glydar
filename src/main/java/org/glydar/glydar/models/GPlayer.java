@@ -9,9 +9,12 @@ import java.util.List;
 
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GEntityData;
+import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.glydar.netty.packet.client.Packet7HitNPC;
 import org.glydar.glydar.netty.packet.server.Packet15Seed;
+import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.models.Entity;
@@ -58,7 +61,7 @@ public class GPlayer extends GEntity implements Player {
 	public void playerLeft() {
 		Glydar.getServer().removeEntity(entityID);
 		world.removeEntity(entityID);
-		forceUpdateData();
+		channelCtx.close();
 	}
 
 	public String getIp() {
@@ -76,13 +79,10 @@ public class GPlayer extends GEntity implements Player {
 	public void kickPlayer(String message) {
 		sendMessage(message);
 		playerLeft();
-		channelCtx.close();
 	}
 
 	public void kickPlayer() {
-		sendMessage("You have been kicked!");
-		playerLeft();
-		channelCtx.close();
+		kickPlayer("You have been kicked!");
 	}
 	
 	@Override
@@ -139,4 +139,56 @@ public class GPlayer extends GEntity implements Player {
 	public String getName() {
 		return this.data.getName();
 	}
+
+	private void damage(float damage, boolean critical){
+		Packet7HitNPC hit = new Packet7HitNPC();
+		hit.setId(1L);
+		hit.setTargetId(entityID);
+		hit.setDamage(damage);
+		hit.setCritical((byte) 1);
+		hit.setPosition(new GVector3<Long>(getEntityData().getPosition()));
+		hit.setHitDirection(new GVector3<Float>(getEntityData().getExtraVel()));
+		
+		Packet4ServerUpdate s = new Packet4ServerUpdate();
+		s.sud = new GServerUpdateData();
+		s.sud.hitPackets.add(hit);
+		s.sendTo(this);
+	}
+	
+	@Override
+	public void damage(float damage) {
+		damage(damage, true);
+	}
+
+	@Override
+	public void kill() {
+		damage(getEntityData().getHP() + 1);
+	}
+
+	@Override
+	public void heal(float health) {
+		damage(-health);	
+	}
+	
+	@Override
+	public void setHealth(float health) {
+		damage(health - getEntityData().getHP(), false);
+	}
+
+	public void stun(int seconds) {
+		Packet7HitNPC stun = new Packet7HitNPC();
+		stun.setId(1L);
+		stun.setTargetId(entityID);
+		stun.setCritical((byte) 1);
+		stun.setStunDuration(seconds);
+		stun.setPosition(new GVector3<Long>(getEntityData().getPosition()));
+		stun.setHitDirection(new GVector3<Float>(getEntityData().getExtraVel()));
+		
+		Packet4ServerUpdate s = new Packet4ServerUpdate();
+		s.sud = new GServerUpdateData();
+		s.sud.hitPackets.add(stun);
+		s.sendTo(this);
+	}
+	
+	
 }

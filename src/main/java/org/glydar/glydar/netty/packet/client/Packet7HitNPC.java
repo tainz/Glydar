@@ -9,6 +9,7 @@ import org.glydar.glydar.netty.data.GServerUpdateData;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.data.actions.GKillAction;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
+import org.glydar.paraglydar.data.Vector3;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 
@@ -27,8 +28,8 @@ public class Packet7HitNPC extends CubeWorldPacket {
 	byte showLight;
 
 	public Packet7HitNPC() {
-		position = new GVector3<Long>();
-		hitDirection = new GVector3<Float>();
+		position = new GVector3<Long>(Long.class);
+		hitDirection = new GVector3<Float>(Float.class);
 	}
 	
 	public Packet7HitNPC(GPlayer ply){
@@ -110,5 +111,93 @@ public class Packet7HitNPC extends CubeWorldPacket {
 			((GWorld) hurt.getWorld()).worldUpdatePacket.sud.killActions.add(ka);
 		}
 		
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getTargetId() {
+		return targetId;
+	}
+
+	public void setTargetId(long targetId) {
+		this.targetId = targetId;
+	}
+
+	public float getDamage() {
+		return damage;
+	}
+
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+
+	public byte getCritical() {
+		return critical;
+	}
+
+	public void setCritical(byte critical) {
+		this.critical = critical;
+	}
+
+	public long getStunDuration() {
+		return stunDuration;
+	}
+
+	public void setStunDuration(long stunDuration) {
+		this.stunDuration = stunDuration;
+	}
+
+	public long getUnknown() {
+		return unknown;
+	}
+
+	public void setUnknown(long unknown) {
+		this.unknown = unknown;
+	}
+
+	public Vector3<Long> getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vector3<Long> position) {
+		this.position = (GVector3<Long>) position;
+	}
+
+	public Vector3<Float> getHitDirection() {
+		return hitDirection;
+	}
+
+	public void setHitDirection(Vector3<Float> hitDirection) {
+		this.hitDirection = (GVector3<Float>) hitDirection;
+	}
+
+	public byte getSkillHit() {
+		return skillHit;
+	}
+
+	public void setSkillHit(byte skillHit) {
+		this.skillHit = skillHit;
+	}
+
+	public byte getType() {
+		return type;
+	}
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+	public byte getShowLight() {
+		return showLight;
+	}
+
+	public void setShowLight(byte showLight) {
+		this.showLight = showLight;
 	}
 }

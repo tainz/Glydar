@@ -41,7 +41,7 @@ public class Packet10Chat extends CubeWorldPacket {
 	 * @param message  Message to be sent
 	 * @param senderID Entity ID of the sender or 0 if generic server message.
 	 */
-	public Packet10Chat(String message, int senderID) {
+	public Packet10Chat(String message, long senderID) {
 		this.message = message;
 		this.senderID = senderID;
 	}

@@ -36,7 +36,6 @@ public class CubeWorldPacketHandler extends SimpleChannelInboundHandler<CubeWorl
 				Glydar.getServer().getLogger().info("Player " + player.getName() + " (ID: "
 						+ player.getEntityId() + ")" + " has disconnected!");
 				player.playerLeft();
-				ctx.close();
 			}
 		}
 	}

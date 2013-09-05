@@ -4,10 +4,13 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
+import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.data.EntityData;
+import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
+import org.glydar.paraglydar.models.WorldTarget;
 
 public abstract class GEntity implements Entity {
 	public final long entityID;
@@ -67,6 +70,22 @@ public abstract class GEntity implements Entity {
 		world = (GWorld) w;
 		world.addEntity(entityID, this);
 	}
+	
+	public void sendMessageFromEntity(BaseTarget target, String message){
+		new Packet10Chat(message, entityID).sendTo(target);
+	}
+	
+	public void sendMessageFromEntity(String message){
+		sendMessageFromEntity(new WorldTarget(this.getWorld()), message);
+	}
+	
+	public abstract void kill();
+	
+	public abstract void heal(float health);
+	
+	public abstract void setHealth(float health);
+	
+	public abstract void damage(float damage);
 
 	@Override
 	public boolean equals(Object o) {

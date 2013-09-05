@@ -1,8 +1,10 @@
 package org.glydar.glydar.netty.data;
 
-import org.glydar.glydar.netty.data.GVector3;
+import static org.glydar.glydar.util.VectorBuf.readFloatVector3;
+import static org.glydar.glydar.util.VectorBuf.writeFloatVector3;
+
 import org.glydar.paraglydar.data.Appearance;
-import org.glydar.paraglydar.data.Vector3;
+import org.glydar.paraglydar.geom.FloatVector3;
 
 import io.netty.buffer.ByteBuf;
 
@@ -18,15 +20,15 @@ public class GAppearance implements BaseData, Appearance {
 	float headScale, hairScale, handScale, footScale, bodyScale, backScale, unknown, wingScale, shoulderScale, weaponScale;
 	float bodyPitch, armPitch, armRoll, armYaw;
 	float feetPitch, wingPitch, backPitch;
-	GVector3<Float> bodyOffset, headOffset, handOffset, footOffset, backOffset, wingOffset;
+	FloatVector3 bodyOffset, headOffset, handOffset, footOffset, backOffset, wingOffset;
 
 	public GAppearance() {
-		bodyOffset = new GVector3<Float>(Float.class);
-		headOffset = new GVector3<Float>(Float.class);
-		handOffset = new GVector3<Float>(Float.class);
-		footOffset = new GVector3<Float>(Float.class);
-		backOffset = new GVector3<Float>(Float.class);
-		wingOffset = new GVector3<Float>(Float.class);
+		bodyOffset = new FloatVector3();
+		headOffset = new FloatVector3();
+		handOffset = new FloatVector3();
+		footOffset = new FloatVector3();
+		backOffset = new FloatVector3();
+		wingOffset = new FloatVector3();
 	}
 
 
@@ -64,12 +66,12 @@ public class GAppearance implements BaseData, Appearance {
 		this.feetPitch = a.getFeetPitch();
 		this.wingPitch = a.getWingPitch();
 		this.backPitch = a.getBackPitch();
-		this.bodyOffset = new GVector3<Float>(a.getBodyOffset());
-		this.headOffset = new GVector3<Float>(a.getHeadOffset());
-		this.handOffset = new GVector3<Float>(a.getHandOffset());
-		this.footOffset = new GVector3<Float>(a.getFootOffset());
-		this.backOffset = new GVector3<Float>(a.getBackOffset());
-		this.wingOffset = new GVector3<Float>(a.getWingOffset());
+		this.bodyOffset = a.getBodyOffset();
+		this.headOffset = a.getHeadOffset();
+		this.handOffset = a.getHandOffset();
+		this.footOffset = a.getFootOffset();
+		this.backOffset = a.getBackOffset();
+		this.wingOffset = a.getWingOffset();
 	}
 
 
@@ -110,13 +112,12 @@ public class GAppearance implements BaseData, Appearance {
 		feetPitch = buf.readFloat();
 		wingPitch = buf.readFloat();
 		backPitch = buf.readFloat();
-		bodyOffset.decode(buf, Float.class);
-		headOffset.decode(buf, Float.class);
-		handOffset.decode(buf, Float.class);
-		footOffset.decode(buf, Float.class);
-		backOffset.decode(buf, Float.class);
-		wingOffset.decode(buf, Float.class);
-
+		bodyOffset = readFloatVector3(buf);
+		headOffset = readFloatVector3(buf);
+		handOffset = readFloatVector3(buf);
+		footOffset = readFloatVector3(buf);
+		backOffset = readFloatVector3(buf);
+		wingOffset = readFloatVector3(buf);
 	}
 
 	@Override
@@ -156,12 +157,12 @@ public class GAppearance implements BaseData, Appearance {
 		buf.writeFloat(feetPitch);
 		buf.writeFloat(wingPitch);
 		buf.writeFloat(backPitch);
-		bodyOffset.encode(buf, Float.class);
-		headOffset.encode(buf, Float.class);
-		handOffset.encode(buf, Float.class);
-		footOffset.encode(buf, Float.class);
-		backOffset.encode(buf, Float.class);
-		wingOffset.encode(buf, Float.class);
+		writeFloatVector3(buf, bodyOffset);
+		writeFloatVector3(buf, headOffset);
+		writeFloatVector3(buf, handOffset);
+		writeFloatVector3(buf, footOffset);
+		writeFloatVector3(buf, backOffset);
+		writeFloatVector3(buf, wingOffset);
 	}
 
 	public byte getNotUsed1() {
@@ -428,53 +429,51 @@ public class GAppearance implements BaseData, Appearance {
 		this.backPitch = backPitch;
 	}
 
-	public Vector3<Float> getBodyOffset() {
+	public FloatVector3 getBodyOffset() {
 		return bodyOffset;
 	}
 
-	public void setBodyOffset(Vector3<Float> bodyOffset) {
-		this.bodyOffset = (GVector3<Float>) bodyOffset;
+	public void setBodyOffset(FloatVector3 bodyOffset) {
+		this.bodyOffset = bodyOffset;
 	}
 
-	public Vector3<Float> getHeadOffset() {
+	public FloatVector3 getHeadOffset() {
 		return headOffset;
 	}
 
-	public void setHeadOffset(Vector3<Float> headOffset) {
-		this.headOffset = (GVector3<Float>) headOffset;
+	public void setHeadOffset(FloatVector3 headOffset) {
+		this.headOffset = headOffset;
 	}
 
-	public Vector3<Float> getHandOffset() {
+	public FloatVector3 getHandOffset() {
 		return handOffset;
 	}
 
-	public void setHandOffset(Vector3<Float> handOffset) {
-		this.handOffset = (GVector3<Float>) handOffset;
+	public void setHandOffset(FloatVector3 handOffset) {
+		this.handOffset = handOffset;
 	}
 
-	public Vector3<Float> getFootOffset() {
+	public FloatVector3 getFootOffset() {
 		return footOffset;
 	}
 
-	public void setFootOffset(Vector3<Float> footOffset) {
-		this.footOffset = (GVector3<Float>) footOffset;
+	public void setFootOffset(FloatVector3 footOffset) {
+		this.footOffset = footOffset;
 	}
 
-	public Vector3<Float> getBackOffset() {
+	public FloatVector3 getBackOffset() {
 		return backOffset;
 	}
 
-	public void setBackOffset(Vector3<Float> backOffset) {
-		this.backOffset = (GVector3<Float>) backOffset;
+	public void setBackOffset(FloatVector3 backOffset) {
+		this.backOffset = backOffset;
 	}
 
-	public Vector3<Float> getWingOffset() {
+	public FloatVector3 getWingOffset() {
 		return wingOffset;
 	}
 
-	public void setWingOffset(Vector3<Float> wingOffset) {
-		this.wingOffset = (GVector3<Float>) wingOffset;
+	public void setWingOffset(FloatVector3 wingOffset) {
+		this.wingOffset = wingOffset;
 	}
-
-
 }

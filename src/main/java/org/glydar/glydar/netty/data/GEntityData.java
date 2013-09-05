@@ -1,5 +1,10 @@
 package org.glydar.glydar.netty.data;
 
+import static org.glydar.glydar.util.VectorBuf.readFloatVector3;
+import static org.glydar.glydar.util.VectorBuf.readLongVector3;
+import static org.glydar.glydar.util.VectorBuf.writeFloatVector3;
+import static org.glydar.glydar.util.VectorBuf.writeLongVector3;
+
 import java.util.BitSet;
 
 import com.google.common.base.Charsets;
@@ -10,7 +15,8 @@ import org.glydar.glydar.Glydar;
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.Item;
-import org.glydar.paraglydar.data.Vector3;
+import org.glydar.paraglydar.geom.FloatVector3;
+import org.glydar.paraglydar.geom.LongVector3;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
 
@@ -22,17 +28,17 @@ public class GEntityData implements BaseData, EntityData {
 	private long id;
 	private BitSet bitSet;
 
-	private GVector3<Long> position;
+	private LongVector3 position;
 
 	private float roll;
 	private float pitch;
 	private float yaw;
 
-	private GVector3<Float> velocity;
+	private FloatVector3 velocity;
 
-	private GVector3<Float> accel;
+	private FloatVector3 accel;
 
-	private GVector3<Float> extraVel;
+	private FloatVector3 extraVel;
 
 	private float lookPitch;
 	private long physicsFlags; //Uint
@@ -55,7 +61,7 @@ public class GEntityData implements BaseData, EntityData {
 	private byte specialization;
 	private float chargedMP;
 
-	private GVector3<Float> rayHit;
+	private FloatVector3 rayHit;
 
 	private float HP;
 	private float MP;
@@ -91,7 +97,7 @@ public class GEntityData implements BaseData, EntityData {
 	private long parentOwner;
 	private long nu11;
 	private long nu12;
-	private GVector3<Long> spawnPosition;
+	private LongVector3 spawnPosition;
 	private long nu20;
 	private long nu21;
 	private long nu22;
@@ -101,30 +107,30 @@ public class GEntityData implements BaseData, EntityData {
 
 	public GEntityData() {
 		bitSet = new BitSet(64);
-		position = new GVector3<Long>(Long.class);
-		velocity = new GVector3<Float>(Float.class);
-		accel = new GVector3<Float>(Float.class);
-		extraVel = new GVector3<Float>(Float.class);
-		rayHit = new GVector3<Float>(Float.class);
+		position = new LongVector3();
+		velocity = new FloatVector3();
+		accel = new FloatVector3();
+		extraVel = new FloatVector3();
+		rayHit = new FloatVector3();
 		app = new GAppearance();
 		itemData = new GItem();
 		equipment = new GItem[13];
 		for (int i = 0; i < 13; i++)
 			equipment[i] = new GItem();
-		spawnPosition = new GVector3<Long>(Long.class);
+		spawnPosition = new LongVector3();
 		skills = new long[11];
 	}
 
 	public GEntityData(EntityData e) {
 		this.id = e.getId();
 		this.bitSet = e.getBitSet();
-		this.position = new GVector3<Long>(e.getPosition());
+		this.position = e.getPosition();
 		this.roll = e.getRoll();
 		this.pitch = e.getPitch();
 		this.yaw = e.getYaw();
-		this.velocity = new GVector3<Float>(e.getVelocity());
-		this.accel = new GVector3<Float>(e.getAccel());
-		this.extraVel = new GVector3<Float>(e.getExtraVel());
+		this.velocity = e.getVelocity();
+		this.accel = e.getAccel();
+		this.extraVel = e.getExtraVel();
 		this.lookPitch = e.getLookPitch();
 		this.physicsFlags = e.getPhysicsFlags();
 		this.hostileType = e.getHostileType();
@@ -145,7 +151,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.classType = e.getClassType();
 		this.specialization = e.getSpecialization();
 		this.chargedMP = e.getChargedMP();
-		this.rayHit = new GVector3<Float>(e.getRayHit());
+		this.rayHit = e.getRayHit();
 		HP = e.getHP();
 		MP = e.getMP();
 		this.blockPower = e.getBlockPower();
@@ -180,7 +186,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.parentOwner = e.getParentOwner();
 		this.nu11 = e.getNu11();
 		this.nu12 = e.getNu12();
-		this.spawnPosition = (GVector3<Long>) e.getSpawnPosition();
+		this.spawnPosition = e.getSpawnPosition();
 		this.nu20 = e.getNu20();
 		this.nu21 = e.getNu21();
 		this.nu22 = e.getNu22();
@@ -196,7 +202,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.bitSet = BitSet.valueOf(bitSetBuf);
 
 		if (bitSet.get(0)) {
-			position.decode(buf, Long.class);
+			position = readLongVector3(buf);
 		}
 		if (bitSet.get(1)) {
 			pitch = buf.readFloat();
@@ -204,13 +210,13 @@ public class GEntityData implements BaseData, EntityData {
 			yaw = buf.readFloat();
 		}
 		if (bitSet.get(2)) {
-			velocity.decode(buf, Float.class);
+			velocity = readFloatVector3(buf);
 		}
 		if (bitSet.get(3)) {
-			accel.decode(buf, Float.class);
+			accel = readFloatVector3(buf);
 		}
 		if (bitSet.get(4)) {
-			extraVel.decode(buf, Float.class);
+			extraVel = readFloatVector3(buf);
 		}
 		if (bitSet.get(5)) {
 			lookPitch = buf.readFloat();
@@ -281,7 +287,7 @@ public class GEntityData implements BaseData, EntityData {
 			nu6 = buf.readUnsignedInt();
 		}
 		if (bitSet.get(26)) {
-			rayHit.decode(buf, Float.class);
+			rayHit = readFloatVector3(buf);
 		}
 		if (bitSet.get(27)) {
 			HP = buf.readFloat();
@@ -330,7 +336,7 @@ public class GEntityData implements BaseData, EntityData {
 			nu12 = buf.readUnsignedInt();
 		}
 		if (bitSet.get(40)) {
-			spawnPosition.decode(buf, Long.class);
+			spawnPosition = readLongVector3(buf);
 		}
 		if (bitSet.get(41)) {
 			nu20 = buf.readUnsignedInt();
@@ -378,7 +384,7 @@ public class GEntityData implements BaseData, EntityData {
 		buf.writeBytes(bitSet.toByteArray());
 		buf.writeBytes(new byte[8 - bitSet.toByteArray().length]); //BitSet/BitArray are the stupidest classes ever :(
 		if (bitSet.get(0)) {
-			position.encode(buf, Long.class);
+			writeLongVector3(buf, position);
 		}
 		if (bitSet.get(1)) {
 			buf.writeFloat(pitch);
@@ -386,13 +392,13 @@ public class GEntityData implements BaseData, EntityData {
 			buf.writeFloat(yaw);
 		}
 		if (bitSet.get(2)) {
-			velocity.encode(buf, Float.class);
+			writeFloatVector3(buf, velocity);
 		}
 		if (bitSet.get(3)) {
-			accel.encode(buf, Float.class);
+			writeFloatVector3(buf, accel);
 		}
 		if (bitSet.get(4)) {
-			extraVel.encode(buf, Float.class);
+			writeFloatVector3(buf, extraVel);
 		}
 		if (bitSet.get(5)) {
 			buf.writeFloat(lookPitch);
@@ -463,7 +469,7 @@ public class GEntityData implements BaseData, EntityData {
 			buf.writeInt((int) nu6);
 		}
 		if (bitSet.get(26)) {
-			rayHit.encode(buf, Float.class);
+			writeFloatVector3(buf, rayHit);
 		}
 		if (bitSet.get(27)) {
 			buf.writeFloat(HP);
@@ -512,7 +518,7 @@ public class GEntityData implements BaseData, EntityData {
 			buf.writeInt((int) nu12);
 		}
 		if (bitSet.get(40)) {
-			spawnPosition.encode(buf, Long.class);
+			writeLongVector3(buf, spawnPosition);
 		}
 		if (bitSet.get(41)) {
 			buf.writeInt((int) nu20);
@@ -565,7 +571,7 @@ public class GEntityData implements BaseData, EntityData {
 		BitSet changesBitSet = changes.getBitSet();
 
 		if (changesBitSet.get(0)) {
-			this.position = (GVector3<Long>) changes.getPosition();
+			this.position = changes.getPosition();
 		}
 		if (changesBitSet.get(1)) {
 			this.pitch = changes.getPitch();
@@ -573,13 +579,13 @@ public class GEntityData implements BaseData, EntityData {
 			this.yaw = changes.getYaw();
 		}
 		if (changesBitSet.get(2)) {
-			this.velocity = (GVector3<Float>) changes.getVelocity();
+			this.velocity = changes.getVelocity();
 		}
 		if (changesBitSet.get(3)) {
-			this.accel = (GVector3<Float>) changes.getAccel();
+			this.accel = changes.getAccel();
 		}
 		if (changesBitSet.get(4)) {
-			this.extraVel = (GVector3<Float>) changes.getExtraVel();
+			this.extraVel = changes.getExtraVel();
 		}
 		if (changesBitSet.get(5)) {
 			this.lookPitch = changes.getLookPitch();
@@ -650,7 +656,7 @@ public class GEntityData implements BaseData, EntityData {
 			this.nu6 = changes.getNu6();
 		}
 		if (changesBitSet.get(26)) {
-			this.rayHit = (GVector3<Float>) changes.getRayHit();
+			this.rayHit = changes.getRayHit();
 		}
 		if (changesBitSet.get(27)) {
 			this.HP = changes.getHP();
@@ -699,7 +705,7 @@ public class GEntityData implements BaseData, EntityData {
 			this.nu12 = changes.getNu12();
 		}
 		if (changesBitSet.get(40)) {
-			this.spawnPosition = (GVector3<Long>) changes.getSpawnPosition();
+			this.spawnPosition = changes.getSpawnPosition();
 		}
 		if (changesBitSet.get(41)) {
 			this.nu20 = changes.getNu20();
@@ -742,12 +748,12 @@ public class GEntityData implements BaseData, EntityData {
 		this.bitSet = bitSet;
 	}
 
-	public Vector3<Long> getPosition() {
+	public LongVector3 getPosition() {
 		return position;
 	}
 
-	public void setPosition(Vector3<Long> pos) {
-		this.position = (GVector3<Long>) pos;
+	public void setPosition(LongVector3 pos) {
+		this.position = pos;
 	}
 
 	public float getRoll() {
@@ -774,28 +780,28 @@ public class GEntityData implements BaseData, EntityData {
 		this.yaw = yaw;
 	}
 
-	public Vector3<Float> getVelocity() {
+	public FloatVector3 getVelocity() {
 		return velocity;
 	}
 
-	public void setVelocity(Vector3<Float> velocity) {
-		this.velocity = (GVector3<Float>) velocity;
+	public void setVelocity(FloatVector3 velocity) {
+		this.velocity = velocity;
 	}
 
-	public Vector3<Float> getAccel() {
+	public FloatVector3 getAccel() {
 		return accel;
 	}
 
-	public void setAccel(Vector3<Float> accel) {
-		this.accel = (GVector3<Float>) accel;
+	public void setAccel(FloatVector3 accel) {
+		this.accel = accel;
 	}
 
-	public Vector3<Float> getExtraVel() {
+	public FloatVector3 getExtraVel() {
 		return extraVel;
 	}
 
-	public void setExtraVel(Vector3<Float> extraVel) {
-		this.extraVel = (GVector3<Float>) extraVel;
+	public void setExtraVel(FloatVector3 extraVel) {
+		this.extraVel = extraVel;
 	}
 
 	public float getLookPitch() {
@@ -958,12 +964,12 @@ public class GEntityData implements BaseData, EntityData {
 		this.chargedMP = chargedMP;
 	}
 
-	public Vector3<Float> getRayHit() {
+	public FloatVector3 getRayHit() {
 		return rayHit;
 	}
 
-	public void setRayHit(Vector3<Float> rayHit) {
-		this.rayHit = (GVector3<Float>) rayHit;
+	public void setRayHit(FloatVector3 rayHit) {
+		this.rayHit = rayHit;
 	}
 
 	public float getHP() {
@@ -1214,12 +1220,12 @@ public class GEntityData implements BaseData, EntityData {
 		this.nu12 = nu12;
 	}
 
-	public Vector3<Long> getSpawnPosition() {
+	public LongVector3 getSpawnPosition() {
 		return spawnPosition;
 	}
 
-	public void setSpawnPosition(Vector3<Long> spawnPosition) {
-		this.spawnPosition = (GVector3<Long>) spawnPosition;
+	public void setSpawnPosition(LongVector3 spawnPosition) {
+		this.spawnPosition = spawnPosition;
 	}
 
 	public long getNu20() {

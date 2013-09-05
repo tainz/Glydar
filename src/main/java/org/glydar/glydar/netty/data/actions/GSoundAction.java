@@ -1,23 +1,27 @@
 package org.glydar.glydar.netty.data.actions;
 
+import static org.glydar.glydar.util.VectorBuf.readFloatVector3;
+import static org.glydar.glydar.util.VectorBuf.writeFloatVector3;
+ 
 import org.glydar.glydar.netty.data.BaseData;
-import org.glydar.glydar.netty.data.GVector3;
+import org.glydar.paraglydar.geom.FloatVector3;
+
 import io.netty.buffer.ByteBuf;
 
 public class GSoundAction implements BaseData {
 
-	GVector3<Float> position;
+	FloatVector3 position;
 	int soundType;
 	float pitch;
 	float volume;
 
 	public GSoundAction() {
-		position = new GVector3<Float>();
+		position = new FloatVector3();
 	}
 
 	@Override
 	public void decode(ByteBuf buf) {
-		position.decode(buf, Float.class);
+		position = readFloatVector3(buf);
 		soundType = buf.readInt();
 		pitch = buf.readFloat();
 		volume = buf.readFloat();
@@ -25,7 +29,7 @@ public class GSoundAction implements BaseData {
 
 	@Override
 	public void encode(ByteBuf buf) {
-		position.encode(buf, Float.class);
+		writeFloatVector3(buf, position);
 		buf.writeInt(soundType);
 		buf.writeFloat(pitch);
 		buf.writeFloat(volume);

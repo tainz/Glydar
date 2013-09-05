@@ -1,15 +1,20 @@
 package org.glydar.glydar.netty.packet.client;
 
+import static org.glydar.glydar.util.VectorBuf.readFloatVector3;
+import static org.glydar.glydar.util.VectorBuf.readLongVector3;
+import static org.glydar.glydar.util.VectorBuf.writeFloatVector3;
+import static org.glydar.glydar.util.VectorBuf.writeLongVector3;
+
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.netty.data.GServerUpdateData;
-import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.data.actions.GKillAction;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.paraglydar.data.Vector3;
+import org.glydar.paraglydar.geom.FloatVector3;
+import org.glydar.paraglydar.geom.LongVector3;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 
@@ -21,15 +26,15 @@ public class Packet7HitNPC extends CubeWorldPacket {
 	byte critical;
 	long stunDuration; //uint
 	long unknown; //uint
-	GVector3<Long> position;
-	GVector3<Float> hitDirection;
+	LongVector3 position;
+	FloatVector3 hitDirection;
 	byte skillHit;
 	byte type;
 	byte showLight;
 
 	public Packet7HitNPC() {
-		position = new GVector3<Long>(Long.class);
-		hitDirection = new GVector3<Float>(Float.class);
+		position = new LongVector3();
+		hitDirection = new FloatVector3();
 	}
 	
 	public Packet7HitNPC(GPlayer ply){
@@ -39,8 +44,8 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		critical = (byte) 0;
 		stunDuration = 0;
 		unknown = 0;
-		position = new GVector3<Long>(ply.getEntityData().getPosition());
-		hitDirection = new GVector3<Float>(ply.getEntityData().getExtraVel());
+		position = ply.getEntityData().getPosition();
+		hitDirection = ply.getEntityData().getExtraVel();
 		skillHit = (byte) 0;
 		type = (byte) 0;
 		showLight = (byte) 0;
@@ -55,8 +60,8 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		buf.readBytes(3);
 		stunDuration = buf.readUnsignedInt();
 		unknown = buf.readUnsignedInt();
-		position.decode(buf, Long.class);
-		hitDirection.decode(buf, Float.class);
+		position = readLongVector3(buf);
+		hitDirection = readFloatVector3(buf);
 		skillHit = buf.readByte();
 		type = buf.readByte();
 		showLight = buf.readByte();
@@ -72,8 +77,8 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		buf.writeBytes(new byte[3]);
 		buf.writeInt((int) stunDuration);
 		buf.writeInt((int) unknown);
-		position.encode(buf, Long.class);
-		hitDirection.encode(buf, Float.class);
+		writeLongVector3(buf, position);
+		writeFloatVector3(buf, hitDirection);
 		buf.writeByte(skillHit);
 		buf.writeByte(type);
 		buf.writeByte(showLight);
@@ -161,20 +166,20 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		this.unknown = unknown;
 	}
 
-	public Vector3<Long> getPosition() {
+	public LongVector3 getPosition() {
 		return position;
 	}
 
-	public void setPosition(Vector3<Long> position) {
-		this.position = (GVector3<Long>) position;
+	public void setPosition(LongVector3 position) {
+		this.position = position;
 	}
 
-	public Vector3<Float> getHitDirection() {
+	public FloatVector3 getHitDirection() {
 		return hitDirection;
 	}
 
-	public void setHitDirection(Vector3<Float> hitDirection) {
-		this.hitDirection = (GVector3<Float>) hitDirection;
+	public void setHitDirection(FloatVector3 hitDirection) {
+		this.hitDirection = hitDirection;
 	}
 
 	public byte getSkillHit() {

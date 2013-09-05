@@ -10,7 +10,6 @@ import java.util.List;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GEntityData;
 import org.glydar.glydar.netty.data.GServerUpdateData;
-import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.CubeWorldPacket;
 import org.glydar.glydar.netty.packet.client.Packet7HitNPC;
 import org.glydar.glydar.netty.packet.server.Packet15Seed;
@@ -146,8 +145,8 @@ public class GPlayer extends GEntity implements Player {
 		hit.setTargetId(entityID);
 		hit.setDamage(damage);
 		hit.setCritical((byte) 1);
-		hit.setPosition(new GVector3<Long>(getEntityData().getPosition()));
-		hit.setHitDirection(new GVector3<Float>(getEntityData().getExtraVel()));
+		hit.setPosition(getEntityData().getPosition());
+		hit.setHitDirection(getEntityData().getExtraVel());
 		
 		Packet4ServerUpdate s = new Packet4ServerUpdate();
 		s.sud = new GServerUpdateData();
@@ -181,8 +180,8 @@ public class GPlayer extends GEntity implements Player {
 		stun.setTargetId(entityID);
 		stun.setCritical((byte) 1);
 		stun.setStunDuration(seconds);
-		stun.setPosition(new GVector3<Long>(getEntityData().getPosition()));
-		stun.setHitDirection(new GVector3<Float>(getEntityData().getExtraVel()));
+		stun.setPosition(getEntityData().getPosition());
+		stun.setHitDirection(getEntityData().getExtraVel());
 		
 		Packet4ServerUpdate s = new Packet4ServerUpdate();
 		s.sud = new GServerUpdateData();

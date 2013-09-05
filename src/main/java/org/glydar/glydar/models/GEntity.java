@@ -2,7 +2,6 @@ package org.glydar.glydar.models;
 
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.netty.data.GEntityData;
-import org.glydar.glydar.netty.data.GVector3;
 import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
 import org.glydar.glydar.netty.packet.shared.Packet10Chat;
 import org.glydar.paraglydar.data.EntityData;

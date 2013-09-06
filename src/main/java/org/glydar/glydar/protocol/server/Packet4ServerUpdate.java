@@ -24,7 +24,7 @@ public class Packet4ServerUpdate extends Packet {
 	}
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		int zlibLength = buf.readInt();
 		rawData = new byte[zlibLength];
 		buf.readBytes(rawData);
@@ -63,7 +63,7 @@ public class Packet4ServerUpdate extends Packet {
 
 
 	@Override
-	protected void internalEncode(ByteBuf buf) {
+	public void encode(ByteBuf buf) {
 		ByteBuf buf2 = Unpooled.buffer();
 		buf2 = buf2.order(ByteOrder.LITTLE_ENDIAN);
 		sud.encode(buf2);

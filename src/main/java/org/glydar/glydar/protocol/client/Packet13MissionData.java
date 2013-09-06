@@ -23,7 +23,7 @@ public class Packet13MissionData extends Packet {
 	private long chunkY; // uint
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		sectorX = buf.readInt() / 8;
 		sectorY = buf.readInt() / 8;
 		something3 = buf.readUnsignedInt();
@@ -40,7 +40,8 @@ public class Packet13MissionData extends Packet {
 		chunkY = buf.readUnsignedInt();
 	}
 
-	protected void internalEncode(ByteBuf buf) {
+	@Override
+	public void encode(ByteBuf buf) {
 		buf.writeInt(sectorX * 8);
 		buf.writeInt(sectorY * 8);
 		buf.writeLong(something3);

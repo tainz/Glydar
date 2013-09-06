@@ -15,7 +15,7 @@ public class Packet15Seed extends Packet {
 	}
 
 	@Override
-	protected void internalEncode(ByteBuf buf) {
+	public void encode(ByteBuf buf) {
 		buf.writeInt(seed);
 	}
 }

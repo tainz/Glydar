@@ -24,7 +24,7 @@ public class Packet6Interaction extends Packet {
 	}
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		item.decode(buf);
 		chunkX = buf.readInt();
 		chunkY = buf.readInt();
@@ -37,7 +37,7 @@ public class Packet6Interaction extends Packet {
 	}
 
 	@Override
-	protected void internalEncode(ByteBuf buf) {
+	public void encode(ByteBuf buf) {
 		item.encode(buf);
 		buf.writeInt(chunkX);
 		buf.writeInt(chunkY);

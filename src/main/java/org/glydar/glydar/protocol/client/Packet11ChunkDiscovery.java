@@ -15,7 +15,7 @@ public class Packet11ChunkDiscovery extends Packet {
 	private int chunkZ;
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		chunkX = buf.readInt();
 		chunkZ = buf.readInt();
 	}

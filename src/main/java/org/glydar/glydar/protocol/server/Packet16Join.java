@@ -17,7 +17,7 @@ public class Packet16Join extends Packet {
 	}
 
 	@Override
-	protected void internalEncode(ByteBuf buf) {
+	public void encode(ByteBuf buf) {
 		buf.writeInt(0);
 		buf.writeLong(entId);
 		buf.writeBytes(connInfo);

@@ -15,11 +15,11 @@ public class Packet12SectorDiscovery extends Packet {
 	private int sectorZ;
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		sectorX = buf.readInt();
 		sectorZ = buf.readInt();
 	}
-	
+
 	@Override
 	public void receivedFrom(GPlayer ply) {
 		//TODO: Stuff!

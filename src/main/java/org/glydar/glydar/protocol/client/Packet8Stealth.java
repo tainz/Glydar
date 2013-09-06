@@ -11,7 +11,7 @@ public class Packet8Stealth extends Packet {
 	private byte[] unknowndata;
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		buf.readBytes(unknowndata, 0, 40);
 	}
 }

@@ -51,7 +51,7 @@ public class Packet9ShootProjectile extends Packet {
 	}
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		entID = buf.readLong(); //Unsigned long actually!
 
 		chunkX = buf.readInt();

@@ -29,36 +29,24 @@ public abstract class Packet {
 	}
 
 	public void decode(ByteBuf buf) {
-		internalDecode(buf);
+		throw new IllegalAccessError("Packet cannot be decoded");
 	}
 
 	public void encode(ByteBuf buf) {
-		internalEncode(buf);
-	}
-
-	protected void internalDecode(ByteBuf buf) {
-		throw new IllegalAccessError("Packet cannot be decoded");
+		throw new IllegalAccessError("Packet cannot be encoded");
 	}
 
 	public void receivedFrom(GPlayer ply) {
 		throw new IllegalAccessError("Packet cannot be received");
 	}
 
-	protected void internalEncode(ByteBuf buf) {
-		throw new IllegalAccessError("Packet cannot be encoded");
-	}
-
 	public void sendTo(GPlayer ply) {
-		_sendTo(ply);
-	}
-
-	private void _sendTo(GPlayer ply) {
 		ply.getChannelContext().writeAndFlush(this);
 	}
 
 	public void sendTo(BaseTarget target) {
 		for (Player ply : target.getPlayers()) {
-			_sendTo((GPlayer) ply);
+			sendTo((GPlayer) ply);
 		}
 	}
 

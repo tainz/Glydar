@@ -53,7 +53,7 @@ public class Packet7Hit extends Packet {
 	}
 
 	@Override
-	public void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		id = buf.readLong();
 		targetId = buf.readLong();
 		damage = buf.readFloat();
@@ -70,7 +70,7 @@ public class Packet7Hit extends Packet {
 	}
 
 	@Override
-	public void internalEncode(ByteBuf buf) {
+	public void encode(ByteBuf buf) {
 		buf.writeLong(id);
 		buf.writeLong(targetId);
 		buf.writeFloat(damage);

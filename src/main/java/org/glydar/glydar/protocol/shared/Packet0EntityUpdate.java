@@ -41,7 +41,7 @@ public class Packet0EntityUpdate extends Packet {
 	}
 
 	@Override
-	protected void internalDecode(ByteBuf buffer) {
+	public void decode(ByteBuf buffer) {
 		int zlibLength = buffer.readInt();
 		rawData = new byte[zlibLength];
 		buffer.readBytes(rawData);
@@ -85,6 +85,31 @@ public class Packet0EntityUpdate extends Packet {
 	}
 
 	@Override
+	public void encode(ByteBuf buf) {
+		if (!sendEntityData) {
+			buf.writeInt(rawData.length);
+			buf.writeBytes(rawData);
+		} else {
+			ByteBuf buf2 = Unpooled.buffer();
+			buf2 = buf2.order(ByteOrder.LITTLE_ENDIAN);
+			ed.encode(buf2);
+			byte[] compressedData = null;
+			try {
+				compressedData = ZLibOperations.compress(buf2.array());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if (compressedData != null) {
+				buf.writeInt(compressedData.length);
+				buf.writeBytes(compressedData);
+			} else {
+				buf.writeInt(rawData.length);
+				buf.writeBytes(rawData);
+			}
+		}
+	}
+
+	@Override
 	public void receivedFrom(GPlayer ply) {
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
@@ -108,31 +133,6 @@ public class Packet0EntityUpdate extends Packet {
 		manageEntityEvents(ply);
 		((GEntityData) ply.getEntityData()).updateFrom(this.ed);
 		//this.sendTo(target);
-	}
-
-	@Override
-	protected void internalEncode(ByteBuf buf) {
-		if (!sendEntityData) {
-			buf.writeInt(rawData.length);
-			buf.writeBytes(rawData);
-		} else {
-			ByteBuf buf2 = Unpooled.buffer();
-			buf2 = buf2.order(ByteOrder.LITTLE_ENDIAN);
-			ed.encode(buf2);
-			byte[] compressedData = null;
-			try {
-				compressedData = ZLibOperations.compress(buf2.array());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if (compressedData != null) {
-				buf.writeInt(compressedData.length);
-				buf.writeBytes(compressedData);
-			} else {
-				buf.writeInt(rawData.length);
-				buf.writeBytes(rawData);
-			}
-		}
 	}
 
 	public String manageJoinEvent(GPlayer ply) {

@@ -20,8 +20,13 @@ public class Packet17VersionExchange extends Packet {
 	}
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		version = buf.readInt();
+	}
+
+	@Override
+	public void encode(ByteBuf buf) {
+		buf.writeInt(version);
 	}
 
 	@Override
@@ -33,10 +38,5 @@ public class Packet17VersionExchange extends Packet {
 		ply.sendPacket(new Packet16Join(ply.entityID));
 		ply.sendPacket(new Packet15Seed(ply.getWorld().getSeed()));
 		ply.sendMessageToPlayer("Server powered by Glydar 0.0.1-SNAPSHOT");
-	}
-
-	@Override
-	protected void internalEncode(ByteBuf buf) {
-		buf.writeInt(version);
 	}
 }

@@ -43,7 +43,7 @@ public class Packet10Chat extends Packet {
 	}
 
 	@Override
-	protected void internalDecode(ByteBuf buf) {
+	public void decode(ByteBuf buf) {
 		length = buf.readInt();
 		messageBytes = new byte[length * 2];
 		buf.readBytes(messageBytes);
@@ -51,7 +51,7 @@ public class Packet10Chat extends Packet {
 	}
 
 	@Override
-	protected void internalEncode(ByteBuf buf) {
+	public void encode(ByteBuf buf) {
 		byte[] msgBuf = message.getBytes(Charsets.UTF_16LE);
 		buf.writeLong(senderID);
 		buf.writeInt(msgBuf.length / 2);

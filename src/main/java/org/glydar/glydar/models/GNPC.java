@@ -12,6 +12,7 @@ public class GNPC extends GEntity implements NPC {
 		super();
 		data = new GEntityData();
 		data.setId(entityID);
+		data.setEntity(this);
 	}
 
 	@Override

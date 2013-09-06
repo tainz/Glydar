@@ -57,9 +57,9 @@ public class GWorld implements World {
 			worldEntities.put(entityID, e);
 		}
 		if (pvp && e.getEntityData().getHostileType() < 3){
-			e.getEntityData().setHostileType((byte) 1);
+			e.getEntityData().setFlags1((byte) 32);
 		} else {
-			e.getEntityData().setHostileType((byte) 0);
+			e.getEntityData().setFlags1((byte) 64);
 		}
 		e.forceUpdateData(true);
 	}
@@ -97,12 +97,14 @@ public class GWorld implements World {
 	
 	public void setPVPAllowed(boolean allowPVP) {
 		if (allowPVP){
-			for (Player p : getWorldPlayers()){
-				p.getEntityData().setHostileType((byte) 1);
+			for (Entity e : getWorldEntities()){
+				e.getEntityData().setFlags1((byte) 32);
+				e.forceUpdateData(true);
 			}
 		} else {
-			for (Player p : getWorldPlayers()){
-				p.getEntityData().setHostileType((byte) 0);
+			for (Entity e : getWorldEntities()){
+				e.getEntityData().setFlags1((byte) 64);
+				e.forceUpdateData(true);
 			}
 		}
 		this.pvp = allowPVP;

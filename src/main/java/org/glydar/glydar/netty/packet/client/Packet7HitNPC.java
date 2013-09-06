@@ -102,13 +102,19 @@ public class Packet7HitNPC extends CubeWorldPacket {
 		((GWorld) hurt.getWorld()).worldUpdatePacket.sud.hitPackets.add(this);
 		
 		if (hurt.getEntityData().getHP() <= 0){
+
 			GKillAction ka = new GKillAction();
 			ka.setId(id);
 			ka.setTargetId(targetId);
 			if (attacker != null && hurt != null ){
-				if (attacker.getEntityData().getLevel() > 0 && hurt.getEntityData().getLevel() > 0)
-				//TODO: Figure out a better equation!
-				ka.setXp((int) (hurt.getEntityData().getLevel()/attacker.getEntityData().getLevel() * 5));
+				if (attacker.getEntityData().getLevel() > 0 && hurt.getEntityData().getLevel() > 0){
+					//TODO: Figure out a better equation!
+					float hurtLevel = hurt.getEntityData().getLevel();
+					float attackLevel = attacker.getEntityData().getLevel();
+					ka.setXp(Math.round((hurtLevel/attackLevel) * 5));
+				} else {
+					ka.setXp(5);
+				}
 			} else {
 				ka.setXp(5);
 			}

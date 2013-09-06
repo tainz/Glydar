@@ -12,11 +12,13 @@ import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.models.GEntity;
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.Item;
 import org.glydar.paraglydar.geom.FloatVector3;
 import org.glydar.paraglydar.geom.LongVector3;
+import org.glydar.paraglydar.models.Entity;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
 
@@ -25,6 +27,8 @@ public class GEntityData implements BaseData, EntityData {
 	//TODO: This is temporary xD
 	public static BitSet FULL_BITMASK;
 
+	private Entity entity;
+	
 	private long id;
 	private BitSet bitSet;
 
@@ -615,7 +619,12 @@ public class GEntityData implements BaseData, EntityData {
 			this.app = (GAppearance) changes.getApp();
 		}
 		if (changesBitSet.get(14)) {
-			this.flags1 = changes.getFlags1();
+			//TODO: A bit messy?
+			if (entity.getWorld().isPVPAllowed()){
+				this.flags1 = (byte) 32;
+			} else {
+				this.flags1 = changes.getFlags1();
+			}
 			this.flags2 = changes.getFlags2();
 		}
 		if (changesBitSet.get(15)) {
@@ -732,6 +741,16 @@ public class GEntityData implements BaseData, EntityData {
 		}
 	}
 
+	public Entity getEntity(){
+		return entity;
+	}
+	
+	public void setEntity(Entity e){
+		if (entity == null){
+			this.entity = e;
+		}
+	}
+	
 	public long getId() {
 		return id;
 	}

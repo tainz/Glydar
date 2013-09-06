@@ -6,22 +6,24 @@ import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
 
-@PacketType(id = 11)
 public class Packet11ChunkDiscovery extends Packet {
 
 	@SuppressWarnings("unused")
-	private int chunkX;
+	private final int chunkX;
 	@SuppressWarnings("unused")
-	private int chunkZ;
+	private final int chunkZ;
 
-	@Override
-	public void decode(ByteBuf buf) {
+	public Packet11ChunkDiscovery(ByteBuf buf) {
 		chunkX = buf.readInt();
 		chunkZ = buf.readInt();
 	}
 
 	@Override
+	public PacketType getPacketType() {
+		return PacketType.CHUNK_DISCOVERY;
+	}
+
+	@Override
 	public void receivedFrom(GPlayer ply) {
-		//TODO: Stuff!
 	}
 }

@@ -7,24 +7,19 @@ import org.glydar.glydar.protocol.data.GItem;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
 
-@PacketType(id = 6)
 public class Packet6Interaction extends Packet {
 
-	private GItem item;
-	private int chunkX;
-	private int chunkY;
-	private int itemIndex; //Index of item in ChunkItems
-	private long something4; //uint
-	private byte interactType; //TODO ENUM
-	private byte something6;
-	private int something7; //ushort
+	private final GItem item;
+	private final int chunkX;
+	private final int chunkY;
+	private final int itemIndex; //Index of item in ChunkItems
+	private final long something4; //uint
+	private final byte interactType; //TODO ENUM
+	private final byte something6;
+	private final int something7; //ushort
 
-	public Packet6Interaction() {
+	public Packet6Interaction(ByteBuf buf) {
 		item = new GItem();
-	}
-
-	@Override
-	public void decode(ByteBuf buf) {
 		item.decode(buf);
 		chunkX = buf.readInt();
 		chunkY = buf.readInt();
@@ -33,7 +28,11 @@ public class Packet6Interaction extends Packet {
 		interactType = buf.readByte();
 		something6 = buf.readByte();
 		something7 = buf.readUnsignedShort();
+	}
 
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.INTERACTION;
 	}
 
 	@Override

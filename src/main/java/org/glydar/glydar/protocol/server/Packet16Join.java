@@ -5,7 +5,6 @@ import org.glydar.glydar.protocol.PacketType;
 
 import io.netty.buffer.ByteBuf;
 
-@PacketType(id = 16)
 public class Packet16Join extends Packet {
 
 	private long entId;
@@ -14,6 +13,11 @@ public class Packet16Join extends Packet {
 	public Packet16Join(long entId) {
 		this.entId = entId;
 		this.connInfo = new byte[4456];
+	}
+
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.JOIN;
 	}
 
 	@Override

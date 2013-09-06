@@ -10,18 +10,21 @@ import org.glydar.glydar.protocol.server.Packet15Seed;
 import org.glydar.glydar.protocol.server.Packet16Join;
 import org.glydar.glydar.protocol.server.Packet18ServerFull;
 
-@PacketType(id = 17)
 public class Packet17VersionExchange extends Packet {
 
-	private int version;
+	private final int version;
 
 	public Packet17VersionExchange(int serverVersion) {
 		this.version = serverVersion;
 	}
 
-	@Override
-	public void decode(ByteBuf buf) {
+	public Packet17VersionExchange(ByteBuf buf) {
 		version = buf.readInt();
+	}
+
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.VERSION_EXCHANGE;
 	}
 
 	@Override

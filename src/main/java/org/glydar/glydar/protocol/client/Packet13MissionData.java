@@ -5,25 +5,23 @@ import io.netty.buffer.ByteBuf;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
 
-@PacketType(id = 13)
 public class Packet13MissionData extends Packet {
 
-	private int sectorX;
-	private int sectorY;
-	private long something3; // uint
-	private long something4; // uint
-	private long something5; // uint
-	private long monsterID; // uint
-	private long questLevel; // uint
-	private short something8; // ubyte
-	private short something9; // ubyte
-	private float something10;
-	private float something11;
-	private long chunkX; // uint
-	private long chunkY; // uint
+	private final int sectorX;
+	private final int sectorY;
+	private final long something3; // uint
+	private final long something4; // uint
+	private final long something5; // uint
+	private final long monsterID; // uint
+	private final long questLevel; // uint
+	private final short something8; // ubyte
+	private final short something9; // ubyte
+	private final float something10;
+	private final float something11;
+	private final long chunkX; // uint
+	private final long chunkY; // uint
 
-	@Override
-	public void decode(ByteBuf buf) {
+	public Packet13MissionData(ByteBuf buf) {
 		sectorX = buf.readInt() / 8;
 		sectorY = buf.readInt() / 8;
 		something3 = buf.readUnsignedInt();
@@ -38,6 +36,11 @@ public class Packet13MissionData extends Packet {
 		something11 = buf.readFloat();
 		chunkX = buf.readUnsignedInt();
 		chunkY = buf.readUnsignedInt();
+	}
+
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.MISSION_DATA;
 	}
 
 	@Override

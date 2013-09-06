@@ -13,7 +13,6 @@ import org.glydar.paraglydar.event.events.ChatEvent;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.WorldTarget;
 
-@PacketType(id = 10, variableLength = true)
 public class Packet10Chat extends Packet {
 
 	private int length;
@@ -22,8 +21,6 @@ public class Packet10Chat extends Packet {
 	private long senderID;
 	private boolean cancelled;
 	private BaseTarget target;
-
-	public Packet10Chat() {}
 
 	public Packet10Chat(String message, GEntity sender) {
 		this.senderID = sender.entityID;
@@ -42,12 +39,16 @@ public class Packet10Chat extends Packet {
 		this.senderID = senderID;
 	}
 
-	@Override
-	public void decode(ByteBuf buf) {
+	public Packet10Chat(ByteBuf buf) {
 		length = buf.readInt();
 		messageBytes = new byte[length * 2];
 		buf.readBytes(messageBytes);
 		message = new String(messageBytes, Charsets.UTF_16LE);
+	}
+
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.CHAT;
 	}
 
 	@Override

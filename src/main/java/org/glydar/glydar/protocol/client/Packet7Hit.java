@@ -18,7 +18,6 @@ import org.glydar.paraglydar.geom.LongVector3;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 
-@PacketType(id = 7)
 public class Packet7Hit extends Packet {
 
 	private long id;
@@ -38,7 +37,7 @@ public class Packet7Hit extends Packet {
 		hitDirection = new FloatVector3();
 	}
 
-	public Packet7Hit(GPlayer ply){
+	public Packet7Hit(GPlayer ply) {
 		id = ply.getEntityId();
 		targetId = ply.getEntityId();
 		damage = -100F;
@@ -52,8 +51,7 @@ public class Packet7Hit extends Packet {
 		showLight = (byte) 0;
 	}
 
-	@Override
-	public void decode(ByteBuf buf) {
+	public Packet7Hit(ByteBuf buf) {
 		id = buf.readLong();
 		targetId = buf.readLong();
 		damage = buf.readFloat();
@@ -67,6 +65,11 @@ public class Packet7Hit extends Packet {
 		type = buf.readByte();
 		showLight = buf.readByte();
 		buf.readByte();
+	}
+
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.HIT;
 	}
 
 	@Override

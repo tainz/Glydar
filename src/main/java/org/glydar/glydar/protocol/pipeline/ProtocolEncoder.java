@@ -11,11 +11,9 @@ import org.glydar.glydar.protocol.Packet;
 public class ProtocolEncoder extends MessageToByteEncoder<Packet> {
 
 	@Override
-	protected void encode(ChannelHandlerContext ctx, Packet msg, ByteBuf out) throws Exception {
+	protected void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) throws Exception {
 		out = out.order(ByteOrder.LITTLE_ENDIAN);
-		out.writeInt(msg.getID());
-		if (!msg.getNoData()) {
-			msg.encode(out);
-		}
+		out.writeInt(packet.getPacketType().id());
+		packet.encode(out);
 	}
 }

@@ -20,68 +20,34 @@ import java.io.FileOutputStream;
 import java.nio.ByteOrder;
 import java.util.Random;
 
-@PacketType(id = 0, variableLength = true)
 public class Packet0EntityUpdate extends Packet {
 
 	private byte[] rawData;
 	private GEntityData ed;
 	private boolean sendEntityData = false;
 
-	public Packet0EntityUpdate() {
-		ed = new GEntityData();
-	}
-
-	public Packet0EntityUpdate(byte[] rawData) {
-		this.rawData = rawData;
-	}
-
 	public Packet0EntityUpdate(EntityData e) {
 		this.ed = (GEntityData) e;
 		sendEntityData = true;
 	}
 
-	@Override
-	public void decode(ByteBuf buffer) {
+	public Packet0EntityUpdate(ByteBuf buffer) {
 		int zlibLength = buffer.readInt();
 		rawData = new byte[zlibLength];
 		buffer.readBytes(rawData);
 		try {
 			ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
 			dataBuf = dataBuf.order(ByteOrder.LITTLE_ENDIAN);
+			ed = new GEntityData();
 			ed.decode(dataBuf);
 		} catch (Exception e) {
-			if (e instanceof IndexOutOfBoundsException && !Glydar.ignorePacketErrors) {
-				Glydar.getServer().getLogger().severe("*************************CRITICAL ERROR*************************");
-				e.printStackTrace();
-				Glydar.getServer().getLogger().severe("Glydar has encountered a critical error during an ID0 packet decode, and will now shutdown.");
-				Glydar.getServer().getLogger().severe("Please report this error to the developers. Attach the above stack trace and the id0err.dmp file in your Glydar root directory.");
-				Random lotto = new Random();
-				lotto.setSeed(System.currentTimeMillis());
-				Glydar.getServer().getLogger().severe("Here is your magical error lotto number of the moment: <" + lotto.nextInt() + "> Please attach this to your bug report.");
-				Glydar.getServer().getLogger().severe("****************************************************************");
-				Glydar.getServer().getLogger().severe("NOTE: If you want Glydar to continue regardless, run Glydar with -ignorepacketerrors on the command line.");
-				Glydar.getServer().getLogger().severe("****************************************************************");
-				File dumpfile = new File("id0err.dmp");
-				if (dumpfile.exists())
-					dumpfile.delete();
-
-				try {
-					dumpfile.createNewFile();
-					FileOutputStream fos = new FileOutputStream(dumpfile);
-					fos.write(ZLibOperations.decompress(rawData));
-					fos.close();
-				} catch (Exception ex) {
-					Glydar.getServer().getLogger().severe("Critical error encountered writing logfile dump. Boy, do you have bad luck.");
-				}
-
-				Glydar.shutdown();
-			} else if (Glydar.ignorePacketErrors) {
-				//For safety
-				this.ed = null;
-				this.sendEntityData = false;
-			}
-
+			handleAndDumpError(e);
 		}
+	}
+
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.ENTITY_UPDATE;
 	}
 
 	@Override
@@ -144,5 +110,38 @@ public class Packet0EntityUpdate extends Packet {
 		EntityUpdateEvent event;
 		event = Glydar.getEventManager().callEvent(new EntityUpdateEvent(ply, ed));
 		ed = (GEntityData) event.getEntityData();
+	}
+
+	private void handleAndDumpError(Exception e) {
+		if (e instanceof IndexOutOfBoundsException && !Glydar.ignorePacketErrors) {
+			Glydar.getServer().getLogger().severe("*************************CRITICAL ERROR*************************");
+			e.printStackTrace();
+			Glydar.getServer().getLogger().severe("Glydar has encountered a critical error during an ID0 packet decode, and will now shutdown.");
+			Glydar.getServer().getLogger().severe("Please report this error to the developers. Attach the above stack trace and the id0err.dmp file in your Glydar root directory.");
+			Random lotto = new Random();
+			lotto.setSeed(System.currentTimeMillis());
+			Glydar.getServer().getLogger().severe("Here is your magical error lotto number of the moment: <" + lotto.nextInt() + "> Please attach this to your bug report.");
+			Glydar.getServer().getLogger().severe("****************************************************************");
+			Glydar.getServer().getLogger().severe("NOTE: If you want Glydar to continue regardless, run Glydar with -ignorepacketerrors on the command line.");
+			Glydar.getServer().getLogger().severe("****************************************************************");
+			File dumpfile = new File("id0err.dmp");
+			if (dumpfile.exists())
+				dumpfile.delete();
+
+			try {
+				dumpfile.createNewFile();
+				FileOutputStream fos = new FileOutputStream(dumpfile);
+				fos.write(ZLibOperations.decompress(rawData));
+				fos.close();
+			} catch (Exception ex) {
+				Glydar.getServer().getLogger().severe("Critical error encountered writing logfile dump. Boy, do you have bad luck.");
+			}
+
+			Glydar.shutdown();
+		} else if (Glydar.ignorePacketErrors) {
+			//For safety
+			this.ed = null;
+			this.sendEntityData = false;
+		}
 	}
 }

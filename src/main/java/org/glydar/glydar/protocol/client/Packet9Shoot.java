@@ -16,8 +16,7 @@ import org.glydar.paraglydar.geom.FloatVector3;
 import org.glydar.paraglydar.geom.LongVector3;
 import org.glydar.paraglydar.models.Entity;
 
-@PacketType(id = 9)
-public class Packet9ShootProjectile extends Packet {
+public class Packet9Shoot extends Packet {
 
 	private long entID; //Unsigned!
 
@@ -45,13 +44,7 @@ public class Packet9ShootProjectile extends Packet {
 	private long something27; //uint
 	private long something28; //uint
 
-	public Packet9ShootProjectile() {
-		position = new LongVector3();
-		velocity = new FloatVector3();
-	}
-
-	@Override
-	public void decode(ByteBuf buf) {
+	public Packet9Shoot(ByteBuf buf) {
 		entID = buf.readLong(); //Unsigned long actually!
 
 		chunkX = buf.readInt();
@@ -80,6 +73,11 @@ public class Packet9ShootProjectile extends Packet {
 		buf.readBytes(3); //Padding
 		something27 = buf.readUnsignedInt();
 		something28 = buf.readUnsignedInt();
+	}
+
+	@Override
+	public PacketType getPacketType() {
+		return PacketType.SHOOT;
 	}
 
 	@Override

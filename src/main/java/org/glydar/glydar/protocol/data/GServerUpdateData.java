@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.glydar.glydar.protocol.client.Packet13MissionData;
 import org.glydar.glydar.protocol.client.Packet7Hit;
-import org.glydar.glydar.protocol.client.Packet9ShootProjectile;
+import org.glydar.glydar.protocol.client.Packet9Shoot;
 import org.glydar.glydar.protocol.data.actions.GDamageAction;
 import org.glydar.glydar.protocol.data.actions.GKillAction;
 import org.glydar.glydar.protocol.data.actions.GPickupAction;
@@ -18,7 +18,7 @@ public class GServerUpdateData implements BaseData {
 	public ArrayList<Packet7Hit> hitPackets;
 	ArrayList<byte[]> unknownArray2;
 	ArrayList<GSoundAction> soundActions;
-	public ArrayList<Packet9ShootProjectile> shootPackets;
+	public ArrayList<Packet9Shoot> shootPackets;
 	ArrayList<byte[]> unknownArray3;
 	ArrayList<GChunkItems> chunkItems;
 	ArrayList<UnknownArray4> unknownArray4;
@@ -33,7 +33,7 @@ public class GServerUpdateData implements BaseData {
 		unknownArray2 = new ArrayList<byte[]>();
 		hitPackets = new ArrayList<Packet7Hit>();
 		soundActions = new ArrayList<GSoundAction>();
-		shootPackets = new ArrayList<Packet9ShootProjectile>();
+		shootPackets = new ArrayList<Packet9Shoot>();
 		unknownArray3 = new ArrayList<byte[]>();
 		chunkItems = new ArrayList<GChunkItems>();
 		unknownArray4 = new ArrayList<UnknownArray4>();
@@ -55,8 +55,7 @@ public class GServerUpdateData implements BaseData {
 
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++) {
-			hitPackets.set(i, new Packet7Hit());
-			hitPackets.get(i).decode(buf);
+			hitPackets.set(i, new Packet7Hit(buf));
 		}
 
 		lengthI = buf.readInt();
@@ -73,8 +72,7 @@ public class GServerUpdateData implements BaseData {
 
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++) {
-			shootPackets.set(i, new Packet9ShootProjectile());
-			shootPackets.get(i).decode(buf);
+			shootPackets.set(i, new Packet9Shoot(buf));
 		}
 
 		lengthI = buf.readInt();
@@ -125,8 +123,7 @@ public class GServerUpdateData implements BaseData {
 
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++) {
-			missionData.set(i, new Packet13MissionData());
-			missionData.get(i).decode(buf);
+			missionData.set(i, new Packet13MissionData(buf));
 		}
 
 	}
@@ -154,7 +151,7 @@ public class GServerUpdateData implements BaseData {
 		}
 
 		buf.writeInt(shootPackets.size());
-		for (Packet9ShootProjectile p : shootPackets) {
+		for (Packet9Shoot p : shootPackets) {
 			p.encode(buf);
 		}
 

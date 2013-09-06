@@ -10,7 +10,6 @@ import io.netty.buffer.ByteBuf;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.models.GWorld;
-import org.glydar.glydar.protocol.data.GServerUpdateData;
 import org.glydar.glydar.protocol.data.actions.GKillAction;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
@@ -20,25 +19,26 @@ import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 
 @PacketType(id = 7)
-public class Packet7HitNPC extends Packet {
-	long id;
-	long targetId;
-	float damage;
-	byte critical;
-	long stunDuration; //uint
-	long unknown; //uint
-	LongVector3 position;
-	FloatVector3 hitDirection;
-	byte skillHit;
-	byte type;
-	byte showLight;
+public class Packet7Hit extends Packet {
 
-	public Packet7HitNPC() {
+	private long id;
+	private long targetId;
+	private float damage;
+	private byte critical;
+	private long stunDuration; //uint
+	private long unknown; //uint
+	private LongVector3 position;
+	private FloatVector3 hitDirection;
+	private byte skillHit;
+	private byte type;
+	private byte showLight;
+
+	public Packet7Hit() {
 		position = new LongVector3();
 		hitDirection = new FloatVector3();
 	}
-	
-	public Packet7HitNPC(GPlayer ply){
+
+	public Packet7Hit(GPlayer ply){
 		id = ply.getEntityId();
 		targetId = ply.getEntityId();
 		damage = -100F;
@@ -90,18 +90,14 @@ public class Packet7HitNPC extends Packet {
 	public void receivedFrom(GPlayer ply) {
 		Entity hurt = Glydar.getServer().getEntityByEntityID(targetId);
 		Entity attacker = Glydar.getServer().getEntityByEntityID(id);
-		
+
 		hurt.getEntityData().setHP(hurt.getEntityData().getHP() - damage);
 		if (!(hurt instanceof Player)){
 			hurt.forceUpdateData();
 		}
-		
-		if (((GWorld) hurt.getWorld()).worldUpdatePacket.sud == null) {
-			((GWorld) hurt.getWorld()).worldUpdatePacket.sud = new GServerUpdateData();
-		}
-		
-		((GWorld) hurt.getWorld()).worldUpdatePacket.sud.hitPackets.add(this);
-		
+
+		((GWorld) hurt.getWorld()).worldUpdatePacket.getServerUpdateData().hitPackets.add(this);
+
 		if (hurt.getEntityData().getHP() <= 0){
 
 			GKillAction ka = new GKillAction();
@@ -119,10 +115,9 @@ public class Packet7HitNPC extends Packet {
 			} else {
 				ka.setXp(5);
 			}
-			
-			((GWorld) hurt.getWorld()).worldUpdatePacket.sud.killActions.add(ka);
+
+			((GWorld) hurt.getWorld()).worldUpdatePacket.getServerUpdateData().killActions.add(ka);
 		}
-		
 	}
 
 	public long getId() {

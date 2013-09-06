@@ -15,18 +15,17 @@ import org.glydar.paraglydar.models.WorldTarget;
 
 @PacketType(id = 10, variableLength = true)
 public class Packet10Chat extends Packet {
-	int length;
-	byte[] messageBytes;
-	String message;
-	GEntity sender;
-	long senderID;
-	boolean cancelled;
-	BaseTarget target;
+
+	private int length;
+	private byte[] messageBytes;
+	private String message;
+	private long senderID;
+	private boolean cancelled;
+	private BaseTarget target;
 
 	public Packet10Chat() {}
 
 	public Packet10Chat(String message, GEntity sender) {
-		this.sender = sender;
 		this.senderID = sender.entityID;
 		this.message = message;
 		target = new WorldTarget(sender.getWorld());
@@ -61,7 +60,6 @@ public class Packet10Chat extends Packet {
 
 	@Override
 	public void receivedFrom(GPlayer ply) {
-		sender = ply;
 		boolean isCmd = manageCommands(ply);
 		if (!isCmd) {
 			manageChatEvent(ply);

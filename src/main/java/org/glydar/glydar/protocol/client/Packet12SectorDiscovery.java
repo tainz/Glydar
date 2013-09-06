@@ -8,8 +8,11 @@ import org.glydar.glydar.protocol.PacketType;
 
 @PacketType(id = 12)
 public class Packet12SectorDiscovery extends Packet {
-	int sectorX;
-	int sectorZ;
+
+	@SuppressWarnings("unused")
+	private int sectorX;
+	@SuppressWarnings("unused")
+	private int sectorZ;
 
 	@Override
 	protected void internalDecode(ByteBuf buf) {

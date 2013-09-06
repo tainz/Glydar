@@ -10,13 +10,14 @@ import org.glydar.glydar.protocol.PacketType;
 @PacketType(id = 6)
 public class Packet6Interaction extends Packet {
 
-	GItem item;
-	int chunkX, chunkY;
-	int itemIndex; //Index of item in ChunkItems
-	long something4; //uint
-	byte interactType; //TODO ENUM
-	byte something6;
-	int something7; //ushort
+	private GItem item;
+	private int chunkX;
+	private int chunkY;
+	private int itemIndex; //Index of item in ChunkItems
+	private long something4; //uint
+	private byte interactType; //TODO ENUM
+	private byte something6;
+	private int something7; //ushort
 
 	public Packet6Interaction() {
 		item = new GItem();

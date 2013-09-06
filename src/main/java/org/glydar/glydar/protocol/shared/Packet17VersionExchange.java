@@ -12,11 +12,8 @@ import org.glydar.glydar.protocol.server.Packet18ServerFull;
 
 @PacketType(id = 17)
 public class Packet17VersionExchange extends Packet {
-	int version;
 
-	public Packet17VersionExchange() {
-
-	}
+	private int version;
 
 	public Packet17VersionExchange(int serverVersion) {
 		this.version = serverVersion;

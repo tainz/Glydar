@@ -3,7 +3,7 @@ package org.glydar.glydar.protocol.data;
 import java.util.ArrayList;
 
 import org.glydar.glydar.protocol.client.Packet13MissionData;
-import org.glydar.glydar.protocol.client.Packet7HitNPC;
+import org.glydar.glydar.protocol.client.Packet7Hit;
 import org.glydar.glydar.protocol.client.Packet9ShootProjectile;
 import org.glydar.glydar.protocol.data.actions.GDamageAction;
 import org.glydar.glydar.protocol.data.actions.GKillAction;
@@ -15,7 +15,7 @@ import io.netty.buffer.ByteBuf;
 //TODO: ArrayLists!
 public class GServerUpdateData implements BaseData {
 	ArrayList<GPacket4UnknownData> unknownArray1;
-	public ArrayList<Packet7HitNPC> hitPackets;
+	public ArrayList<Packet7Hit> hitPackets;
 	ArrayList<byte[]> unknownArray2;
 	ArrayList<GSoundAction> soundActions;
 	public ArrayList<Packet9ShootProjectile> shootPackets;
@@ -31,7 +31,7 @@ public class GServerUpdateData implements BaseData {
 	public GServerUpdateData() {
 		unknownArray1 = new ArrayList<GPacket4UnknownData>();
 		unknownArray2 = new ArrayList<byte[]>();
-		hitPackets = new ArrayList<Packet7HitNPC>();
+		hitPackets = new ArrayList<Packet7Hit>();
 		soundActions = new ArrayList<GSoundAction>();
 		shootPackets = new ArrayList<Packet9ShootProjectile>();
 		unknownArray3 = new ArrayList<byte[]>();
@@ -55,7 +55,7 @@ public class GServerUpdateData implements BaseData {
 
 		lengthI = buf.readInt();
 		for (int i = 0; i < lengthI; i++) {
-			hitPackets.set(i, new Packet7HitNPC());
+			hitPackets.set(i, new Packet7Hit());
 			hitPackets.get(i).decode(buf);
 		}
 
@@ -139,7 +139,7 @@ public class GServerUpdateData implements BaseData {
 		}
 
 		buf.writeInt(hitPackets.size());
-		for (Packet7HitNPC p : hitPackets) {
+		for (Packet7Hit p : hitPackets) {
 			p.encode(buf);
 		}
 

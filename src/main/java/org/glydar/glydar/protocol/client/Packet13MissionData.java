@@ -7,19 +7,20 @@ import org.glydar.glydar.protocol.PacketType;
 
 @PacketType(id = 13)
 public class Packet13MissionData extends Packet {
-	int sectorX;
-	int sectorY;
-	long something3; // uint
-	long something4; // uint
-	long something5; // uint
-	long monsterID; // uint
-	long questLevel; // uint
-	short something8; // ubyte
-	short something9; // ubyte
-	float something10;
-	float something11;
-	long chunkX; // uint
-	long chunkY; // uint
+
+	private int sectorX;
+	private int sectorY;
+	private long something3; // uint
+	private long something4; // uint
+	private long something5; // uint
+	private long monsterID; // uint
+	private long questLevel; // uint
+	private short something8; // ubyte
+	private short something9; // ubyte
+	private float something10;
+	private float something11;
+	private long chunkX; // uint
+	private long chunkY; // uint
 
 	@Override
 	protected void internalDecode(ByteBuf buf) {

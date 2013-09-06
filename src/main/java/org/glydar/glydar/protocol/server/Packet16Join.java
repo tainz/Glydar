@@ -8,8 +8,8 @@ import io.netty.buffer.ByteBuf;
 @PacketType(id = 16)
 public class Packet16Join extends Packet {
 
-	long entId;
-	byte[] connInfo;
+	private long entId;
+	private byte[] connInfo;
 
 	public Packet16Join(long entId) {
 		this.entId = entId;

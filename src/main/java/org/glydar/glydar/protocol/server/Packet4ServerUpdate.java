@@ -15,8 +15,13 @@ import java.util.Random;
 
 @PacketType(id = 4)
 public class Packet4ServerUpdate extends Packet {
-	public GServerUpdateData sud;
-	byte[] rawData;
+
+	private GServerUpdateData sud;
+	private byte[] rawData;
+
+	public Packet4ServerUpdate() {
+		this.sud = new GServerUpdateData();
+	}
 
 	@Override
 	protected void internalDecode(ByteBuf buf) {
@@ -76,4 +81,7 @@ public class Packet4ServerUpdate extends Packet {
 		}
 	}
 
+	public GServerUpdateData getServerUpdateData() {
+		return sud;
+	}
 }

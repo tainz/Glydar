@@ -13,9 +13,7 @@ import org.glydar.glydar.util.ZLibOperations;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.event.events.EntityUpdateEvent;
 import org.glydar.paraglydar.event.events.PlayerJoinEvent;
-import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.Entity;
-import org.glydar.paraglydar.models.EveryoneTarget;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,11 +22,10 @@ import java.util.Random;
 
 @PacketType(id = 0, variableLength = true)
 public class Packet0EntityUpdate extends Packet {
-	byte[] rawData;
-	GEntityData ed;
-	boolean sendEntityData = false;
-	BaseTarget target = EveryoneTarget.INSTANCE;
 
+	private byte[] rawData;
+	private GEntityData ed;
+	private boolean sendEntityData = false;
 
 	public Packet0EntityUpdate() {
 		ed = new GEntityData();
@@ -94,7 +91,7 @@ public class Packet0EntityUpdate extends Packet {
 			GEntityData.FULL_BITMASK = ed.getBitSet();
 			ed.setEntity(ply);
 			ply.setEntityData(this.ed);
-			
+
 			//TODO: Add more functionality to join message!
 			String joinMessage = manageJoinEvent(ply);
 
@@ -147,6 +144,5 @@ public class Packet0EntityUpdate extends Packet {
 		EntityUpdateEvent event;
 		event = Glydar.getEventManager().callEvent(new EntityUpdateEvent(ply, ed));
 		ed = (GEntityData) event.getEntityData();
-		target = event.getTarget();
 	}
 }

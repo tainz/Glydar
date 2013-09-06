@@ -12,7 +12,6 @@ import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.models.GEntity;
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.Item;

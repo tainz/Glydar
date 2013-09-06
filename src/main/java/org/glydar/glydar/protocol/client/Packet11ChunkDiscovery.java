@@ -8,15 +8,18 @@ import org.glydar.glydar.protocol.PacketType;
 
 @PacketType(id = 11)
 public class Packet11ChunkDiscovery extends Packet {
-	int chunkX;
-	int chunkZ;
+
+	@SuppressWarnings("unused")
+	private int chunkX;
+	@SuppressWarnings("unused")
+	private int chunkZ;
 
 	@Override
 	protected void internalDecode(ByteBuf buf) {
 		chunkX = buf.readInt();
 		chunkZ = buf.readInt();
 	}
-	
+
 	@Override
 	public void receivedFrom(GPlayer ply) {
 		//TODO: Stuff!

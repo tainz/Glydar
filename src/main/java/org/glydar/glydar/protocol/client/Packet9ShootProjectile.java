@@ -10,7 +10,6 @@ import io.netty.buffer.ByteBuf;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.models.GWorld;
-import org.glydar.glydar.protocol.data.GServerUpdateData;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
 import org.glydar.paraglydar.geom.FloatVector3;
@@ -19,31 +18,32 @@ import org.glydar.paraglydar.models.Entity;
 
 @PacketType(id = 9)
 public class Packet9ShootProjectile extends Packet {
-	long entID; //Unsigned!
 
-	int chunkX;
-	int chunkY;
+	private long entID; //Unsigned!
 
-	long something5; //Unsigned Int!
+	private int chunkX;
+	private int chunkY;
 
-	LongVector3 position;
+	private long something5; //Unsigned Int!
 
-	long something13; //uint
-	long something14; //uint
-	long something15; //uint
+	private LongVector3 position;
 
-	FloatVector3 velocity;
+	private long something13; //uint
+	private long something14; //uint
+	private long something15; //uint
 
-	float something19; // rand() ??
-	float something20;
-	float something21;
-	float something22; // ?????
-	long something23; //uint
-	byte something24;
-	long something25; //uint
-	byte something26;
-	long something27; //uint
-	long something28; //uint
+	private FloatVector3 velocity;
+
+	private float something19; // rand() ??
+	private float something20;
+	private float something21;
+	private float something22; // ?????
+	private long something23; //uint
+	private byte something24;
+	private long something25; //uint
+	private byte something26;
+	private long something27; //uint
+	private long something28; //uint
 
 	public Packet9ShootProjectile() {
 		position = new LongVector3();
@@ -113,9 +113,6 @@ public class Packet9ShootProjectile extends Packet {
 	@Override
 	public void receivedFrom(GPlayer ply) {
 		Entity shooter = Glydar.getServer().getEntityByEntityID(entID);
-		if (((GWorld) shooter.getWorld()).worldUpdatePacket.sud == null) {
-			((GWorld) shooter.getWorld()).worldUpdatePacket.sud = new GServerUpdateData();
-		}
-		((GWorld) shooter.getWorld()).worldUpdatePacket.sud.shootPackets.add(this);
+		((GWorld) shooter.getWorld()).worldUpdatePacket.getServerUpdateData().shootPackets.add(this);
 	}
 }

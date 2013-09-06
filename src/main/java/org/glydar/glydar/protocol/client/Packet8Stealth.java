@@ -8,7 +8,7 @@ import org.glydar.glydar.protocol.PacketType;
 @PacketType(id = 8)
 public class Packet8Stealth extends Packet {
 
-	byte[] unknowndata;
+	private byte[] unknowndata;
 
 	@Override
 	protected void internalDecode(ByteBuf buf) {

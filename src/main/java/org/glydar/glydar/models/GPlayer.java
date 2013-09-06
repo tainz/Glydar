@@ -8,8 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.protocol.client.Packet7HitNPC;
-import org.glydar.glydar.protocol.data.GServerUpdateData;
+import org.glydar.glydar.protocol.client.Packet7Hit;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.server.Packet15Seed;
 import org.glydar.glydar.protocol.server.Packet4ServerUpdate;
@@ -137,17 +136,16 @@ public class GPlayer extends GEntity implements Player {
 	}
 
 	private void damage(float damage, boolean critical){
-		Packet7HitNPC hit = new Packet7HitNPC();
+		Packet7Hit hit = new Packet7Hit();
 		hit.setId(1L);
 		hit.setTargetId(entityID);
 		hit.setDamage(damage);
 		hit.setCritical((byte) 1);
 		hit.setPosition(getEntityData().getPosition());
 		hit.setHitDirection(getEntityData().getExtraVel());
-		
+
 		Packet4ServerUpdate s = new Packet4ServerUpdate();
-		s.sud = new GServerUpdateData();
-		s.sud.hitPackets.add(hit);
+		s.getServerUpdateData().hitPackets.add(hit);
 		s.sendTo(this);
 	}
 	
@@ -172,19 +170,16 @@ public class GPlayer extends GEntity implements Player {
 	}
 
 	public void stun(int seconds) {
-		Packet7HitNPC stun = new Packet7HitNPC();
+		Packet7Hit stun = new Packet7Hit();
 		stun.setId(1L);
 		stun.setTargetId(entityID);
 		stun.setCritical((byte) 1);
 		stun.setStunDuration(seconds);
 		stun.setPosition(getEntityData().getPosition());
 		stun.setHitDirection(getEntityData().getExtraVel());
-		
+
 		Packet4ServerUpdate s = new Packet4ServerUpdate();
-		s.sud = new GServerUpdateData();
-		s.sud.hitPackets.add(stun);
+		s.getServerUpdateData().hitPackets.add(stun);
 		s.sendTo(this);
 	}
-	
-	
 }

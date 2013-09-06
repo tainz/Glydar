@@ -204,7 +204,7 @@ public class GServer implements Runnable, Server {
 					
 					//WorldUpdatePackets are controlled here:
 					for (World w : getWorlds()){
-						if (((GWorld)w).worldUpdatePacket.sud != null){
+						if (((GWorld)w).worldUpdatePacket.getServerUpdateData() != null){
 							((GWorld)w).worldUpdatePacket.sendToWorld(w);
 							((GWorld)w).worldUpdatePacket = new Packet4ServerUpdate();
 						}

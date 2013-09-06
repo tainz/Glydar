@@ -1,7 +1,7 @@
 package org.glydar.glydar.models;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.netty.data.GEntityData;
+import org.glydar.glydar.protocol.data.GEntityData;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.models.ModelCreator;
 import org.glydar.paraglydar.models.NPC;

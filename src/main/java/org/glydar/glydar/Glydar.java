@@ -11,8 +11,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import java.net.InetSocketAddress;
 
 import org.glydar.glydar.models.GModelCreator;
-import org.glydar.glydar.netty.CubeWorldServerInitializer;
-import org.glydar.glydar.netty.data.GDataCreator;
+import org.glydar.glydar.protocol.data.GDataCreator;
+import org.glydar.glydar.protocol.pipeline.ProtocolInitializer;
 import org.glydar.paraglydar.ParaGlydar;
 import org.glydar.paraglydar.event.manager.EventManager;
 import org.glydar.paraglydar.plugin.PluginLoader;
@@ -47,7 +47,7 @@ public class Glydar {
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
 
 		serverBootstrap = new ServerBootstrap();
-		serverBootstrap.childHandler(new CubeWorldServerInitializer())
+		serverBootstrap.childHandler(new ProtocolInitializer())
 				.option(ChannelOption.TCP_NODELAY, true)
 				.option(ChannelOption.WRITE_BUFFER_LOW_WATER_MARK, 32 * 1024)
 				.option(ChannelOption.WRITE_BUFFER_HIGH_WATER_MARK, 64 * 1024)

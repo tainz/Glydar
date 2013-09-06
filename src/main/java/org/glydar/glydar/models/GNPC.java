@@ -1,10 +1,7 @@
 package org.glydar.glydar.models;
 
-import org.glydar.glydar.netty.data.GEntityData;
-import org.glydar.glydar.netty.packet.shared.Packet10Chat;
-import org.glydar.paraglydar.models.BaseTarget;
+import org.glydar.glydar.protocol.data.GEntityData;
 import org.glydar.paraglydar.models.NPC;
-import org.glydar.paraglydar.models.WorldTarget;
 
 public class GNPC extends GEntity implements NPC {
 

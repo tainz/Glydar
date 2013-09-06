@@ -8,15 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.netty.data.GEntityData;
-import org.glydar.glydar.netty.data.GServerUpdateData;
-import org.glydar.glydar.netty.packet.CubeWorldPacket;
-import org.glydar.glydar.netty.packet.client.Packet7HitNPC;
-import org.glydar.glydar.netty.packet.server.Packet15Seed;
-import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
-import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
-import org.glydar.glydar.netty.packet.shared.Packet10Chat;
-import org.glydar.paraglydar.models.Entity;
+import org.glydar.glydar.protocol.client.Packet7HitNPC;
+import org.glydar.glydar.protocol.data.GServerUpdateData;
+import org.glydar.glydar.protocol.Packet;
+import org.glydar.glydar.protocol.server.Packet15Seed;
+import org.glydar.glydar.protocol.server.Packet4ServerUpdate;
+import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.permissions.Permission;
@@ -39,7 +36,7 @@ public class GPlayer extends GEntity implements Player {
 		return this.channelCtx;
 	}
 
-	public void sendPacket(CubeWorldPacket packet) {
+	public void sendPacket(Packet packet) {
 		packet.sendTo(this);
 	}
 

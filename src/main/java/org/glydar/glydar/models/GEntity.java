@@ -1,13 +1,12 @@
 package org.glydar.glydar.models;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.netty.data.GEntityData;
-import org.glydar.glydar.netty.packet.shared.Packet0EntityUpdate;
-import org.glydar.glydar.netty.packet.shared.Packet10Chat;
+import org.glydar.glydar.protocol.data.GEntityData;
+import org.glydar.glydar.protocol.shared.Packet0EntityUpdate;
+import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.Entity;
-import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
 import org.glydar.paraglydar.models.WorldTarget;
 

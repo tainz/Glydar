@@ -2,10 +2,9 @@ package org.glydar.glydar;
 
 import org.glydar.glydar.models.GNPC;
 import org.glydar.glydar.models.GWorld;
-import org.glydar.glydar.netty.data.GEntityData;
-import org.glydar.glydar.netty.packet.server.Packet2UpdateFinished;
-import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
-import org.glydar.glydar.netty.packet.shared.Packet10Chat;
+import org.glydar.glydar.protocol.server.Packet2UpdateFinished;
+import org.glydar.glydar.protocol.server.Packet4ServerUpdate;
+import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;
 import org.glydar.paraglydar.command.manager.CommandManager;
 import org.glydar.paraglydar.event.manager.EventManager;

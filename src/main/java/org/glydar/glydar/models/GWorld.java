@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.netty.packet.server.Packet4ServerUpdate;
-import org.glydar.glydar.netty.packet.shared.Packet10Chat;
+import org.glydar.glydar.protocol.server.Packet4ServerUpdate;
+import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;

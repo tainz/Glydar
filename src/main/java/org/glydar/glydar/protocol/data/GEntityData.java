@@ -1,9 +1,6 @@
 package org.glydar.glydar.protocol.data;
 
-import static org.glydar.glydar.util.VectorBuf.readFloatVector3;
-import static org.glydar.glydar.util.VectorBuf.readLongVector3;
-import static org.glydar.glydar.util.VectorBuf.writeFloatVector3;
-import static org.glydar.glydar.util.VectorBuf.writeLongVector3;
+import static org.glydar.glydar.protocol.data.DataBufs.*;
 
 import java.util.BitSet;
 
@@ -17,6 +14,7 @@ import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.Item;
 import org.glydar.paraglydar.geom.FloatVector3;
 import org.glydar.paraglydar.geom.LongVector3;
+import org.glydar.paraglydar.geom.Orientation;
 import org.glydar.paraglydar.models.Entity;
 
 /* Structures and data discovered by mat^2 (http://github.com/matpow2) */
@@ -32,10 +30,7 @@ public class GEntityData implements BaseData, EntityData {
 	private BitSet bitSet;
 
 	private LongVector3 position;
-
-	private float roll;
-	private float pitch;
-	private float yaw;
+	private Orientation orientation;
 
 	private FloatVector3 velocity;
 
@@ -128,9 +123,7 @@ public class GEntityData implements BaseData, EntityData {
 		this.id = e.getId();
 		this.bitSet = e.getBitSet();
 		this.position = e.getPosition();
-		this.roll = e.getRoll();
-		this.pitch = e.getPitch();
-		this.yaw = e.getYaw();
+		this.orientation = e.getOrientation();
 		this.velocity = e.getVelocity();
 		this.accel = e.getAccel();
 		this.extraVel = e.getExtraVel();
@@ -208,9 +201,7 @@ public class GEntityData implements BaseData, EntityData {
 			position = readLongVector3(buf);
 		}
 		if (bitSet.get(1)) {
-			pitch = buf.readFloat();
-			roll = buf.readFloat();
-			yaw = buf.readFloat();
+			orientation = readOrientation(buf);
 		}
 		if (bitSet.get(2)) {
 			velocity = readFloatVector3(buf);
@@ -390,9 +381,7 @@ public class GEntityData implements BaseData, EntityData {
 			writeLongVector3(buf, position);
 		}
 		if (bitSet.get(1)) {
-			buf.writeFloat(pitch);
-			buf.writeFloat(roll);
-			buf.writeFloat(yaw);
+			writeOrientation(buf, orientation);
 		}
 		if (bitSet.get(2)) {
 			writeFloatVector3(buf, velocity);
@@ -577,9 +566,7 @@ public class GEntityData implements BaseData, EntityData {
 			this.position = changes.getPosition();
 		}
 		if (changesBitSet.get(1)) {
-			this.pitch = changes.getPitch();
-			this.roll = changes.getRoll();
-			this.yaw = changes.getYaw();
+			this.orientation = changes.getOrientation();
 		}
 		if (changesBitSet.get(2)) {
 			this.velocity = changes.getVelocity();
@@ -774,28 +761,12 @@ public class GEntityData implements BaseData, EntityData {
 		this.position = pos;
 	}
 
-	public float getRoll() {
-		return roll;
+	public Orientation getOrientation() {
+		return orientation;
 	}
 
-	public void setRoll(float roll) {
-		this.roll = roll;
-	}
-
-	public float getPitch() {
-		return pitch;
-	}
-
-	public void setPitch(float pitch) {
-		this.pitch = pitch;
-	}
-
-	public float getYaw() {
-		return yaw;
-	}
-
-	public void setYaw(float yaw) {
-		this.yaw = yaw;
+	public void setOrientation(Orientation orientation) {
+		this.orientation = orientation;
 	}
 
 	public FloatVector3 getVelocity() {

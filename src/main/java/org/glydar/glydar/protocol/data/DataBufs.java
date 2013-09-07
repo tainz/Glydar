@@ -1,11 +1,12 @@
-package org.glydar.glydar.util;
+package org.glydar.glydar.protocol.data;
 
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.paraglydar.geom.FloatVector3;
 import org.glydar.paraglydar.geom.LongVector3;
+import org.glydar.paraglydar.geom.Orientation;
 
-public final class VectorBuf {
+public final class DataBufs {
 
 	public static FloatVector3 readFloatVector3(ByteBuf buf) {
 		return new FloatVector3(buf.readFloat(), buf.readFloat(), buf.readFloat());
@@ -13,6 +14,10 @@ public final class VectorBuf {
 
 	public static LongVector3 readLongVector3(ByteBuf buf) {
 		return new LongVector3(buf.readLong(), buf.readLong(), buf.readLong());
+	}
+
+	public static Orientation readOrientation(ByteBuf buf) {
+		return new Orientation(buf.readFloat(), buf.readFloat(), buf.readFloat());
 	}
 
 	public static void writeFloatVector3(ByteBuf buf, FloatVector3 vector) {
@@ -25,5 +30,11 @@ public final class VectorBuf {
 		buf.writeLong(vector.getX());
 		buf.writeLong(vector.getY());
 		buf.writeLong(vector.getZ());
+	}
+
+	public static void writeOrientation(ByteBuf buf, Orientation orientation) {
+		buf.writeFloat(orientation.getRoll());
+		buf.writeFloat(orientation.getPitch());
+		buf.writeFloat(orientation.getYaw());
 	}
 }

@@ -1,7 +1,7 @@
 package org.glydar.glydar.protocol.data.actions;
 
-import static org.glydar.glydar.util.VectorBuf.readFloatVector3;
-import static org.glydar.glydar.util.VectorBuf.writeFloatVector3;
+import static org.glydar.glydar.protocol.data.DataBufs.readFloatVector3;
+import static org.glydar.glydar.protocol.data.DataBufs.writeFloatVector3;
  
 import org.glydar.glydar.protocol.data.BaseData;
 import org.glydar.paraglydar.geom.FloatVector3;

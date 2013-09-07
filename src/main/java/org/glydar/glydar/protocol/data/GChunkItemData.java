@@ -1,7 +1,7 @@
 package org.glydar.glydar.protocol.data;
 
-import static org.glydar.glydar.util.VectorBuf.readLongVector3;
-import static org.glydar.glydar.util.VectorBuf.writeLongVector3;
+import static org.glydar.glydar.protocol.data.DataBufs.readLongVector3;
+import static org.glydar.glydar.protocol.data.DataBufs.writeLongVector3;
 
 import org.glydar.paraglydar.geom.LongVector3;
 

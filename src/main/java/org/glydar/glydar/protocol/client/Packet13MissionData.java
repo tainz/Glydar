@@ -31,7 +31,7 @@ public class Packet13MissionData extends Packet {
 		questLevel = buf.readUnsignedInt();
 		something8 = buf.readUnsignedByte();
 		something9 = buf.readUnsignedByte();
-		buf.readBytes(2);
+		buf.skipBytes(2);
 		something10 = buf.readFloat();
 		something11 = buf.readFloat();
 		chunkX = buf.readUnsignedInt();
@@ -54,7 +54,7 @@ public class Packet13MissionData extends Packet {
 		buf.writeLong(questLevel);
 		buf.writeShort(something8);
 		buf.writeShort(something9);
-		buf.writeBytes(new byte[2]);
+		buf.writeZero(2);
 		buf.writeFloat(something10);
 		buf.writeFloat(something11);
 		buf.writeLong(chunkX);

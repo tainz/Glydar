@@ -56,7 +56,7 @@ public class Packet7Hit extends Packet {
 		targetId = buf.readLong();
 		damage = buf.readFloat();
 		critical = buf.readByte();
-		buf.readBytes(3);
+		buf.skipBytes(3);
 		stunDuration = buf.readUnsignedInt();
 		unknown = buf.readUnsignedInt();
 		position = readLongVector3(buf);
@@ -64,7 +64,7 @@ public class Packet7Hit extends Packet {
 		skillHit = buf.readByte();
 		type = buf.readByte();
 		showLight = buf.readByte();
-		buf.readByte();
+		buf.skipBytes(1);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class Packet7Hit extends Packet {
 		buf.writeLong(targetId);
 		buf.writeFloat(damage);
 		buf.writeByte(critical);
-		buf.writeBytes(new byte[3]);
+		buf.writeZero(3);
 		buf.writeInt((int) stunDuration);
 		buf.writeInt((int) unknown);
 		writeLongVector3(buf, position);
@@ -86,7 +86,7 @@ public class Packet7Hit extends Packet {
 		buf.writeByte(skillHit);
 		buf.writeByte(type);
 		buf.writeByte(showLight);
-		buf.writeByte((byte) 0);
+		buf.writeZero(1);
 	}
 
 	@Override

@@ -51,7 +51,7 @@ public class Packet9Shoot extends Packet {
 		chunkY = buf.readInt();
 
 		something5 = buf.readUnsignedInt();
-		buf.readBytes(4); //Padding
+		buf.skipBytes(4);
 
 		position = readLongVector3(buf);
 
@@ -67,10 +67,10 @@ public class Packet9Shoot extends Packet {
 		something22 = buf.readFloat();
 		something23 = buf.readUnsignedInt();
 		something24 = buf.readByte();
-		buf.readBytes(3); //Padding
+		buf.skipBytes(3);
 		something25 = buf.readUnsignedInt();
 		something26 = buf.readByte();
-		buf.readBytes(3); //Padding
+		buf.skipBytes(3);
 		something27 = buf.readUnsignedInt();
 		something28 = buf.readUnsignedInt();
 	}
@@ -86,7 +86,7 @@ public class Packet9Shoot extends Packet {
 		buf.writeInt(chunkX);
 		buf.writeInt(chunkY);
 		buf.writeInt((int) something5);
-		buf.writeBytes(new byte[4]);
+		buf.writeZero(4);
 		writeLongVector3(buf, position);
 		buf.writeInt((int) something13);
 		buf.writeInt((int) something14);
@@ -98,10 +98,10 @@ public class Packet9Shoot extends Packet {
 		buf.writeFloat(something22);
 		buf.writeInt((int) something23);
 		buf.writeByte(something24);
-		buf.writeBytes(new byte[3]);
+		buf.writeZero(3);
 		buf.writeInt((int) something25);
 		buf.writeByte(something26);
-		buf.writeBytes(new byte[3]);
+		buf.writeZero(3);
 		buf.writeInt((int) something27);
 		buf.writeInt((int) something28);
 	}

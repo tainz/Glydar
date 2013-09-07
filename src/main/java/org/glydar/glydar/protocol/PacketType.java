@@ -165,14 +165,6 @@ public enum PacketType {
 		public Packet createPacket(ByteBuf buf) {
 			throw new ServerOnlyPacketException(this);
 		}
-	},
-
-	OVERFLOW {
-
-		@Override
-		public Packet createPacket(ByteBuf buf) {
-			throw new UnsupportedPacketException(this);
-		}
 	};
 
 	public int id() {
@@ -187,10 +179,11 @@ public enum PacketType {
 	}
 
 	public static PacketType valueOf(int packetId) {
-		if (packetId < 0 || packetId >= OVERFLOW.id()) {
-			return OVERFLOW;
+		PacketType[] types = values();
+		if (packetId < 0 || packetId >= types.length) {
+			throw new InvalidPacketIdException(packetId);
 		}
 
-		return values()[packetId];
+		return types[packetId];
 	}
 }

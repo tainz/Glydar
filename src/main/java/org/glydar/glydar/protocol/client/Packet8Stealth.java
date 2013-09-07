@@ -10,7 +10,8 @@ public class Packet8Stealth extends Packet {
 	private byte[] unknowndata;
 
 	public Packet8Stealth(ByteBuf buf) {
-		buf.readBytes(unknowndata, 0, 40);
+		this.unknowndata = new byte[40];
+		buf.readBytes(unknowndata);
 	}
 
 	@Override

@@ -11,7 +11,6 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.protocol.client.Packet7Hit;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.server.Packet15Seed;
-import org.glydar.glydar.protocol.server.Packet4WorldUpdate;
 import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
@@ -21,9 +20,9 @@ import org.glydar.paraglydar.permissions.PermissionAttachment;
 public class GPlayer extends GEntity implements Player {
 	public boolean joined = false;
 	private ChannelHandlerContext channelCtx;
-    private boolean admin;
+	private boolean admin;
 
-    public GPlayer() {
+	public GPlayer() {
 		super();
 	}
 
@@ -79,7 +78,7 @@ public class GPlayer extends GEntity implements Player {
 	public void kickPlayer() {
 		kickPlayer("You have been kicked!");
 	}
-	
+
 	@Override
 	public void changeWorld(World w){
 		super.changeWorld(w);
@@ -95,14 +94,14 @@ public class GPlayer extends GEntity implements Player {
 	public boolean hasPermission(Permission permission) {
 		if (getAttachments() == null || getAttachments().isEmpty()) {
 			switch (permission.getPermissionDefault()) {
-				case TRUE:
-					return true;
-				case FALSE:
-					return false;
-				case ADMIN:
-					return isAdmin();
-				case NON_ADMIN:
-					return (!isAdmin());
+			case TRUE:
+				return true;
+			case FALSE:
+				return false;
+			case ADMIN:
+				return isAdmin();
+			case NON_ADMIN:
+				return (!isAdmin());
 			}
 		}
 		for (PermissionAttachment attachment : getAttachments()) {
@@ -144,11 +143,9 @@ public class GPlayer extends GEntity implements Player {
 		hit.setPosition(getEntityData().getPosition());
 		hit.setHitDirection(getEntityData().getExtraVel());
 
-		Packet4WorldUpdate s = new Packet4WorldUpdate();
-		s.getServerUpdateData().pushHit(hit);
-		s.sendTo(this);
+		world.getUpdateData().pushHit(hit);
 	}
-	
+
 	@Override
 	public void damage(float damage) {
 		damage(damage, true);
@@ -161,9 +158,9 @@ public class GPlayer extends GEntity implements Player {
 
 	@Override
 	public void heal(float health) {
-		damage(-health);	
+		damage(-health);
 	}
-	
+
 	@Override
 	public void setHealth(float health) {
 		damage(health - getEntityData().getHP(), false);
@@ -178,9 +175,6 @@ public class GPlayer extends GEntity implements Player {
 		stun.setPosition(getEntityData().getPosition());
 		stun.setHitDirection(getEntityData().getExtraVel());
 
-		Packet4WorldUpdate s = new Packet4WorldUpdate();
-		s.getServerUpdateData().pushHit(stun);
-		s.sendTo(this);
+		world.getUpdateData().pushHit(stun);
 	}
-	
 }

@@ -112,6 +112,6 @@ public class Packet9Shoot extends Packet {
 	public void receivedFrom(GPlayer ply) {
 		Entity shooter = Glydar.getServer().getEntityByEntityID(entID);
 		GWorld world = (GWorld) shooter.getWorld();
-		world.getServerUpdateData().pushShoot(this);
+		world.getUpdateData().pushShoot(this);
 	}
 }

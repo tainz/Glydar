@@ -42,7 +42,7 @@ public class Packet4WorldUpdate extends Packet {
 		}
 	}
 
-	public GWorldUpdateData getServerUpdateData() {
+	public GWorldUpdateData getData() {
 		return sud;
 	}
 }

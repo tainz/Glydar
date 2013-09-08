@@ -110,12 +110,12 @@ public class GWorld implements World {
 		this.pvp = allowPVP;
 	}
 
-	public GWorldUpdateData getServerUpdateData() {
-		return worldUpdatePacket.getServerUpdateData();
+	public GWorldUpdateData getUpdateData() {
+		return worldUpdatePacket.getData();
 	}
 
 	public void sendUpdate() {
-		if (worldUpdatePacket.getServerUpdateData().hasChanges()) {
+		if (worldUpdatePacket.getData().hasChanges()) {
 			worldUpdatePacket.sendToWorld(this);
 			worldUpdatePacket = new Packet4WorldUpdate();
 		}

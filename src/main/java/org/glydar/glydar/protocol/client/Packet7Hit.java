@@ -99,7 +99,7 @@ public class Packet7Hit extends Packet {
 		}
 
 		GWorld world = (GWorld) hurt.getWorld();
-		world.getServerUpdateData().pushHit(this);
+		world.getUpdateData().pushHit(this);
 
 		if (hurt.getEntityData().getHP() <= 0){
 			
@@ -122,7 +122,7 @@ public class Packet7Hit extends Packet {
 			//TODO: Finish XP!
 			//((GEntity)hurt).entityDiedPVP();
 
-			world.getServerUpdateData().pushKill(ka);
+			world.getUpdateData().pushKill(ka);
 		}
 	}
 

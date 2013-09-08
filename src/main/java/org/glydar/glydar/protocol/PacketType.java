@@ -47,7 +47,7 @@ public enum PacketType {
 		}
 	},
 
-	SERVER_UPDATE {
+	WORLD_UPDATE {
 
 		@Override
 		public Packet createPacket(ByteBuf buf) {

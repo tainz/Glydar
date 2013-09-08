@@ -3,7 +3,6 @@ package org.glydar.glydar;
 import org.glydar.glydar.models.GNPC;
 import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.protocol.server.Packet2UpdateFinished;
-import org.glydar.glydar.protocol.server.Packet4ServerUpdate;
 import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;
 import org.glydar.paraglydar.command.manager.CommandManager;
@@ -201,13 +200,11 @@ public class GServer implements Runnable, Server {
 					for (World w : getWorlds()){
 						new Packet2UpdateFinished().sendToWorld(w);
 					}
-					
+
 					//WorldUpdatePackets are controlled here:
 					for (World w : getWorlds()){
-						if (((GWorld)w).worldUpdatePacket.getServerUpdateData() != null){
-							((GWorld)w).worldUpdatePacket.sendToWorld(w);
-							((GWorld)w).worldUpdatePacket = new Packet4ServerUpdate();
-						}
+						GWorld world = (GWorld) w;
+						world.sendUpdate();
 					}
 				}
 				

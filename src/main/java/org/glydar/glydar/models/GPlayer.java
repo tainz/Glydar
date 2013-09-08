@@ -11,7 +11,7 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.protocol.client.Packet7Hit;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.server.Packet15Seed;
-import org.glydar.glydar.protocol.server.Packet4ServerUpdate;
+import org.glydar.glydar.protocol.server.Packet4WorldUpdate;
 import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.models.Player;
 import org.glydar.paraglydar.models.World;
@@ -144,8 +144,8 @@ public class GPlayer extends GEntity implements Player {
 		hit.setPosition(getEntityData().getPosition());
 		hit.setHitDirection(getEntityData().getExtraVel());
 
-		Packet4ServerUpdate s = new Packet4ServerUpdate();
-		s.getServerUpdateData().hitPackets.add(hit);
+		Packet4WorldUpdate s = new Packet4WorldUpdate();
+		s.getServerUpdateData().pushHit(hit);
 		s.sendTo(this);
 	}
 	
@@ -178,8 +178,8 @@ public class GPlayer extends GEntity implements Player {
 		stun.setPosition(getEntityData().getPosition());
 		stun.setHitDirection(getEntityData().getExtraVel());
 
-		Packet4ServerUpdate s = new Packet4ServerUpdate();
-		s.getServerUpdateData().hitPackets.add(stun);
+		Packet4WorldUpdate s = new Packet4WorldUpdate();
+		s.getServerUpdateData().pushHit(stun);
 		s.sendTo(this);
 	}
 	

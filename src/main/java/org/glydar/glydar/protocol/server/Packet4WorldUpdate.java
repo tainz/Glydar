@@ -3,24 +3,24 @@ package org.glydar.glydar.protocol.server;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.protocol.data.GServerUpdateData;
+import org.glydar.glydar.protocol.data.GWorldUpdateData;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
 import org.glydar.glydar.util.ZLibOperations;
 
 import java.nio.ByteOrder;
 
-public class Packet4ServerUpdate extends Packet {
+public class Packet4WorldUpdate extends Packet {
 
-	private GServerUpdateData sud;
+	private GWorldUpdateData sud;
 
-	public Packet4ServerUpdate() {
-		this.sud = new GServerUpdateData();
+	public Packet4WorldUpdate() {
+		this.sud = new GWorldUpdateData();
 	}
 
 	@Override
 	public PacketType getPacketType() {
-		return PacketType.SERVER_UPDATE;
+		return PacketType.WORLD_UPDATE;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class Packet4ServerUpdate extends Packet {
 		}
 	}
 
-	public GServerUpdateData getServerUpdateData() {
+	public GWorldUpdateData getServerUpdateData() {
 		return sud;
 	}
 }

@@ -98,7 +98,8 @@ public class Packet7Hit extends Packet {
 			hurt.forceUpdateData();
 		}
 
-		((GWorld) hurt.getWorld()).worldUpdatePacket.getServerUpdateData().hitPackets.add(this);
+		GWorld world = (GWorld) hurt.getWorld();
+		world.getServerUpdateData().pushHit(this);
 
 		if (hurt.getEntityData().getHP() <= 0){
 			
@@ -120,8 +121,8 @@ public class Packet7Hit extends Packet {
 
 			//TODO: Finish XP!
 			//((GEntity)hurt).entityDiedPVP();
-			
-			((GWorld) hurt.getWorld()).worldUpdatePacket.getServerUpdateData().killActions.add(ka);
+
+			world.getServerUpdateData().pushKill(ka);
 		}
 	}
 

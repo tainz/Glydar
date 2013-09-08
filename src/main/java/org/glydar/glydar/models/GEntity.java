@@ -84,6 +84,11 @@ public abstract class GEntity implements Entity {
 	public abstract void setHealth(float health);
 	
 	public abstract void damage(float damage);
+	
+	public void entityDiedPVP(){
+		data.setHostileType((byte)1);
+		forceUpdateData(true);
+	}
 
 	@Override
 	public boolean equals(Object o) {

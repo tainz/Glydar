@@ -18,6 +18,12 @@ public class Bitops {
 
 		return output;
 	}
+	
+	public static BitSet fullBitMask(){
+		BitSet bits = new BitSet(64);
+		bits.set(0, 63);
+		return bits;
+	}
 
 	public static BitSet fromByte(byte b) {
 		BitSet bits = new BitSet(8);

@@ -1,5 +1,6 @@
 package org.glydar.glydar.models;
 
+import org.glydar.glydar.Glydar;
 import org.glydar.glydar.protocol.data.GEntityData;
 import org.glydar.paraglydar.models.NPC;
 
@@ -33,4 +34,10 @@ public class GNPC extends GEntity implements NPC {
 		setHealth(data.getHP() - damage);
 	}
 	
+	@Override
+	public void entityDiedPVP(){
+		super.entityDiedPVP();
+		Glydar.getServer().removeEntity(entityID);
+		world.removeEntity(entityID);
+	}
 }

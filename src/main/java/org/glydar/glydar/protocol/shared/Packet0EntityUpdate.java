@@ -79,7 +79,6 @@ public class Packet0EntityUpdate extends Packet {
 	public void receivedFrom(GPlayer ply) {
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
-			GEntityData.FULL_BITMASK = ed.getBitSet();
 			ed.setEntity(ply);
 			ply.setEntityData(this.ed);
 
@@ -96,9 +95,12 @@ public class Packet0EntityUpdate extends Packet {
 			}
 			ply.playerJoined();
 		}
+		if (ply.getEntityData().getHP() <= 0 && ed.getHP() > 0){
+			ed.setHostileType((byte) 0);
+			//TODO: Player respawn event hereeeee
+		}
 		manageEntityEvents(ply);
 		((GEntityData) ply.getEntityData()).updateFrom(this.ed);
-		//this.sendTo(target);
 	}
 
 	public String manageJoinEvent(GPlayer ply) {

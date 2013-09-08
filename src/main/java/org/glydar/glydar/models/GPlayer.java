@@ -182,4 +182,5 @@ public class GPlayer extends GEntity implements Player {
 		s.getServerUpdateData().hitPackets.add(stun);
 		s.sendTo(this);
 	}
+	
 }

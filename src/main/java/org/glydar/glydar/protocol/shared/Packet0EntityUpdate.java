@@ -95,12 +95,19 @@ public class Packet0EntityUpdate extends Packet {
 			}
 			ply.playerJoined();
 		}
+		
+		boolean respawn = false;
 		if (ply.getEntityData().getHP() <= 0 && ed.getHP() > 0){
-			ed.setHostileType((byte) 0);
-			//TODO: Player respawn event hereeeee
+			respawn = true;
 		}
 		manageEntityEvents(ply);
 		((GEntityData) ply.getEntityData()).updateFrom(this.ed);
+		
+		if (respawn){
+			ply.getEntityData().setHostileType((byte) 0);
+			//TODO: Insert respawn event here
+			ply.forceUpdateData(true);
+		}
 	}
 
 	public String manageJoinEvent(GPlayer ply) {

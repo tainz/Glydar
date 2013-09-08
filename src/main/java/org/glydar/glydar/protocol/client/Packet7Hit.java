@@ -7,6 +7,7 @@ import static org.glydar.glydar.protocol.data.DataBufs.writeLongVector3;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
+import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.protocol.data.actions.GKillAction;
@@ -119,8 +120,8 @@ public class Packet7Hit extends Packet {
 				ka.setXp(5);
 			}
 
-			//TODO: Finish XP!
-			//((GEntity)hurt).entityDiedPVP();
+			//For XP!
+			((GEntity)hurt).entityDiedPVP();
 
 			world.getUpdateData().pushKill(ka);
 		}

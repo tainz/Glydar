@@ -9,14 +9,12 @@ import org.glydar.glydar.protocol.PacketType;
 
 public class Packet8Stealth extends Packet {
 
-	private byte[] unknowndata;
-	private long id, l2, l3, l4,l5;
+	@SuppressWarnings("unused")
+	private final long id;
+	private final byte[] unknowndata;
 
 	public Packet8Stealth(ByteBuf buf) {
-		/*this.unknowndata = new byte[40];
-		buf.readBytes(unknowndata);*/
 		id = buf.readLong();
-		//Glydar.getServer().getLogger().info("id: " + id);
 		this.unknowndata = new byte[32];
 		buf.readBytes(unknowndata);
 	}
@@ -25,7 +23,7 @@ public class Packet8Stealth extends Packet {
 	public PacketType getPacketType() {
 		return PacketType.STEALTH;
 	}
-	
+
 	@Override
 	public void receivedFrom(GPlayer ply) {
 		Glydar.getServer().getLogger().info("Packet 8!");

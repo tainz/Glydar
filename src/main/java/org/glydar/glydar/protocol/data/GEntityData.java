@@ -9,7 +9,6 @@ import com.google.common.base.Charsets;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.util.Bitops;
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.Item;
@@ -22,11 +21,8 @@ import org.glydar.paraglydar.models.Entity;
 
 public class GEntityData implements BaseData, EntityData {
 
-	//TODO: This is temporary xD
-	public static BitSet FULL_BITMASK;
-
 	private Entity entity;
-	
+
 	private long id;
 	private BitSet bitSet;
 
@@ -750,8 +746,8 @@ public class GEntityData implements BaseData, EntityData {
 		return bitSet;
 	}
 
-	public void setBitSet(BitSet bitSet) {
-		this.bitSet = bitSet;
+	public void fullUpdate() {
+		bitSet.set(0, 63);
 	}
 
 	public LongVector3 getPosition() {

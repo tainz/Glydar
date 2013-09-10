@@ -1,5 +1,21 @@
 package org.glydar.glydar;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+
 import org.glydar.glydar.models.GNPC;
 import org.glydar.glydar.models.GWorld;
 import org.glydar.glydar.protocol.server.Packet2UpdateFinished;
@@ -7,6 +23,9 @@ import org.glydar.glydar.protocol.shared.Packet10Chat;
 import org.glydar.paraglydar.Server;
 import org.glydar.paraglydar.command.manager.CommandManager;
 import org.glydar.paraglydar.event.manager.EventManager;
+import org.glydar.paraglydar.i18n.I18nTarget;
+import org.glydar.paraglydar.logging.GlydarLogger;
+import org.glydar.paraglydar.logging.GlydarLoggerFormatter;
 import org.glydar.paraglydar.models.Entity;
 import org.glydar.paraglydar.models.EveryoneTarget;
 import org.glydar.paraglydar.models.NPC;
@@ -16,19 +35,12 @@ import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.util.Versioning;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.logging.Logger;
+import com.google.common.collect.ImmutableList;
 
-public class GServer implements Runnable, Server {
+public class GServer implements Runnable, Server, I18nTarget {
 
 	private final Path baseFolder;
-	private final IConsoleLogManager logManager;
+	private final GlydarLogger logger;
 	private boolean running = true;
 	public final boolean DEBUG;
 	
@@ -52,9 +64,9 @@ public class GServer implements Runnable, Server {
 		this.DEBUG = debug;
 
 		this.baseFolder = initBaseFolder();
-		this.logManager = new ConsoleLogManager(Glydar.class.getName());
-		this.eventManager = new EventManager(logManager.getLogger());
-		this.commandManager = new CommandManager(logManager.getLogger());
+		this.logger = initLogger();
+		this.eventManager = new EventManager(logger);
+		this.commandManager = new CommandManager(logger);
 		this.commandReader = initConsoleCommandReader();
 
 		initFolders();
@@ -74,6 +86,39 @@ public class GServer implements Runnable, Server {
 		return Paths.get("");
 	}
 
+	private GlydarLogger initLogger() {
+		GlydarLogger logger = GlydarLogger.of(serverName, this);
+		logger.getJdkLogger().setUseParentHandlers(false);
+
+		GlydarLoggerFormatter formatter = new GlydarLoggerFormatter(false);
+
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+		try {
+			consoleHandler.setEncoding(StandardCharsets.UTF_8.name());
+		} catch (SecurityException | UnsupportedEncodingException exc) {
+			// Should not happened
+		}
+		consoleHandler.setFormatter(formatter);
+		logger.getJdkLogger().addHandler(consoleHandler);
+
+		try {
+			Path logsFolder = baseFolder.resolve("logs");
+			Files.createDirectories(logsFolder);
+			FileHandler fileHandler = new FileHandler(logsFolder.resolve("glydar.log").toString(), true);
+			try {
+				fileHandler.setEncoding(StandardCharsets.UTF_8.name());
+			} catch (SecurityException | UnsupportedEncodingException exc) {
+				// Should not happened
+			}
+			fileHandler.setFormatter(formatter);
+			logger.getJdkLogger().addHandler(fileHandler);
+		} catch (SecurityException | IOException exc) {
+			logger.warning(exc, "Unable to open log file");
+		}
+
+		return logger;
+	}
+
 	private ThreadedCommandReader initConsoleCommandReader() {
 		ThreadedCommandReader commandReader = new ThreadedCommandReader(this);
 		commandReader.setDaemon(true);
@@ -85,7 +130,7 @@ public class GServer implements Runnable, Server {
 		try {
 			Files.createDirectories(getConfigFolder());
 		} catch (IOException exc) {
-			logManager.severe("Unable to create config directory", exc);
+			logger.severe(exc, "Unable to create config directory");
 		}
 	}
 
@@ -97,6 +142,25 @@ public class GServer implements Runnable, Server {
 	@Override
 	public Path getConfigFolder() {
 		return baseFolder.resolve("config");
+	}
+
+	public Iterable<URL> getI18nLocations(String name) {
+		ImmutableList.Builder<URL> builder = ImmutableList.builder();
+
+		// TODO: Figure out how to setup I18nLoader before logger 
+		/*URL bundledLocation = getClass().getResource(name);
+		if (bundledLocation != null) {
+			builder.add(bundledLocation);
+		}
+
+		Path path = getBaseFolder().resolve(name);
+		try {
+			builder.add(path.toUri().toURL());
+		} catch (MalformedURLException exc) {
+			// Not handled
+		}*/
+
+		return builder.build();
 	}
 
 	public EventManager getEventManager() {
@@ -162,8 +226,8 @@ public class GServer implements Runnable, Server {
 		connectedEntities.remove(entityID);
 	}
 
-	public Logger getLogger() {
-		return this.logManager.getLogger();
+	public GlydarLogger getLogger() {
+		return logger;
 	}
 
 	public boolean isRunning() {

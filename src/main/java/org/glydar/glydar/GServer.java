@@ -16,11 +16,18 @@ import org.glydar.paraglydar.permissions.Permission;
 import org.glydar.paraglydar.permissions.Permission.PermissionDefault;
 import org.glydar.glydar.util.Versioning;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Logger;
 
 public class GServer implements Runnable, Server {
 
+	private final Path baseFolder;
 	private final IConsoleLogManager logManager;
 	private boolean running = true;
 	public final boolean DEBUG;
@@ -34,7 +41,7 @@ public class GServer implements Runnable, Server {
 	
 	private final String serverName = "Glydar";
 	private final String serverVersion = Versioning.getParaGlydarVersion();
-	private Thread commandReader;
+	private final Thread commandReader;
     private List<String> admins = new ArrayList<>();
     
     private int maxPlayers;
@@ -43,18 +50,53 @@ public class GServer implements Runnable, Server {
 
     public GServer(boolean debug) {
 		this.DEBUG = debug;
+
+		this.baseFolder = initBaseFolder();
 		this.logManager = new ConsoleLogManager(Glydar.class.getName());
 		this.eventManager = new EventManager(logManager.getLogger());
 		this.commandManager = new CommandManager(logManager.getLogger());
-		
-		this.init();
+		this.commandReader = initConsoleCommandReader();
+
+		initFolders();
 	}
 
-	public void init() {
-		commandReader = new ThreadedCommandReader(this);
+	private Path initBaseFolder() {
+		try {
+			URI sourceUri = Glydar.class.getProtectionDomain().getCodeSource().getLocation().toURI();
+			Path path = Paths.get(sourceUri).getParent();
+			if (Files.isDirectory(path)) {
+				return path;
+			}
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 
+		return Paths.get("");
+	}
+
+	private ThreadedCommandReader initConsoleCommandReader() {
+		ThreadedCommandReader commandReader = new ThreadedCommandReader(this);
 		commandReader.setDaemon(true);
 		commandReader.start();
+		return commandReader;
+	}
+
+	private void initFolders() {
+		try {
+			Files.createDirectories(getConfigFolder());
+		} catch (IOException exc) {
+			logManager.severe("Unable to create config directory", exc);
+		}
+	}
+
+	@Override
+	public Path getBaseFolder() {
+		return baseFolder;
+	}
+
+	@Override
+	public Path getConfigFolder() {
+		return baseFolder.resolve("config");
 	}
 
 	public EventManager getEventManager() {

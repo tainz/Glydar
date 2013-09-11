@@ -40,9 +40,9 @@ public class Glydar {
 		}
 		s = new GServer(serverDebug);
 
-        GlydarConfig config = new GlydarConfig();
-        config.setupServer(s);
-		
+		GlydarConfig config = new GlydarConfig(s);
+		config.setupServer(s);
+
 		ParaGlydar.setServer(s);
 		ParaGlydar.setCreatorAPI(new GModelCreator(), new GDataCreator());
 

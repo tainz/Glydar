@@ -14,16 +14,17 @@ import org.glydar.paraglydar.configuration.file.YamlConfiguration;
 import org.glydar.paraglydar.models.World;
 
 public class GlydarConfig {
-	
-	private final File file;
+
 	private YamlConfiguration config;
 
-	protected GlydarConfig() {
-		file = new File("glydar.yml");
+	protected GlydarConfig(GServer server) {
+		File file = server.getConfigFolder().resolve("glydar.yml").toFile();
 		if (!file.isFile()) {
 			try {
 				file.createNewFile();
-			} catch (Exception e) {}
+			} catch (Exception exc) {
+				// TODO: Something
+			}
 		}
 		config = YamlConfiguration.loadConfiguration(file);
 		config.addDefault("max-players", 4);
@@ -35,7 +36,9 @@ public class GlydarConfig {
 		config.options().copyDefaults(true);
 		try {
 			config.save(file);
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			// TODO: Something
+		}
 	}
 	
 	protected YamlConfiguration getConfig() {
@@ -63,7 +66,7 @@ public class GlydarConfig {
 	}
 	
 	private void setUpAdmins(Server s){
-		File adminsFile = new File("admins.txt");
+		File adminsFile = s.getConfigFolder().resolve("admins.txt").toFile();
         List<String> admins = new ArrayList<>();
         if (!adminsFile.exists()) {
             try {

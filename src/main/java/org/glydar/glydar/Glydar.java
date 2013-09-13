@@ -57,6 +57,7 @@ public class Glydar {
 
 		watch.stop();
 		server.getLogger().info("Server started in {0}ms", watch.elapsed(TimeUnit.MILLISECONDS));
+		server.getCommandReader().start();
 		serverThread.start();
 	}
 

@@ -117,6 +117,10 @@ public class GServer implements Runnable, Server {
 		return commandManager;
 	}
 
+	Thread getCommandReader() {
+		return commandReader;
+	}
+
 	@Override
 	public DataCreator getDataCreator() {
 		return dataCreator;

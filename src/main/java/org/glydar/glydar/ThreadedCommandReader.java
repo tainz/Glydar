@@ -15,6 +15,8 @@ public class ThreadedCommandReader extends Thread {
 	ThreadedCommandReader(Server server) {
 		this.server = server;
 		this.console = new ConsoleCommandSender();
+
+		setDaemon(true);
 	}
 
 	public void run() {
@@ -32,5 +34,4 @@ public class ThreadedCommandReader extends Thread {
 			// Catch NPE
 		}
 	}
-
 }

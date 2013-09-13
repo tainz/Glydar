@@ -34,7 +34,8 @@ public class Packet17VersionExchange extends Packet {
 
 	@Override
 	public void receivedFrom(GPlayer ply) {
-		if (Glydar.getServer().getConnectedPlayers().size() > Glydar.getServer().getMaxPlayers()){
+		int maxPlayers = Glydar.getServer().getConfig().getMaxPlayers();
+		if (Glydar.getServer().getConnectedPlayers().size() >= maxPlayers) {
 			ply.sendPacket(new Packet18ServerFull());
 			return;
 		}

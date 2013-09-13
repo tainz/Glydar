@@ -20,7 +20,7 @@ public class Glydar {
 
 	private static GServer server;
 	private static ServerBootstrap serverBootstrap;
-	private static Thread serverThread = new Thread(server);
+	private static Thread serverThread;
 
 	public static void main(String[] args) {
 		Stopwatch watch = new Stopwatch();
@@ -29,6 +29,7 @@ public class Glydar {
 		GlydarBootstrap bootstrap = new GlydarBootstrap(args);
 		server = new GServer(bootstrap);
 		ParaGlydar.setServer(server);
+		serverThread = new Thread(server);
 
 		serverBootstrap = new ServerBootstrap();
 		serverBootstrap.childHandler(new ProtocolInitializer())
@@ -57,6 +58,7 @@ public class Glydar {
 
 		watch.stop();
 		server.getLogger().info("Server started in {0}ms", watch.elapsed(TimeUnit.MILLISECONDS));
+
 		server.getCommandReader().start();
 		serverThread.start();
 	}

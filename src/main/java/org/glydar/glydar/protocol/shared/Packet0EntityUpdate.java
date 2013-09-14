@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
+import org.glydar.glydar.protocol.data.DataCodec;
 import org.glydar.glydar.protocol.data.GEntityData;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
@@ -75,10 +76,19 @@ public class Packet0EntityUpdate extends Packet {
 
 	@Override
 	public void receivedFrom(GPlayer ply) {
+		float HP = 1;
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
-			ed.setEntity(ply);
-			ply.setEntityData(this.ed);
+			
+			ply.setEntityData(new GEntityData());
+			ply.getEntityData().setEntity(ply);
+			try {
+				ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
+				dataBuf = dataBuf.order(ByteOrder.LITTLE_ENDIAN);
+				ply.setEntityData(DataCodec.readEntityData(dataBuf, ply.getEntityData()));
+			} catch (Exception exc) {
+				ParaGlydar.getLogger().severe(exc, "Exception raised while decoding Packet 0");
+			}
 
 			//TODO: Add more functionality to join message!
 			String joinMessage = manageJoinEvent(ply);
@@ -92,16 +102,19 @@ public class Packet0EntityUpdate extends Packet {
 				ply.sendPacket(new Packet0EntityUpdate(d));
 			}
 			ply.playerJoined();
+		} else {
+			HP = ply.getEntityData().getHP();
+			manageEntityEvents(ply);
+			try {
+				ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
+				dataBuf = dataBuf.order(ByteOrder.LITTLE_ENDIAN);
+				ply.setEntityData(DataCodec.readEntityData(dataBuf, ply.getEntityData()));
+			} catch (Exception exc) {
+				ParaGlydar.getLogger().severe(exc, "Exception raised while decoding Packet 0");
+			}
 		}
 
-		boolean respawn = false;
-		if (ply.getEntityData().getHP() <= 0 && ed.getHP() > 0){
-			respawn = true;
-		}
-		manageEntityEvents(ply);
-		((GEntityData) ply.getEntityData()).updateFrom(this.ed);
-
-		if (respawn){
+		if (HP <= 0 && ply.getEntityData().getHP() > 0){
 			ply.getEntityData().setHostileType((byte) 0);
 			//TODO: Insert respawn event here
 			ply.forceUpdateData(true);
@@ -114,8 +127,9 @@ public class Packet0EntityUpdate extends Packet {
 	}
 
 	public void manageEntityEvents(GPlayer ply) {
+		//TODO: Edit to accomodate new update style
 		EntityUpdateEvent event;
 		event = Glydar.getEventManager().callEvent(new EntityUpdateEvent(ply, ed));
-		ed = (GEntityData) event.getEntityData();
+		//ed = (GEntityData) event.getEntityData();
 	}
 }

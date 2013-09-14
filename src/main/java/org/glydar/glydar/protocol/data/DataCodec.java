@@ -1,15 +1,12 @@
 package org.glydar.glydar.protocol.data;
 
-import static org.glydar.glydar.protocol.data.DataCodec.writeFloatVector3;
-import static org.glydar.glydar.protocol.data.DataCodec.writeLongVector3;
-import static org.glydar.glydar.protocol.data.DataCodec.writeOrientation;
-
 import java.util.BitSet;
 
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.Glydar;
 import org.glydar.paraglydar.data.Appearance;
+import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.Item;
 import org.glydar.paraglydar.data.ItemUpgrade;
 import org.glydar.paraglydar.geom.FloatVector3;
@@ -20,7 +17,7 @@ import com.google.common.base.Charsets;
 
 public final class DataCodec {
 
-	public static GEntityData readEntityData(ByteBuf buf, GEntityData e){
+	public static EntityData readEntityData(ByteBuf buf, EntityData e){
 		e.setId(buf.readLong());
 		
 		byte[] bitSetBuf = new byte[8];
@@ -175,7 +172,7 @@ public final class DataCodec {
 			e.setItemData(readItem(buf));
 		}
 		if (bitSet.get(44)) {
-			GItem[] equipment = e.getEquipment();
+			Item[] equipment = e.getEquipment();
 			for (int i = 0; i < 13; i++) {
 				equipment[i] = readItem(buf);
 			}

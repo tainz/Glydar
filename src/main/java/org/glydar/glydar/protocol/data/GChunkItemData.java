@@ -3,13 +3,14 @@ package org.glydar.glydar.protocol.data;
 import static org.glydar.glydar.protocol.data.DataCodec.readLongVector3;
 import static org.glydar.glydar.protocol.data.DataCodec.writeLongVector3;
 
+import org.glydar.paraglydar.data.Item;
 import org.glydar.paraglydar.geom.LongVector3;
 
 import io.netty.buffer.ByteBuf;
 
 public class GChunkItemData implements BaseData {
 
-	GItem item;
+	Item item;
 	LongVector3 position;
 	float rotation;
 	float scale;
@@ -19,13 +20,13 @@ public class GChunkItemData implements BaseData {
 	int unknown3;
 
 	public GChunkItemData() {
-		item = new GItem();
+		item = new Item();
 		position = new LongVector3();
 	}
 
 	@Override
 	public void decode(ByteBuf buf) {
-		item.decode(buf);
+		item = DataCodec.readItem(buf);
 		position = readLongVector3(buf);
 		rotation = buf.readFloat();
 		scale = buf.readFloat();
@@ -38,7 +39,7 @@ public class GChunkItemData implements BaseData {
 
 	@Override
 	public void encode(ByteBuf buf) {
-		item.encode(buf);
+		DataCodec.writeItem(buf, item);
 		writeLongVector3(buf, position);
 		buf.writeFloat(rotation);
 		buf.writeFloat(scale);

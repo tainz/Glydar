@@ -7,11 +7,11 @@ import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GEntity;
 import org.glydar.glydar.models.GPlayer;
 import org.glydar.glydar.protocol.data.DataCodec;
-import org.glydar.glydar.protocol.data.GEntityData;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
 import org.glydar.glydar.util.ZLibOperations;
 import org.glydar.paraglydar.ParaGlydar;
+import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.event.events.EntityUpdateEvent;
 import org.glydar.paraglydar.event.events.PlayerJoinEvent;
@@ -22,12 +22,11 @@ import java.nio.ByteOrder;
 public class Packet0EntityUpdate extends Packet {
 
 	private byte[] rawData;
-	private GEntityData ed;
 	private boolean sendEntityData = false;
-	private GPlayer p;
+	private Entity entity;
 
-	public Packet0EntityUpdate(EntityData e) {
-		this.ed = (GEntityData) e;
+	public Packet0EntityUpdate(Entity entity) {
+		this.entity = entity;
 		sendEntityData = true;
 	}
 
@@ -38,8 +37,6 @@ public class Packet0EntityUpdate extends Packet {
 		try {
 			ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
 			dataBuf = dataBuf.order(ByteOrder.LITTLE_ENDIAN);
-			ed = new GEntityData();
-			ed.decode(dataBuf);
 		} catch (Exception exc) {
 			ParaGlydar.getLogger().severe(exc, "Exception raised while decoding Packet 0");
 		}
@@ -58,7 +55,7 @@ public class Packet0EntityUpdate extends Packet {
 		} else {
 			ByteBuf buf2 = Unpooled.buffer();
 			buf2 = buf2.order(ByteOrder.LITTLE_ENDIAN);
-			DataCodec.writeEntityData(buf2, p.getEntityData());
+			DataCodec.writeEntityData(buf2, entity.getEntityData());
 			byte[] compressedData = null;
 			try {
 				compressedData = ZLibOperations.compress(buf2.array());
@@ -78,11 +75,11 @@ public class Packet0EntityUpdate extends Packet {
 	@Override
 	public void receivedFrom(GPlayer ply) {
 		float HP = 1;
-		p = ply;
+		entity = ply;
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
 			
-			ply.setEntityData(new GEntityData());
+			ply.setEntityData(new EntityData());
 			ply.getEntityData().setEntity(ply);
 			try {
 				ByteBuf dataBuf = Unpooled.copiedBuffer(ZLibOperations.decompress(this.rawData));
@@ -100,8 +97,7 @@ public class Packet0EntityUpdate extends Packet {
 				if (((GEntity) e).entityID == ply.entityID) {
 					continue;
 				}
-				EntityData d = e.getEntityData();
-				ply.sendPacket(new Packet0EntityUpdate(d));
+				ply.sendPacket(new Packet0EntityUpdate(e));
 			}
 			ply.playerJoined();
 		} else {
@@ -131,7 +127,7 @@ public class Packet0EntityUpdate extends Packet {
 	public void manageEntityEvents(GPlayer ply) {
 		//TODO: Edit to accomodate new update style
 		EntityUpdateEvent event;
-		event = Glydar.getEventManager().callEvent(new EntityUpdateEvent(ply, ed));
+		event = Glydar.getEventManager().callEvent(new EntityUpdateEvent(ply, entity.getEntityData()));
 		//ed = (GEntityData) event.getEntityData();
 	}
 }

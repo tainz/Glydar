@@ -3,28 +3,29 @@ package org.glydar.glydar.protocol.data.actions;
 import io.netty.buffer.ByteBuf;
 
 import org.glydar.glydar.protocol.data.BaseData;
-import org.glydar.glydar.protocol.data.GItem;
+import org.glydar.glydar.protocol.data.DataCodec;
+import org.glydar.paraglydar.data.Item;
 
 public class GPickupAction implements BaseData {
 
 	long id;
-	GItem item;
+	Item item;
 
 	public GPickupAction() {
-		item = new GItem();
+		item = new Item();
 	}
 
 	@Override
 	public void decode(ByteBuf buf) {
 		id = buf.readLong();
-		item.decode(buf);
+		item = DataCodec.readItem(buf);
 
 	}
 
 	@Override
 	public void encode(ByteBuf buf) {
 		buf.writeLong(id);
-		item.encode(buf);
+		DataCodec.writeItem(buf, item);
 	}
 
 }

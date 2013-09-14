@@ -1,7 +1,7 @@
 package org.glydar.glydar.models;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.protocol.data.GEntityData;
+import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.models.ModelCreator;
 import org.glydar.paraglydar.models.NPC;
@@ -19,7 +19,7 @@ public class GModelCreator implements ModelCreator {
 	public NPC createNPC(EntityData e) {
 		Glydar.getServer().debug("Creating npc with EntityData: " + e.toString());
 		GNPC n = new GNPC();
-		GEntityData d = new GEntityData(e);
+		EntityData d = new EntityData(e);
 		n.setEntityData(d);
 		n.getEntityData().setId(n.entityID);
 		return n;

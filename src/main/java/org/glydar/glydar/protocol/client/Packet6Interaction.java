@@ -1,15 +1,17 @@
 package org.glydar.glydar.protocol.client;
 
 import io.netty.buffer.ByteBuf;
+
 import org.glydar.glydar.Glydar;
 import org.glydar.glydar.models.GPlayer;
-import org.glydar.glydar.protocol.data.GItem;
 import org.glydar.glydar.protocol.Packet;
 import org.glydar.glydar.protocol.PacketType;
+import org.glydar.glydar.protocol.data.DataCodec;
+import org.glydar.paraglydar.data.Item;
 
 public class Packet6Interaction extends Packet {
 
-	private final GItem item;
+	private final Item item;
 	private final int chunkX;
 	private final int chunkY;
 	private final int itemIndex; //Index of item in ChunkItems
@@ -19,8 +21,7 @@ public class Packet6Interaction extends Packet {
 	private final int something7; //ushort
 
 	public Packet6Interaction(ByteBuf buf) {
-		item = new GItem();
-		item.decode(buf);
+		item = DataCodec.readItem(buf);
 		chunkX = buf.readInt();
 		chunkY = buf.readInt();
 		itemIndex = buf.readInt();
@@ -37,7 +38,7 @@ public class Packet6Interaction extends Packet {
 
 	@Override
 	public void encode(ByteBuf buf) {
-		item.encode(buf);
+		DataCodec.writeItem(buf, item);
 		buf.writeInt(chunkX);
 		buf.writeInt(chunkY);
 		buf.writeInt(itemIndex);

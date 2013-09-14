@@ -1,14 +1,14 @@
 package org.glydar.glydar.models;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.protocol.data.GEntityData;
+import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.models.NPC;
 
 public class GNPC extends GEntity implements NPC {
 
 	public GNPC() {
 		super();
-		data = new GEntityData();
+		data = new EntityData();
 		data.setId(entityID);
 		data.setEntity(this);
 	}

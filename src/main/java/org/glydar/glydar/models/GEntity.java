@@ -1,9 +1,9 @@
 package org.glydar.glydar.models;
 
 import org.glydar.glydar.Glydar;
-import org.glydar.glydar.protocol.data.GEntityData;
 import org.glydar.glydar.protocol.shared.Packet0EntityUpdate;
 import org.glydar.glydar.protocol.shared.Packet10Chat;
+import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.data.EntityData;
 import org.glydar.paraglydar.models.BaseTarget;
 import org.glydar.paraglydar.models.Entity;
@@ -12,7 +12,7 @@ import org.glydar.paraglydar.models.WorldTarget;
 
 public abstract class GEntity implements Entity {
 	public final long entityID;
-	protected GEntityData data;
+	protected EntityData data;
 	protected GWorld world;
 
 	public GEntity() {
@@ -48,18 +48,18 @@ public abstract class GEntity implements Entity {
 	}
 	
 	public void forceUpdateData() {
-		new Packet0EntityUpdate(this.data).sendToWorld(world);
+		new Packet0EntityUpdate(this).sendToWorld(world);
 	}
 
 	public EntityData getEntityData() {
 		if (data == null) {
-			data = new GEntityData();
+			data = new EntityData();
 		}
 		return data;
 	}
 
 	public void setEntityData(EntityData ed) {
-		this.data = (GEntityData) ed;
+		this.data = (EntityData) ed;
 	}
 	
 	public World getWorld(){

@@ -7,6 +7,9 @@ import io.netty.buffer.ByteBuf;
 import org.glydar.glydar.Glydar;
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.data.EntityData;
+import org.glydar.paraglydar.data.Appearance;
+import org.glydar.paraglydar.data.Item;
+import org.glydar.paraglydar.data.ItemUpgrade;
 import org.glydar.paraglydar.data.Item;
 import org.glydar.paraglydar.data.ItemUpgrade;
 import org.glydar.paraglydar.geom.FloatVector3;
@@ -381,8 +384,8 @@ public final class DataCodec {
 		}
 	}
 	
-	public static GAppearance readAppearance(ByteBuf buf) {
-		GAppearance a = new GAppearance();
+	public static Appearance readAppearance(ByteBuf buf) {
+		Appearance a = new Appearance();
 		a.setNotUsed1(buf.readByte());
 		a.setNotUsed2(buf.readByte());
 		a.setHairR(buf.readByte());
@@ -471,8 +474,8 @@ public final class DataCodec {
 		writeFloatVector3(buf, a.getWingOffset());
 	}
 	
-	public static GItem readItem(ByteBuf buf){
-		GItem i = new GItem();
+	public static Item readItem(ByteBuf buf){
+		Item i = new Item();
 		i.setType(buf.readByte());
 		i.setSubtype(buf.readByte());
 		buf.readBytes(2); //Skip
@@ -484,7 +487,7 @@ public final class DataCodec {
 		buf.readByte();
 		i.setLevel(buf.readShort());
 		buf.readBytes(2); //Skip
-		GItemUpgrade[] upgrades = i.getUpgrades();
+		ItemUpgrade[] upgrades = i.getUpgrades();
 		for (int j = 0; j < upgrades.length; ++j) {
 			upgrades[j] = readItemUpgrade(buf);
 		}
@@ -513,8 +516,8 @@ public final class DataCodec {
 		buf.writeInt((int) i.getUpgradeCount());
 	}
 	
-	public static GItemUpgrade readItemUpgrade(ByteBuf buf) {
-		GItemUpgrade u = new GItemUpgrade();
+	public static ItemUpgrade readItemUpgrade(ByteBuf buf) {
+		ItemUpgrade u = new ItemUpgrade();
 		u.setxOffset(buf.readByte());
 		u.setyOffset(buf.readByte());
 		u.setzOffset(buf.readByte());

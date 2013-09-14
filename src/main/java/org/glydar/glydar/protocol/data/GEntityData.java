@@ -1,6 +1,6 @@
 package org.glydar.glydar.protocol.data;
 
-import static org.glydar.glydar.protocol.data.DataBufs.*;
+import static org.glydar.glydar.protocol.data.DataCodec.*;
 
 import java.util.BitSet;
 
@@ -745,6 +745,11 @@ public class GEntityData implements BaseData, EntityData {
 	public BitSet getBitSet() {
 		return bitSet;
 	}
+	
+	public void setBitSet(BitSet b) {
+		this.bitSet = b;
+	}
+
 
 	public void fullUpdate() {
 		bitSet.set(0, 63);

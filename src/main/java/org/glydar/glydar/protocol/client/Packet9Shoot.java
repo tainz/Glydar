@@ -1,9 +1,9 @@
 package org.glydar.glydar.protocol.client;
 
-import static org.glydar.glydar.protocol.data.DataBufs.readFloatVector3;
-import static org.glydar.glydar.protocol.data.DataBufs.readLongVector3;
-import static org.glydar.glydar.protocol.data.DataBufs.writeFloatVector3;
-import static org.glydar.glydar.protocol.data.DataBufs.writeLongVector3;
+import static org.glydar.glydar.protocol.data.DataCodec.readFloatVector3;
+import static org.glydar.glydar.protocol.data.DataCodec.readLongVector3;
+import static org.glydar.glydar.protocol.data.DataCodec.writeFloatVector3;
+import static org.glydar.glydar.protocol.data.DataCodec.writeLongVector3;
 
 import io.netty.buffer.ByteBuf;
 

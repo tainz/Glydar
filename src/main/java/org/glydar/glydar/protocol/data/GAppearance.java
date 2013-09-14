@@ -1,7 +1,7 @@
 package org.glydar.glydar.protocol.data;
 
-import static org.glydar.glydar.protocol.data.DataBufs.readFloatVector3;
-import static org.glydar.glydar.protocol.data.DataBufs.writeFloatVector3;
+import static org.glydar.glydar.protocol.data.DataCodec.readFloatVector3;
+import static org.glydar.glydar.protocol.data.DataCodec.writeFloatVector3;
 
 import org.glydar.paraglydar.data.Appearance;
 import org.glydar.paraglydar.geom.FloatVector3;
@@ -475,5 +475,24 @@ public class GAppearance implements BaseData, Appearance {
 
 	public void setWingOffset(FloatVector3 wingOffset) {
 		this.wingOffset = wingOffset;
+	}
+
+
+	public float getShoulderScale() {
+		return shoulderScale;
+	}
+
+
+	public void setShoulderScale(float shoulderScale) {
+		this.shoulderScale = shoulderScale;
+	}
+
+
+	public float getWeaponScale() {
+		return weaponScale;
+	}
+
+	public void setWeaponScale(float weaponScale) {
+		this.weaponScale = weaponScale;
 	}
 }

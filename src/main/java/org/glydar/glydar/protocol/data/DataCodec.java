@@ -199,7 +199,7 @@ public final class DataCodec {
 		return e;
 	}
 	
-	public static void writeEntityData(ByteBuf buf, GEntityData e){
+	public static void writeEntityData(ByteBuf buf, EntityData e){
 		//For testing purposes using default dummy entity :)
 		/*boolean dummy = false;
 		if (name.contains("dummy")) dummy = true;*/

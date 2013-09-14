@@ -24,6 +24,7 @@ public class Packet0EntityUpdate extends Packet {
 	private byte[] rawData;
 	private GEntityData ed;
 	private boolean sendEntityData = false;
+	private GPlayer p;
 
 	public Packet0EntityUpdate(EntityData e) {
 		this.ed = (GEntityData) e;
@@ -57,7 +58,7 @@ public class Packet0EntityUpdate extends Packet {
 		} else {
 			ByteBuf buf2 = Unpooled.buffer();
 			buf2 = buf2.order(ByteOrder.LITTLE_ENDIAN);
-			ed.encode(buf2);
+			DataCodec.writeEntityData(buf2, p.getEntityData());
 			byte[] compressedData = null;
 			try {
 				compressedData = ZLibOperations.compress(buf2.array());
@@ -77,6 +78,7 @@ public class Packet0EntityUpdate extends Packet {
 	@Override
 	public void receivedFrom(GPlayer ply) {
 		float HP = 1;
+		p = ply;
 		if (!ply.joined) {
 			//TODO: Temporary, make a proper constant!
 			

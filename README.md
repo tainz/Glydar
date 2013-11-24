@@ -5,7 +5,7 @@ An open source Java implementation of Cube World's server.
 
 **Status:** Clients will connect (if it's the correct version) and be dropped into a world, be welcomed, and entity updates can be sent. There is MultiWorld Support and PVP is almost done!
 
-**Snapshot builds** are available at http://ci.lordsofcode.net/view/Glydar/
+**Snapshot builds** are (temporarily) available at http://ci.dontlookhere.nl/
 
 Building and running
 -----
